@@ -1,0 +1,247 @@
+[
+  {
+    "name": "banana",
+    "category": "Hortifruti",
+    "kcalPer100": 89,
+    "curiosity": "Rica em potássio; quanto mais pintinhas, mais doce.",
+    "icon": "🍌"
+  },
+  {
+    "name": "maçã",
+    "category": "Hortifruti",
+    "kcalPer100": 52,
+    "curiosity": "A casca concentra fibras e antioxidantes.",
+    "icon": "🍎"
+  },
+  {
+    "name": "pera",
+    "category": "Hortifruti",
+    "kcalPer100": 57,
+    "curiosity": "Boa fonte de fibras solúveis (pectina).",
+    "icon": "🍐"
+  },
+  {
+    "name": "uva",
+    "category": "Hortifruti",
+    "kcalPer100": 69,
+    "curiosity": "Roxas têm resveratrol, um antioxidante.",
+    "icon": "🍇"
+  },
+  {
+    "name": "laranja",
+    "category": "Hortifruti",
+    "kcalPer100": 47,
+    "curiosity": "Vitamina C; o bagaço tem muita fibra.",
+    "icon": "🍊"
+  },
+  {
+    "name": "tomate",
+    "category": "Hortifruti",
+    "kcalPer100": 18,
+    "curiosity": "Rico em licopeno; cozido aumenta biodisponibilidade.",
+    "icon": "🍅"
+  },
+  {
+    "name": "batata",
+    "category": "Hortifruti",
+    "kcalPer100": 77,
+    "curiosity": "Resfriada forma amido resistente.",
+    "icon": "🥔"
+  },
+  {
+    "name": "alface",
+    "category": "Hortifruti",
+    "kcalPer100": 15,
+    "curiosity": "Hidratante e leve.",
+    "icon": "🥬"
+  },
+  {
+    "name": "brócolis",
+    "category": "Hortifruti",
+    "kcalPer100": 34,
+    "curiosity": "Sulforafano potencialmente anticancerígeno.",
+    "icon": "🥦"
+  },
+  {
+    "name": "cenoura",
+    "category": "Hortifruti",
+    "kcalPer100": 41,
+    "curiosity": "Betacaroteno vira vitamina A.",
+    "icon": "🥕"
+  },
+  {
+    "name": "leite",
+    "category": "Laticínios",
+    "kcalPer100": 42,
+    "curiosity": "Semidesnatado equilibra gordura e sabor.",
+    "icon": "🥛"
+  },
+  {
+    "name": "queijo muçarela",
+    "category": "Laticínios",
+    "kcalPer100": 280,
+    "curiosity": "Derrete bem por gordura/umidade.",
+    "icon": "🧀"
+  },
+  {
+    "name": "iogurte natural",
+    "category": "Laticínios",
+    "kcalPer100": 61,
+    "curiosity": "Probióticos ajudam o intestino.",
+    "icon": "🥣"
+  },
+  {
+    "name": "frango",
+    "category": "Carnes",
+    "kcalPer100": 165,
+    "curiosity": "Peito é mais magro; coxa é mais suculenta.",
+    "icon": "🍗"
+  },
+  {
+    "name": "carne bovina",
+    "category": "Carnes",
+    "kcalPer100": 217,
+    "curiosity": "Cortes variam em maciez e gordura.",
+    "icon": "🥩"
+  },
+  {
+    "name": "ovos",
+    "category": "Carnes",
+    "kcalPer100": 155,
+    "curiosity": "Proteína completa; gema rica em micronutrientes.",
+    "icon": "🥚"
+  },
+  {
+    "name": "pão francês",
+    "category": "Padaria",
+    "kcalPer100": 270,
+    "curiosity": "Casca crocante por vapor no forno.",
+    "icon": "🥖"
+  },
+  {
+    "name": "macarrão",
+    "category": "Padaria",
+    "kcalPer100": 371,
+    "curiosity": "Massa seca cozinha al dente.",
+    "icon": "🍝"
+  },
+  {
+    "name": "arroz",
+    "category": "Mercearia",
+    "kcalPer100": 130,
+    "curiosity": "Agulhinha solta mais; arbóreo é cremoso.",
+    "icon": "🍚"
+  },
+  {
+    "name": "feijão carioca",
+    "category": "Mercearia",
+    "kcalPer100": 127,
+    "curiosity": "O mais consumido no Brasil.",
+    "icon": "🫘"
+  },
+  {
+    "name": "açúcar",
+    "category": "Mercearia",
+    "kcalPer100": 387,
+    "curiosity": "Refinado x demerara: processamentos distintos.",
+    "icon": "🧂"
+  },
+  {
+    "name": "azeite",
+    "category": "Mercearia",
+    "kcalPer100": 884,
+    "curiosity": "Extra virgem tem mais fenólicos.",
+    "icon": "🫒"
+  },
+  {
+    "name": "café",
+    "category": "Mercearia",
+    "kcalPer100": 2,
+    "curiosity": "Torra média equilibra acidez e doçura.",
+    "icon": "☕"
+  },
+  {
+    "name": "chocolate ao leite",
+    "category": "Mercearia",
+    "kcalPer100": 535,
+    "curiosity": "Mais doce; amargo tem mais cacau.",
+    "icon": "🍫"
+  },
+  {
+    "name": "água mineral",
+    "category": "Bebidas",
+    "kcalPer100": 0,
+    "curiosity": "Hidratação essencial.",
+    "icon": "💧"
+  },
+  {
+    "name": "refrigerante",
+    "category": "Bebidas",
+    "kcalPer100": 42,
+    "curiosity": "Versões zero usam adoçantes.",
+    "icon": "🥤"
+  },
+  {
+    "name": "papel higiênico",
+    "category": "Higiene",
+    "kcalPer100": null,
+    "curiosity": "Folhas dupla/tripla variam maciez.",
+    "icon": "🧻"
+  },
+  {
+    "name": "sabonete",
+    "category": "Higiene",
+    "kcalPer100": null,
+    "curiosity": "Glicerina dá mais suavidade.",
+    "icon": "🧼"
+  },
+  {
+    "name": "detergente",
+    "category": "Limpeza",
+    "kcalPer100": null,
+    "curiosity": "Tensoativos quebram gordura.",
+    "icon": "🧴"
+  },
+  {
+    "name": "sabão em pó",
+    "category": "Limpeza",
+    "kcalPer100": null,
+    "curiosity": "Enzimas removem manchas orgânicas.",
+    "icon": "🧼"
+  },
+  {
+    "name": "ração para cães",
+    "category": "Pet",
+    "kcalPer100": null,
+    "curiosity": "Observe proteína bruta e taurina.",
+    "icon": "🐶"
+  },
+  {
+    "name": "pizza congelada",
+    "category": "Congelados",
+    "kcalPer100": 250,
+    "curiosity": "Crocância melhor em forno pré-aquecido.",
+    "icon": "🍕"
+  },
+  {
+    "name": "atum em lata",
+    "category": "Enlatados",
+    "kcalPer100": 132,
+    "curiosity": "Em óleo é mais calórico que em água.",
+    "icon": "🥫"
+  },
+  {
+    "name": "orégano",
+    "category": "Temperos",
+    "kcalPer100": 265,
+    "curiosity": "Clássico para pizzas.",
+    "icon": "🌿"
+  },
+  {
+    "name": "papel manteiga",
+    "category": "Bazar",
+    "kcalPer100": null,
+    "curiosity": "Antiaderente para assar.",
+    "icon": "📜"
+  }
+]
