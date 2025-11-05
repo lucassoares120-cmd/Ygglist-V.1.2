@@ -1,2417 +1,815 @@
 [
-  {
-    "name": "Água De Coco",
-    "category": "Bebidas",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Água Mineral",
-    "category": "Bebidas",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Cachaça",
-    "category": "Bebidas",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Café Pronto",
-    "category": "Bebidas",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Cerveja IPA",
-    "category": "Bebidas",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Cerveja Pilsen",
-    "category": "Bebidas",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Chá Gelado Limão",
-    "category": "Bebidas",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Energético",
-    "category": "Bebidas",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Espumante",
-    "category": "Bebidas",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Gin",
-    "category": "Bebidas",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Isotônico",
-    "category": "Bebidas",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Leite Fermentado",
-    "category": "Bebidas",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Refrigerante Cola",
-    "category": "Bebidas",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Refrigerante Guaraná",
-    "category": "Bebidas",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Refrigerante Laranja",
-    "category": "Bebidas",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Suco De Laranja",
-    "category": "Bebidas",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Suco De Uva",
-    "category": "Bebidas",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Vinho Branco",
-    "category": "Bebidas",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Vinho Tinto",
-    "category": "Bebidas",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Vodca",
-    "category": "Bebidas",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Whisky",
-    "category": "Bebidas",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria bebidas; mantenha armazenado adequadamente.",
-    "icon": "🥤"
-  },
-  {
-    "name": "Abacate",
-    "category": "Hortifruti",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Abacaxi",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Abobrinha",
-    "category": "Hortifruti",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Abóbora",
-    "category": "Hortifruti",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Acerola",
-    "category": "Hortifruti",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Açaí",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Alface",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Alho",
-    "category": "Hortifruti",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Amora",
-    "category": "Hortifruti",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Batata",
-    "category": "Hortifruti",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Batata-doce",
-    "category": "Hortifruti",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Berinjela",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Beterraba",
-    "category": "Hortifruti",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Brócolis",
-    "category": "Hortifruti",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Caju",
-    "category": "Hortifruti",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Caqui",
-    "category": "Hortifruti",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Cenoura",
-    "category": "Hortifruti",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Coco",
-    "category": "Hortifruti",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Couve",
-    "category": "Hortifruti",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Couve-flor",
-    "category": "Hortifruti",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Ervilha Fresca",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Espinafre",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Figo",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Gengibre",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Goiaba",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Jiló",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Kiwi",
-    "category": "Hortifruti",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Laranja",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Limão",
-    "category": "Hortifruti",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Maçã",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Mamão",
-    "category": "Hortifruti",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Manga",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Maracujá",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Melancia",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Melão",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Morango",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Pepino",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Pimenta",
-    "category": "Hortifruti",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Pimentão",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Quiabo",
-    "category": "Hortifruti",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Rabanete",
-    "category": "Hortifruti",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Tomate",
-    "category": "Hortifruti",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Uva",
-    "category": "Hortifruti",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria hortifruti; mantenha armazenado adequadamente.",
-    "icon": "🥬"
-  },
-  {
-    "name": "Absorvente",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Alvejante",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Amaciante",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Antisséptico Bucal",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Álcool 70%",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Álcool Em Gel",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Condicionador",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Creme Dental",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Desinfetante Pinho",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Detergente Neutro",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Escova De Dente",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Esponja",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Fio Dental",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Guardanapo",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Inseticida Aerossol",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Limpa Vidros",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Multiuso",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Panos Multiuso",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Papel Higiênico",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Papel Toalha",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Rodo",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Sabão Em Pó",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Sabão Líquido",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Sabonete Em Barra",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Sabonete Líquido",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Shampoo",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Vassoura Piaçava",
-    "category": "Limpeza e Higiene",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria limpeza e higiene; mantenha armazenado adequadamente.",
-    "icon": "🧼"
-  },
-  {
-    "name": "Açúcar Mascavo",
-    "category": "Mercearia",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Açúcar Refinado",
-    "category": "Mercearia",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Arroz Agulhinha",
-    "category": "Mercearia",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Arroz Integral",
-    "category": "Mercearia",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Atum Em Lata",
-    "category": "Mercearia",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Aveia Em Flocos",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Azeite De Oliva",
-    "category": "Mercearia",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Azeitonas Verdes",
-    "category": "Mercearia",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Água Alcalina",
-    "category": "Mercearia",
-    "kcalPer100": 100,
-    "curiosity": "Produto moderno para o cotidiano saudável.",
-    "icon": "💪"
-  },
-  {
-    "name": "Barra De Cereal",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Barra De Cereal Sabor Avelã 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 277,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Avelã 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 221,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Avelã 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 322,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Avelã 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 343,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Avelã 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 266,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Banana 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 339,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Banana 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 386,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Banana 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 258,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Banana 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 315,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Banana 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 281,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Baunilha 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 323,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Baunilha 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 400,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Baunilha 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 134,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Baunilha 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 234,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Baunilha 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 273,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Chocolate 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 115,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Chocolate 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 209,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Chocolate 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 244,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Chocolate 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 358,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Chocolate 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 350,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Coco 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 367,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Coco 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 190,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Coco 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 386,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Coco 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 365,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Coco 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 244,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Morango 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 378,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Morango 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 179,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Morango 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 300,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Morango 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 184,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Barra De Cereal Sabor Morango 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 358,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado",
-    "category": "Mercearia",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Avelã 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 209,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Avelã 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 349,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Avelã 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 235,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Avelã 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 158,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Avelã 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 303,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Banana 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 147,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Banana 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 235,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Banana 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 250,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Banana 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 269,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Banana 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 331,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Baunilha 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 235,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Baunilha 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 137,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Baunilha 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 385,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Baunilha 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 394,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Baunilha 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 324,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Chocolate 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 337,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Chocolate 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 332,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Chocolate 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 124,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Chocolate 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 114,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Chocolate 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 138,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Coco 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 354,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Coco 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 376,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Coco 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 305,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Coco 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 347,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Coco 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 305,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Morango 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 268,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Morango 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 311,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Morango 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Morango 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 194,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Biscoito Recheado Sabor Morango 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 236,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Avelã 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 203,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Avelã 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 240,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Avelã 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 173,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Avelã 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 267,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Avelã 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 192,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Banana 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 138,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Banana 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 263,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Banana 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 363,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Banana 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 269,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Banana 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 211,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Baunilha 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 358,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Baunilha 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 183,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Baunilha 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 152,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Baunilha 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 267,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Baunilha 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 100,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Chocolate 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 103,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Chocolate 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 200,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Chocolate 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 134,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Chocolate 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 380,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Chocolate 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 233,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Coco 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 271,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Coco 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 163,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Coco 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 304,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Coco 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 363,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Coco 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 289,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Morango 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 191,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Morango 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 299,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Morango 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 178,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Morango 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 360,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Gelado Sabor Morango 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 118,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Café Moído",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Cajuína",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Castanha-do-pará",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Cápsulas De Café Espresso",
-    "category": "Mercearia",
-    "kcalPer100": 100,
-    "curiosity": "Produto moderno para o cotidiano saudável.",
-    "icon": "💪"
-  },
-  {
-    "name": "Chá Gelado Sabor Avelã 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 167,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Avelã 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 234,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Avelã 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 358,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Avelã 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 102,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Avelã 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 163,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Banana 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 306,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Banana 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 312,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Banana 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 314,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Banana 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 127,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Banana 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 268,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Baunilha 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 358,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Baunilha 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 350,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Baunilha 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 130,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Baunilha 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 177,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Baunilha 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 295,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Chocolate 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 168,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Chocolate 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 217,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Chocolate 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 130,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Chocolate 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 310,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Chocolate 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 236,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Coco 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 297,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Coco 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 227,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Coco 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 359,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Coco 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 266,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Coco 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 308,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Morango 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 122,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Morango 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 387,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Morango 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 176,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Morango 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 208,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Gelado Sabor Morango 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 281,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Chá Kombucha",
-    "category": "Mercearia",
-    "kcalPer100": 100,
-    "curiosity": "Produto moderno para o cotidiano saudável.",
-    "icon": "💪"
-  },
-  {
-    "name": "Chá Preto",
-    "category": "Mercearia",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Chá Verde",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Doce De Buriti",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Ervilha Em Conserva",
-    "category": "Mercearia",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Farinha De Mandioca",
-    "category": "Mercearia",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Farinha De Milho",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Farinha De Trigo",
-    "category": "Mercearia",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Feijão Carioca",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Feijão Preto",
-    "category": "Mercearia",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Fubá",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Granola",
-    "category": "Mercearia",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Grão-de-bico",
-    "category": "Mercearia",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Iogurte Sabor Avelã 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 315,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Avelã 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 395,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Avelã 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 217,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Avelã 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 277,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Avelã 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 210,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Banana 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 243,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Banana 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 225,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Banana 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 236,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Banana 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 239,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Banana 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 112,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Baunilha 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 344,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Baunilha 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 144,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Baunilha 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 289,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Baunilha 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 213,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Baunilha 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 292,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Chocolate 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 354,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Chocolate 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 249,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Chocolate 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 277,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Chocolate 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 111,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Chocolate 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 147,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Coco 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 116,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Coco 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 326,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Coco 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 255,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Coco 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 167,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Coco 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 110,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Morango 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 157,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Morango 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 280,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Morango 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 221,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Morango 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 106,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Iogurte Sabor Morango 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 162,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Jambu",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Kefir De Leite",
-    "category": "Mercearia",
-    "kcalPer100": 100,
-    "curiosity": "Produto moderno para o cotidiano saudável.",
-    "icon": "💪"
-  },
-  {
-    "name": "Ketchup",
-    "category": "Mercearia",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Lentilha",
-    "category": "Mercearia",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Macarrão Espaguete",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Macarrão Penne",
-    "category": "Mercearia",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Maionese",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Maxixe",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Milho Em Conserva",
-    "category": "Mercearia",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Molho De Tomate",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Molho Inglês",
-    "category": "Mercearia",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Molho Shoyu",
-    "category": "Mercearia",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Mostarda",
-    "category": "Mercearia",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Óleo De Soja",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Picles",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Polvilho Doce",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Queijo Coalho Nordestino",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Rapadura",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Sal Grosso",
-    "category": "Mercearia",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Sal Refinado",
-    "category": "Mercearia",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Sardinha Em Lata",
-    "category": "Mercearia",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Suco Sabor Avelã 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 254,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Avelã 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 343,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Avelã 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 357,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Avelã 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 161,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Avelã 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 350,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Banana 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 173,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Banana 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 205,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Banana 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 121,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Banana 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 341,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Banana 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 290,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Baunilha 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 334,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Baunilha 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 350,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Baunilha 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 356,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Baunilha 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 101,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Baunilha 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 243,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Chocolate 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 311,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Chocolate 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 361,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Chocolate 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 274,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Chocolate 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 284,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Chocolate 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 151,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Coco 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 351,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Coco 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 331,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Coco 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 289,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Coco 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 364,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Coco 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 127,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Morango 1 L",
-    "category": "Mercearia",
-    "kcalPer100": 229,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Morango 2 L",
-    "category": "Mercearia",
-    "kcalPer100": 154,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Morango 200 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 125,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Morango 350 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 213,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Suco Sabor Morango 500 Ml",
-    "category": "Mercearia",
-    "kcalPer100": 168,
-    "curiosity": "Variedade de sabores e tamanhos.",
-    "icon": "🍪"
-  },
-  {
-    "name": "Tapioca Hidratada",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Tucupi",
-    "category": "Mercearia",
-    "kcalPer100": 150,
-    "curiosity": "Sabores regionais do Brasil; valorize produtores locais.",
-    "icon": "🇧🇷"
-  },
-  {
-    "name": "Vinagre De Maçã",
-    "category": "Mercearia",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria mercearia; mantenha armazenado adequadamente.",
-    "icon": "🧺"
-  },
-  {
-    "name": "Whey Protein Baunilha",
-    "category": "Mercearia",
-    "kcalPer100": 100,
-    "curiosity": "Produto moderno para o cotidiano saudável.",
-    "icon": "💪"
-  },
-  {
-    "name": "Whey Protein Chocolate",
-    "category": "Mercearia",
-    "kcalPer100": 100,
-    "curiosity": "Produto moderno para o cotidiano saudável.",
-    "icon": "💪"
-  },
-  {
-    "name": "Bolo De Chocolate",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 200,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Bolo Simples",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Cream Cheese",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Croissant",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 120,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Iogurte Grego",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 250,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Iogurte Natural",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Leite Desnatado",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Leite Integral",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Manteiga",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Pão De Forma",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Pão De Queijo",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Pão Francês",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Pão Integral",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Queijo Coalho",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Queijo Minas",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Queijo Muçarela",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Queijo Parmesão",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Queijo Prato",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 30,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Requeijão",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 80,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  },
-  {
-    "name": "Tapioca",
-    "category": "Padaria e Laticínios",
-    "kcalPer100": 45,
-    "curiosity": "Produto da categoria padaria e laticínios; mantenha armazenado adequadamente.",
-    "icon": "🧀"
-  }
+  { "name": "Abacate", "category": "Hortifruti", "kcalPer100": 160, "curiosity": "Fruta rica em gorduras boas; ótima para vitaminas e guacamole.", "icon": "🥑" },
+{ "name": "Abacaxi", "category": "Hortifruti", "kcalPer100": 50, "curiosity": "Rico em bromelina e vitamina C; refrescante em sucos.", "icon": "🍍" },
+{ "name": "Abiu", "category": "Hortifruti", "kcalPer100": 62, "curiosity": "Fruta amazônica doce e aromática; polpa macia.", "icon": "🌿" },
+{ "name": "Abobrinha", "category": "Hortifruti", "kcalPer100": 17, "curiosity": "Baixa caloria; versátil em refogados e grelhados.", "icon": "🥬" },
+{ "name": "Abóbora Cabotiá", "category": "Hortifruti", "kcalPer100": 49, "curiosity": "Doce e cremosa; ótima para sopas e purês.", "icon": "🎃" },
+{ "name": "Abóbora Moranga", "category": "Hortifruti", "kcalPer100": 33, "curiosity": "Textura macia; muito usada em recheios e cremes.", "icon": "🎃" },
+{ "name": "Açaí (Polpa)", "category": "Hortifruti", "kcalPer100": 80, "curiosity": "Fonte de antocianinas; consumo típico gelado.", "icon": "🫐" },
+{ "name": "Acerola", "category": "Hortifruti", "kcalPer100": 33, "curiosity": "Altíssima vitamina C; popular em sucos.", "icon": "🍒" },
+{ "name": "Agrião", "category": "Hortifruti", "kcalPer100": 25, "curiosity": "Sabor levemente picante; ótimo em saladas.", "icon": "🌿" },
+{ "name": "Alcachofra", "category": "Hortifruti", "kcalPer100": 47, "curiosity": "Flor comestível; coração é a parte mais apreciada.", "icon": "🌿" },
+{ "name": "Alecrim (Ramo)", "category": "Hortifruti", "kcalPer100": 131, "curiosity": "Erva aromática para carnes e batatas assadas.", "icon": "🌿" },
+{ "name": "Alface Americana", "category": "Hortifruti", "kcalPer100": 15, "curiosity": "Folhas crocantes; clássica em sanduíches.", "icon": "🥬" },
+{ "name": "Alface Crespa", "category": "Hortifruti", "kcalPer100": 14, "curiosity": "Folhas macias; muito usada em saladas.", "icon": "🥬" },
+{ "name": "Alface Roxa", "category": "Hortifruti", "kcalPer100": 14, "curiosity": "Folhas com antocianinas; cor vibrante.", "icon": "🥬" },
+{ "name": "Alho", "category": "Hortifruti", "kcalPer100": 149, "curiosity": "Alicina confere aroma e potencial antioxidante.", "icon": "🧄" },
+{ "name": "Alho-Poró", "category": "Hortifruti", "kcalPer100": 61, "curiosity": "Sutil e adocicado; base de sopas e quiches.", "icon": "🌿" },
+{ "name": "Amendoim In Natura", "category": "Hortifruti", "kcalPer100": 567, "curiosity": "Leguminosa oleaginosa; rico em energia.", "icon": "🥜" },
+{ "name": "Amora", "category": "Hortifruti", "kcalPer100": 43, "curiosity": "Fruta de bosque, levemente ácida.", "icon": "🫐" },
+{ "name": "Araticum", "category": "Hortifruti", "kcalPer100": 95, "curiosity": "Fruta do cerrado, polpa perfumada.", "icon": "🌿" },
+{ "name": "Aspargos", "category": "Hortifruti", "kcalPer100": 20, "curiosity": "Delicado; ótimo salteado na manteiga.", "icon": "🌿" },
+{ "name": "Azeitona Fresca (In Natura)", "category": "Hortifruti", "kcalPer100": 145, "curiosity": "Precisa de cura; sabor amargo na forma crua.", "icon": "🫒" },
+{ "name": "Babosa (Aloe Vera)", "category": "Hortifruti", "kcalPer100": 15, "curiosity": "Uso tradicional em cosméticos caseiros.", "icon": "🌿" },
+{ "name": "Bacuri", "category": "Hortifruti", "kcalPer100": 124, "curiosity": "Fruta amazônica muito aromática e doce.", "icon": "🌿" },
+{ "name": "Banana Nanica", "category": "Hortifruti", "kcalPer100": 89, "curiosity": "Doce e macia; perfeita para vitaminas.", "icon": "🍌" },
+{ "name": "Banana Prata", "category": "Hortifruti", "kcalPer100": 89, "curiosity": "Mais firme; ótima para lanches.", "icon": "🍌" },
+{ "name": "Banana Maçã", "category": "Hortifruti", "kcalPer100": 85, "curiosity": "Notas aromáticas lembrando maçã.", "icon": "🍌" },
+{ "name": "Batata Inglesa", "category": "Hortifruti", "kcalPer100": 77, "curiosity": "Base de purês e assados; rica em amido.", "icon": "🥔" },
+{ "name": "Batata Doce Roxa", "category": "Hortifruti", "kcalPer100": 86, "curiosity": "Mais doce; boa para assados e chips.", "icon": "🥔" },
+{ "name": "Batata Baroa (Mandioquinha)", "category": "Hortifruti", "kcalPer100": 101, "curiosity": "Sabor amanteigado; sopas cremosas.", "icon": "🥔" },
+{ "name": "Berinjela", "category": "Hortifruti", "kcalPer100": 25, "curiosity": "Absorve sabores; excelente grelhada.", "icon": "🍆" },
+{ "name": "Beterraba", "category": "Hortifruti", "kcalPer100": 43, "curiosity": "Pigmentos betalaínas; cor intensa.", "icon": "🫐" },
+{ "name": "Biquinho (Pimenta)", "category": "Hortifruti", "kcalPer100": 40, "curiosity": "Suave e aromática; ótima em conservas.", "icon": "🌶️" },
+{ "name": "Brócolis Ninja", "category": "Hortifruti", "kcalPer100": 34, "curiosity": "Rico em sulforafano; favorável cozimento rápido.", "icon": "🥦" },
+{ "name": "Cacau (Fruto)", "category": "Hortifruti", "kcalPer100": 60, "curiosity": "Polpa doce; sementes viram chocolate.", "icon": "🍫" },
+{ "name": "Caju", "category": "Hortifruti", "kcalPer100": 53, "curiosity": "Rico em vitamina C; castanha é a semente.", "icon": "🍐" },
+{ "name": "Cana-De-Açúcar (Talo)", "category": "Hortifruti", "kcalPer100": 269, "curiosity": "Base do caldo de cana, muito energético.", "icon": "🌿" },
+{ "name": "Caqui Fuyu", "category": "Hortifruti", "kcalPer100": 70, "curiosity": "Doce e firme; consumo in natura.", "icon": "🍊" },
+{ "name": "Carambola", "category": "Hortifruti", "kcalPer100": 31, "curiosity": "Formato de estrela ao cortar; levemente ácida.", "icon": "⭐" },
+{ "name": "Cará", "category": "Hortifruti", "kcalPer100": 118, "curiosity": "Tubérculo amiláceo; excelente em cozidos.", "icon": "🥔" },
+{ "name": "Cebola Branca", "category": "Hortifruti", "kcalPer100": 40, "curiosity": "Base aromática para infinitas receitas.", "icon": "🧅" },
+{ "name": "Cebola Roxa", "category": "Hortifruti", "kcalPer100": 40, "curiosity": "Mais suave; ótima crua em saladas.", "icon": "🧅" },
+{ "name": "Cebolinha", "category": "Hortifruti", "kcalPer100": 30, "curiosity": "Acompanha salsinha no clássico cheiro-verde.", "icon": "🌿" },
+{ "name": "Cenoura", "category": "Hortifruti", "kcalPer100": 41, "curiosity": "Betacaroteno vira vitamina A.", "icon": "🥕" },
+{ "name": "Chuchu", "category": "Hortifruti", "kcalPer100": 19, "curiosity": "Suave; recebe bem temperos e molhos.", "icon": "🥒" },
+{ "name": "Coentro", "category": "Hortifruti", "kcalPer100": 23, "curiosity": "Folhas aromáticas; muito usado no Nordeste.", "icon": "🌿" },
+{ "name": "Coco Seco", "category": "Hortifruti", "kcalPer100": 354, "curiosity": "Rico em gordura; polpa usada em doces e leites.", "icon": "🥥" },
+{ "name": "Coco Verde", "category": "Hortifruti", "kcalPer100": 19, "curiosity": "Água de coco é altamente hidratante.", "icon": "🥥" },
+{ "name": "Cogumelo Paris", "category": "Hortifruti", "kcalPer100": 22, "curiosity": "Delicado; combina com molhos e risotos.", "icon": "🍄" },
+{ "name": "Cogumelo Shimeji", "category": "Hortifruti", "kcalPer100": 35, "curiosity": "Textura macia; salteado na manteiga e shoyu.", "icon": "🍄" },
+{ "name": "Cogumelo Shiitake", "category": "Hortifruti", "kcalPer100": 34, "curiosity": "Sabor marcante; muito usado na culinária asiática.", "icon": "🍄" },
+{ "name": "Couve Manteiga", "category": "Hortifruti", "kcalPer100": 32, "curiosity": "Clássica refogada; rica em cálcio.", "icon": "🥬" },
+{ "name": "Couve-Flor", "category": "Hortifruti", "kcalPer100": 25, "curiosity": "Versátil; vai bem assada ou gratinada.", "icon": "🥦" },
+{ "name": "Cupuaçu", "category": "Hortifruti", "kcalPer100": 49, "curiosity": "Amazônico, aroma único; ótimo em cremes.", "icon": "🌿" },
+{ "name": "Damasco Fresco", "category": "Hortifruti", "kcalPer100": 48, "curiosity": "Doce e suave; também consumido seco.", "icon": "🍑" },
+{ "name": "Endívia", "category": "Hortifruti", "kcalPer100": 17, "curiosity": "Amargor elegante; muito usada crua.", "icon": "🥬" },
+{ "name": "Ervilha Torta", "category": "Hortifruti", "kcalPer100": 42, "curiosity": "Crocante; perfeita em salteados.", "icon": "🌿" },
+{ "name": "Escarola", "category": "Hortifruti", "kcalPer100": 17, "curiosity": "Levemente amarga; combina com pizzas e tortas.", "icon": "🥬" },
+{ "name": "Espinafre", "category": "Hortifruti", "kcalPer100": 23, "curiosity": "Rico em folato e ferro; rápido cozimento.", "icon": "🥬" },
+{ "name": "Fava", "category": "Hortifruti", "kcalPer100": 88, "curiosity": "Leguminosa antiga; usada em ensopados.", "icon": "🌿" },
+{ "name": "Figo Roxo", "category": "Hortifruti", "kcalPer100": 74, "curiosity": "Doce e perfumado; ótimo com queijos.", "icon": "🍈" },
+{ "name": "Framboesa", "category": "Hortifruti", "kcalPer100": 52, "curiosity": "Aromática e ácida; ideal para sobremesas.", "icon": "🫐" },
+{ "name": "Gengibre", "category": "Hortifruti", "kcalPer100": 80, "curiosity": "Picante; usado em chás e marinadas.", "icon": "🌶️" },
+{ "name": "Goiaba Vermelha", "category": "Hortifruti", "kcalPer100": 68, "curiosity": "Rica em licopeno; doce e aromática.", "icon": "🍎" },
+{ "name": "Graviola", "category": "Hortifruti", "kcalPer100": 66, "curiosity": "Polpa cremosa; típica de climas tropicais.", "icon": "🌿" },
+{ "name": "Hortelã", "category": "Hortifruti", "kcalPer100": 44, "curiosity": "Erva aromática ótima para chás e saladas.", "icon": "🌿" },
+{ "name": "Inhame", "category": "Hortifruti", "kcalPer100": 118, "curiosity": "Tubérculo energético; bom para caldos.", "icon": "🥔" },
+{ "name": "Jabuticaba", "category": "Hortifruti", "kcalPer100": 58, "curiosity": "Fruta de casca escura, típica do Brasil.", "icon": "🫐" },
+{ "name": "Jaca (Gomos)", "category": "Hortifruti", "kcalPer100": 95, "curiosity": "Polpa adocicada; também usada verde como carne vegetal.", "icon": "🌿" },
+{ "name": "Jambo", "category": "Hortifruti", "kcalPer100": 28, "curiosity": "Fruta suculenta e perfumada.", "icon": "🌿" },
+{ "name": "Jiló", "category": "Hortifruti", "kcalPer100": 27, "curiosity": "Amargor característico; ótimo grelhado.", "icon": "🍆" },
+{ "name": "Kinkan (Kumquat)", "category": "Hortifruti", "kcalPer100": 71, "curiosity": "Citrino de casca doce e polpa ácida.", "icon": "🍊" },
+{ "name": "Kiwi", "category": "Hortifruti", "kcalPer100": 61, "curiosity": "Rico em vitamina C; polpa verde vibrante.", "icon": "🥝" },
+{ "name": "Laranja Bahia", "category": "Hortifruti", "kcalPer100": 47, "curiosity": "Ótima para gomos e sucos.", "icon": "🍊" },
+{ "name": "Laranja Lima", "category": "Hortifruti", "kcalPer100": 44, "curiosity": "Mais suave; preferida para crianças.", "icon": "🍊" },
+{ "name": "Laranja Pera", "category": "Hortifruti", "kcalPer100": 47, "curiosity": "Clássica dos sucos no Brasil.", "icon": "🍊" },
+{ "name": "Limão Siciliano", "category": "Hortifruti", "kcalPer100": 29, "curiosity": "Aromático; casca muito usada em confeitaria.", "icon": "🍋" },
+{ "name": "Limão Taiti", "category": "Hortifruti", "kcalPer100": 30, "curiosity": "Acidez marcante; base de caipirinhas.", "icon": "🍋" },
+{ "name": "Maçã Fuji", "category": "Hortifruti", "kcalPer100": 52, "curiosity": "Doce e crocante.", "icon": "🍎" },
+{ "name": "Maçã Gala", "category": "Hortifruti", "kcalPer100": 52, "curiosity": "Aromática; boa para lanches.", "icon": "🍎" },
+{ "name": "Maçã Verde (Granny Smith)", "category": "Hortifruti", "kcalPer100": 52, "curiosity": "Mais ácida; ótima para tortas.", "icon": "🍏" },
+{ "name": "Mamão Formosa", "category": "Hortifruti", "kcalPer100": 43, "curiosity": "Polpa alaranjada e doce.", "icon": "🥭" },
+{ "name": "Mamão Papaya", "category": "Hortifruti", "kcalPer100": 43, "curiosity": "Tamanho menor; comum no café da manhã.", "icon": "🥭" },
+{ "name": "Mandioca (Aipim)", "category": "Hortifruti", "kcalPer100": 160, "curiosity": "Tubérculo típico do Brasil; cozida ou frita.", "icon": "🥔" },
+{ "name": "Manga Palmer", "category": "Hortifruti", "kcalPer100": 60, "curiosity": "Doce e fibrosa; popular no Brasil.", "icon": "🥭" },
+{ "name": "Manga Tommy", "category": "Hortifruti", "kcalPer100": 60, "curiosity": "Polpa firme; ótima para cubos.", "icon": "🥭" },
+{ "name": "Manjericão (Ramo)", "category": "Hortifruti", "kcalPer100": 23, "curiosity": "Clássico para molhos e saladas caprese.", "icon": "🌿" },
+{ "name": "Maracujá Azedo", "category": "Hortifruti", "kcalPer100": 97, "curiosity": "Aroma intenso; usado em sucos e mousses.", "icon": "🍋" },
+{ "name": "Maracujá Doce", "category": "Hortifruti", "kcalPer100": 68, "curiosity": "Polpa mais suave; consumo in natura.", "icon": "🍋" },
+{ "name": "Maxixe", "category": "Hortifruti", "kcalPer100": 15, "curiosity": "Tradicional do Norte/Nordeste; ótima em refogados.", "icon": "🥒" },
+{ "name": "Melancia", "category": "Hortifruti", "kcalPer100": 30, "curiosity": "Altamente hidratante; doce e refrescante.", "icon": "🍉" },
+{ "name": "Melão Amarelo", "category": "Hortifruti", "kcalPer100": 34, "curiosity": "Leve e aromático; bom gelado.", "icon": "🍈" },
+{ "name": "Mirtilo (Blueberry)", "category": "Hortifruti", "kcalPer100": 57, "curiosity": "Antioxidante; usado em panquecas e bolos.", "icon": "🫐" },
+{ "name": "Mostarda (Folha)", "category": "Hortifruti", "kcalPer100": 26, "curiosity": "Sabor marcante; usada refogada.", "icon": "🥬" },
+{ "name": "Nabo", "category": "Hortifruti", "kcalPer100": 28, "curiosity": "Raiz de sabor suave; pode ser assada.", "icon": "🌿" },
+{ "name": "Nectarina", "category": "Hortifruti", "kcalPer100": 44, "curiosity": "Polpa firme e doce; casca lisa.", "icon": "🍑" },
+{ "name": "Pepino Comum", "category": "Hortifruti", "kcalPer100": 15, "curiosity": "Refrescante; muito usado em saladas.", "icon": "🥒" },
+{ "name": "Pepino Japonês", "category": "Hortifruti", "kcalPer100": 12, "curiosity": "Mais crocante e com menos sementes.", "icon": "🥒" },
+{ "name": "Pera D'Anjou", "category": "Hortifruti", "kcalPer100": 57, "curiosity": "Doce e aromática; ótima maturada.", "icon": "🍐" },
+{ "name": "Pera Williams", "category": "Hortifruti", "kcalPer100": 57, "curiosity": "Sucosa; muito usada em doces.", "icon": "🍐" },
+{ "name": "Pimenta Dedo-De-Moça", "category": "Hortifruti", "kcalPer100": 40, "curiosity": "Picância média; popular em geleias.", "icon": "🌶️" },
+{ "name": "Pimentão Amarelo", "category": "Hortifruti", "kcalPer100": 27, "curiosity": "Mais doce que o verde; rico em vitamina C.", "icon": "🫑" },
+{ "name": "Pimentão Verde", "category": "Hortifruti", "kcalPer100": 20, "curiosity": "Sabor herbal; muito usado em refogados.", "icon": "🫑" },
+{ "name": "Pimentão Vermelho", "category": "Hortifruti", "kcalPer100": 31, "curiosity": "Doce e aromático; ótimo assado.", "icon": "🫑" },
+{ "name": "Pinhão", "category": "Hortifruti", "kcalPer100": 180, "curiosity": "Semente da araucária; típico do Sul.", "icon": "🌰" },
+{ "name": "Pitaya", "category": "Hortifruti", "kcalPer100": 50, "curiosity": "Fruta exótica de polpa suave.", "icon": "🌺" },
+{ "name": "Quiabo", "category": "Hortifruti", "kcalPer100": 33, "curiosity": "Mucilagem característica; bom refogado.", "icon": "🌿" },
+{ "name": "Rabanete", "category": "Hortifruti", "kcalPer100": 16, "curiosity": "Crocante e levemente picante.", "icon": "🌿" },
+{ "name": "Repolho Roxo", "category": "Hortifruti", "kcalPer100": 31, "curiosity": "Bela cor em saladas e salteados.", "icon": "🥬" },
+{ "name": "Repolho Verde", "category": "Hortifruti", "kcalPer100": 25, "curiosity": "Folhas para saladas e fermentados.", "icon": "🥬" },
+{ "name": "Romã", "category": "Hortifruti", "kcalPer100": 83, "curiosity": "Sementes suculentas; símbolo de prosperidade.", "icon": "🍎" },
+{ "name": "Salsa (Cheiro-Verde)", "category": "Hortifruti", "kcalPer100": 36, "curiosity": "Acompanha cebolinha; muito aromática.", "icon": "🌿" },
+{ "name": "Tangerina Ponkan", "category": "Hortifruti", "kcalPer100": 53, "curiosity": "Fácil de descascar; doce equilibrada.", "icon": "🍊" },
+{ "name": "Tayoba", "category": "Hortifruti", "kcalPer100": 30, "curiosity": "Folha com sabor marcante; regional.", "icon": "🌿" },
+{ "name": "Tomate Cereja", "category": "Hortifruti", "kcalPer100": 18, "curiosity": "Docinho e suculento.", "icon": "🍅" },
+{ "name": "Tomate Italiano", "category": "Hortifruti", "kcalPer100": 18, "curiosity": "Mais polpa; ideal para molhos.", "icon": "🍅" },
+{ "name": "Tomate Salada Débora", "category": "Hortifruti", "kcalPer100": 18, "curiosity": "Equilíbrio entre acidez e doçura.", "icon": "🍅" },
+{ "name": "Uva Crimson (Sem Semente)", "category": "Hortifruti", "kcalPer100": 67, "curiosity": "Crocante; ótima para lanches.", "icon": "🍇" },
+{ "name": "Uva Itália", "category": "Hortifruti", "kcalPer100": 69, "curiosity": "Bagos maiores; muito aromática.", "icon": "🍇" },
+
+{ "name": "Açém Bovino (Peça)", "category": "Carnes e Frios", "kcalPer100": 217, "curiosity": "Corte versátil para moer, ensopar ou grelhar.", "icon": "🥩" },
+{ "name": "Alcatra Bovino (Bife)", "category": "Carnes e Frios", "kcalPer100": 220, "curiosity": "Maciez equilibrada; bom para grelha.", "icon": "🥩" },
+{ "name": "Asa De Frango", "category": "Carnes e Frios", "kcalPer100": 203, "curiosity": "Crocante assada; muito usada em petiscos.", "icon": "🍗" },
+{ "name": "Bacon Fatiado", "category": "Carnes e Frios", "kcalPer100": 541, "curiosity": "Defumado; confere sabor intenso a receitas.", "icon": "🥓" },
+{ "name": "Camarão Cinza (Médio)", "category": "Carnes e Frios", "kcalPer100": 99, "curiosity": "Rápido preparo; ótimo salteado.", "icon": "🦐" },
+{ "name": "Carne De Sol", "category": "Carnes e Frios", "kcalPer100": 239, "curiosity": "Típica do Nordeste; dessalgar antes do uso.", "icon": "🥩" },
+{ "name": "Carne Seca (Charque)", "category": "Carnes e Frios", "kcalPer100": 250, "curiosity": "Seca e salgada; usada em feijoadas e escondidinhos.", "icon": "🥩" },
+{ "name": "Contra-Filé Bovino", "category": "Carnes e Frios", "kcalPer100": 217, "curiosity": "Corte nobre para grelha e frigideira.", "icon": "🥩" },
+{ "name": "Coração De Frango", "category": "Carnes e Frios", "kcalPer100": 185, "curiosity": "Tradicional em churrascos.", "icon": "🍗" },
+{ "name": "Costelinha Suína", "category": "Carnes e Frios", "kcalPer100": 291, "curiosity": "Suculenta; ideal para barbecue.", "icon": "🥩" },
+{ "name": "Coxa De Frango", "category": "Carnes e Frios", "kcalPer100": 209, "curiosity": "Saborosa e prática para assados.", "icon": "🍗" },
+{ "name": "Filé De Peito De Frango", "category": "Carnes e Frios", "kcalPer100": 165, "curiosity": "Magro; grelha e forno são ótimos métodos.", "icon": "🍗" },
+{ "name": "Filé Mignon Bovino", "category": "Carnes e Frios", "kcalPer100": 191, "curiosity": "Muito macio; ideal para medalhões.", "icon": "🥩" },
+{ "name": "Linguiça Calabresa", "category": "Carnes e Friios", "kcalPer100": 296, "curiosity": "Sabor marcante; usada em molhos e feijoadas.", "icon": "🌭" },
+{ "name": "Linguiça Toscana", "category": "Carnes e Frios", "kcalPer100": 300, "curiosity": "Clássica para churrasco e assados.", "icon": "🌭" },
+{ "name": "Patinho Bovino (Moído)", "category": "Carnes e Frios", "kcalPer100": 212, "curiosity": "Magro; ótimo para hambúrguer e molhos.", "icon": "🥩" },
+{ "name": "Peito De Peru Fatiado", "category": "Carnes e Frios", "kcalPer100": 104, "curiosity": "Frio leve; bom para sanduíches.", "icon": "🥪" },
+{ "name": "Pernil Suíno (Assado)", "category": "Carnes e Frios", "kcalPer100": 290, "curiosity": "Muito saboroso; bom para festas.", "icon": "🥩" },
+{ "name": "Picanha Bovino", "category": "Carnes e Frios", "kcalPer100": 255, "curiosity": "Clássico do churrasco; capa de gordura dá suculência.", "icon": "🥩" },
+{ "name": "Presunto Cozido Fatiado", "category": "Carnes e Frios", "kcalPer100": 145, "curiosity": "Versátil em lanches e receitas.", "icon": "🥪" },
+{ "name": "Salmão Em Posta", "category": "Carnes e Frios", "kcalPer100": 208, "curiosity": "Rico em ômega-3; ótimo grelhado.", "icon": "🐟" },
+{ "name": "Sardinha Fresca", "category": "Carnes e Frios", "kcalPer100": 208, "curiosity": "Sabor forte; muito consumida grelhada.", "icon": "🐟" },
+{ "name": "Tilápia Em Filé", "category": "Carnes e Frios", "kcalPer100": 96, "curiosity": "Sabor suave; assa rápido.", "icon": "🐟" },
+{ "name": "Queijo Minas Frescal", "category": "Padaria e Laticínios", "kcalPer100": 264, "curiosity": "Tradicional de Minas; leve e úmido, ideal para cafés.", "icon": "🧀" },
+{ "name": "Queijo Muçarela Fatiado", "category": "Padaria e Laticínios", "kcalPer100": 280, "curiosity": "Derrete facilmente; base de pizzas e lanches.", "icon": "🧀" },
+{ "name": "Queijo Prato", "category": "Padaria e Laticínios", "kcalPer100": 330, "curiosity": "Sabor suave; ótimo para sanduíches quentes.", "icon": "🧀" },
+{ "name": "Queijo Parmesão Ralado", "category": "Padaria e Laticínios", "kcalPer100": 390, "curiosity": "Salgado e intenso; finaliza massas e risotos.", "icon": "🧀" },
+{ "name": "Queijo Coalho", "category": "Padaria e Laticínios", "kcalPer100": 312, "curiosity": "Muito consumido no Nordeste; bom para grelhar.", "icon": "🧀" },
+{ "name": "Requeijão Cremoso", "category": "Padaria e Laticínios", "kcalPer100": 255, "curiosity": "Cremoso e levemente salgado; ótimo em pães.", "icon": "🥣" },
+{ "name": "Manteiga Com Sal", "category": "Padaria e Laticínios", "kcalPer100": 717, "curiosity": "Tradicional; dá sabor a torradas e preparos.", "icon": "🧈" },
+{ "name": "Margarina Light", "category": "Padaria e Laticínios", "kcalPer100": 380, "curiosity": "Alternativa vegetal à manteiga.", "icon": "🧈" },
+{ "name": "Leite Integral UHT", "category": "Padaria e Laticínios", "kcalPer100": 62, "curiosity": "Fonte de cálcio e proteínas.", "icon": "🥛" },
+{ "name": "Leite Desnatado UHT", "category": "Padaria e Laticínios", "kcalPer100": 42, "curiosity": "Menos gordura; ideal para dietas leves.", "icon": "🥛" },
+{ "name": "Iogurte Natural Integral", "category": "Padaria e Laticínios", "kcalPer100": 63, "curiosity": "Fermentado natural; fonte de probióticos.", "icon": "🥣" },
+{ "name": "Iogurte Grego Tradicional", "category": "Padaria e Laticínios", "kcalPer100": 97, "curiosity": "Cremoso e rico em proteínas.", "icon": "🥣" },
+{ "name": "Iogurte De Morango", "category": "Padaria e Laticínios", "kcalPer100": 112, "curiosity": "Sabor adocicado e popular entre crianças.", "icon": "🍓" },
+{ "name": "Creme De Leite", "category": "Padaria e Laticínios", "kcalPer100": 320, "curiosity": "Usado em molhos e sobremesas; textura aveludada.", "icon": "🥫" },
+{ "name": "Leite Condensado", "category": "Padaria e Laticínios", "kcalPer100": 321, "curiosity": "Doce concentrado; base de brigadeiros.", "icon": "🥫" },
+{ "name": "Chantilly Pronto", "category": "Padaria e Laticínios", "kcalPer100": 275, "curiosity": "Cobertura leve; usada em tortas e cafés.", "icon": "🍰" },
+{ "name": "Pão Francês", "category": "Padaria e Laticínios", "kcalPer100": 270, "curiosity": "Tradicional do café brasileiro; crosta dourada.", "icon": "🥖" },
+{ "name": "Pão De Forma Integral", "category": "Padaria e Laticínios", "kcalPer100": 260, "curiosity": "Fonte de fibras; ideal para lanches leves.", "icon": "🍞" },
+{ "name": "Pão De Queijo Mineiro", "category": "Padaria e Laticínios", "kcalPer100": 320, "curiosity": "Ícone mineiro; crocante fora e macio dentro.", "icon": "🧀" },
+{ "name": "Bolo De Chocolate", "category": "Padaria e Laticínios", "kcalPer100": 410, "curiosity": "Clássico das festas e cafés.", "icon": "🍫" },
+{ "name": "Bolo De Fubá", "category": "Padaria e Laticínios", "kcalPer100": 360, "curiosity": "Tradicional; leve aroma de erva-doce.", "icon": "🍰" },
+{ "name": "Croissant Manteiga", "category": "Padaria e Laticínios", "kcalPer100": 406, "curiosity": "Massa folhada francesa; crocante e amanteigado.", "icon": "🥐" },
+{ "name": "Pão De Mel", "category": "Padaria e Laticínios", "kcalPer100": 380, "curiosity": "Com mel e especiarias; coberto com chocolate.", "icon": "🍯" },
+{ "name": "Rosca De Coco", "category": "Padaria e Laticínios", "kcalPer100": 365, "curiosity": "Doce e úmida; tradicional de padarias.", "icon": "🥯" },
+{ "name": "Tapioca Hidratada", "category": "Padaria e Laticínios", "kcalPer100": 160, "curiosity": "Feita da mandioca; base de várias receitas nordestinas.", "icon": "🥞" },
+{ "name": "Chocolate Em Barra Ao Leite", "category": "Mercearia", "kcalPer100": 540, "curiosity": "Clássico doce feito de cacau e leite.", "icon": "🍫" },
+{ "name": "Chocolate Meio Amargo 70%", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Sabor intenso; rico em antioxidantes.", "icon": "🍫" },
+{ "name": "Chocolate Branco", "category": "Mercearia", "kcalPer100": 560, "curiosity": "Feito da manteiga de cacau; sabor adocicado.", "icon": "🍫" },
+{ "name": "Barra De Cereal Castanha E Mel", "category": "Mercearia", "kcalPer100": 410, "curiosity": "Lanche rápido com fibras e mel.", "icon": "🍯" },
+{ "name": "Biscoito Cream Cracker", "category": "Mercearia", "kcalPer100": 430, "curiosity": "Salgado e leve; ideal para cafés.", "icon": "🍘" },
+{ "name": "Biscoito Recheado Chocolate", "category": "Mercearia", "kcalPer100": 480, "curiosity": "Popular entre crianças; crocante e doce.", "icon": "🍪" },
+{ "name": "Farinha De Trigo Tipo 1", "category": "Mercearia", "kcalPer100": 364, "curiosity": "Base de massas e bolos; peneirada e branca.", "icon": "🌾" },
+{ "name": "Farinha De Mandioca Torrada", "category": "Mercearia", "kcalPer100": 365, "curiosity": "Usada em farofas; crocante e aromática.", "icon": "🌾" },
+{ "name": "Fubá Mimoso", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Fino e ideal para bolos e mingaus.", "icon": "🌽" },
+{ "name": "Açúcar Refinado", "category": "Mercearia", "kcalPer100": 387, "curiosity": "Doçura pura; ingrediente essencial de sobremesas.", "icon": "🍬" },
+{ "name": "Açúcar Mascavo", "category": "Mercearia", "kcalPer100": 377, "curiosity": "Menos processado; notas de caramelo.", "icon": "🍬" },
+{ "name": "Adoçante Stevia Líquido", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Natural; substitui o açúcar em dietas.", "icon": "🌿" },
+{ "name": "Arroz Agulhinha Tipo 1", "category": "Mercearia", "kcalPer100": 130, "curiosity": "Grãos longos; cozimento solto.", "icon": "🍚" },
+{ "name": "Arroz Integral", "category": "Mercearia", "kcalPer100": 124, "curiosity": "Mais fibras e sabor amendoado.", "icon": "🍚" },
+{ "name": "Feijão Carioca", "category": "Mercearia", "kcalPer100": 127, "curiosity": "Mais consumido no Brasil; caldo cremoso.", "icon": "🫘" },
+{ "name": "Feijão Preto", "category": "Mercearia", "kcalPer100": 132, "curiosity": "Tradicional do feijão carioca e feijoada.", "icon": "🫘" },
+{ "name": "Grão-De-Bico", "category": "Mercearia", "kcalPer100": 164, "curiosity": "Fonte de proteína vegetal; usado em saladas e pastas.", "icon": "🧆" },
+{ "name": "Lentilha Verde", "category": "Mercearia", "kcalPer100": 116, "curiosity": "Sorte e prosperidade no Réveillon.", "icon": "🫘" },
+{ "name": "Macarrão Espaguete", "category": "Mercearia", "kcalPer100": 371, "curiosity": "Clássico da culinária italiana; combina com molhos.", "icon": "🍝" },
+{ "name": "Macarrão Penne", "category": "Mercearia", "kcalPer100": 370, "curiosity": "Cilíndrico; ótimo para molhos cremosos.", "icon": "🍝" },
+{ "name": "Molho De Tomate Tradicional", "category": "Mercearia", "kcalPer100": 45, "curiosity": "Base de massas; rico em licopeno.", "icon": "🍅" },
+{ "name": "Molho Inglês", "category": "Mercearia", "kcalPer100": 78, "curiosity": "Salgado e condimentado; dá profundidade a carnes.", "icon": "🥫" },
+{ "name": "Molho Shoyu", "category": "Mercearia", "kcalPer100": 53, "curiosity": "Fermentado de soja; essencial em pratos orientais.", "icon": "🥢" },
+{ "name": "Mostarda Amarela", "category": "Mercearia", "kcalPer100": 70, "curiosity": "Acompanha carnes e sanduíches.", "icon": "🥫" },
+{ "name": "Ketchup Tradicional", "category": "Mercearia", "kcalPer100": 112, "curiosity": "Molho adocicado à base de tomate.", "icon": "🍅" },
+{ "name": "Maionese Tradicional", "category": "Mercearia", "kcalPer100": 320, "curiosity": "Emulsão de óleo e ovos; sabor suave.", "icon": "🥫" },
+{ "name": "Cereal Matinal De Milho", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Crocrante; servido com leite.", "icon": "🥣" },
+{ "name": "Aveia Em Flocos", "category": "Mercearia", "kcalPer100": 389, "curiosity": "Fonte de fibras; boa para cafés e vitaminas.", "icon": "🌾" },
+{ "name": "Granola Tradicional", "category": "Mercearia", "kcalPer100": 450, "curiosity": "Mistura de cereais e frutas secas; energia rápida.", "icon": "🥣" },
+{ "name": "Café Torrado E Moído", "category": "Mercearia", "kcalPer100": 2, "curiosity": "Sabor marcante; bebida indispensável.", "icon": "☕" },
+{ "name": "Café Solúvel Instantâneo", "category": "Mercearia", "kcalPer100": 3, "curiosity": "Prático; basta adicionar água quente.", "icon": "☕" },
+{ "name": "Chá Verde Em Saquinhos", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Aromático e antioxidante.", "icon": "🍵" },
+{ "name": "Chá De Camomila", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Calmante natural; ideal antes de dormir.", "icon": "🌼" },
+{ "name": "Arroz Parboilizado", "category": "Mercearia", "kcalPer100": 123, "curiosity": "Grãos firmes e mais soltos após o cozimento.", "icon": "🍚" },
+{ "name": "Arroz Arbóreo", "category": "Mercearia", "kcalPer100": 130, "curiosity": "Ideal para risotos; solta amido e dá cremosidade.", "icon": "🍚" },
+{ "name": "Farinha De Rosca", "category": "Mercearia", "kcalPer100": 381, "curiosity": "Empanados e crostas crocantes.", "icon": "🌾" },
+{ "name": "Farinha Panko", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Empanado japonês mais leve e crocante.", "icon": "🍞" },
+{ "name": "Farinha De Milho Flocada", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Base de polentas e farofas leves.", "icon": "🌽" },
+{ "name": "Farinha De Amêndoas", "category": "Mercearia", "kcalPer100": 579, "curiosity": "Baixo carboidrato; usada em confeitaria sem glúten.", "icon": "🌰" },
+{ "name": "Farinha De Coco", "category": "Mercearia", "kcalPer100": 400, "curiosity": "Rica em fibras; aroma suave.", "icon": "🥥" },
+{ "name": "Fécula De Batata", "category": "Mercearia", "kcalPer100": 330, "curiosity": "Espessante neutro para molhos e cremes.", "icon": "🥔" },
+{ "name": "Polvilho Doce", "category": "Mercearia", "kcalPer100": 351, "curiosity": "Derivado da mandioca; usado em pães e biscoitos.", "icon": "🥯" },
+{ "name": "Polvilho Azedo", "category": "Mercearia", "kcalPer100": 351, "curiosity": "Gera pães mais aerados e crocantes.", "icon": "🥯" },
+{ "name": "Amido De Milho", "category": "Mercearia", "kcalPer100": 381, "curiosity": "Espessante clássico para molhos e pudins.", "icon": "🌽" },
+{ "name": "Fermento Químico Em Pó", "category": "Mercearia", "kcalPer100": 53, "curiosity": "Levanta bolos e massas doces.", "icon": "🧁" },
+{ "name": "Fermento Biológico Seco", "category": "Mercearia", "kcalPer100": 325, "curiosity": "Usado em pães e pizzas; fermentação.", "icon": "🍞" },
+{ "name": "Bicarbonato De Sódio", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Ajuste de pH e auxílio em massas.", "icon": "🧂" },
+{ "name": "Sal Marinho Grosso", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Cristais maiores; ideal para grelhados.", "icon": "🧂" },
+{ "name": "Sal Rosa Do Himalaia", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Minimamente processado; coloração rosada.", "icon": "🧂" },
+{ "name": "Azeite De Oliva Extra Virgem", "category": "Mercearia", "kcalPer100": 884, "curiosity": "Prensado a frio; sabor e aroma intensos.", "icon": "🫒" },
+{ "name": "Óleo De Girassol", "category": "Mercearia", "kcalPer100": 884, "curiosity": "Neutro e bom para frituras rápidas.", "icon": "🧴" },
+{ "name": "Óleo De Milho", "category": "Mercearia", "kcalPer100": 884, "curiosity": "Sabor suave; uso geral na cozinha.", "icon": "🧴" },
+{ "name": "Óleo De Soja", "category": "Mercearia", "kcalPer100": 884, "curiosity": "Versátil e econômico.", "icon": "🧴" },
+{ "name": "Vinagre De Álcool", "category": "Mercearia", "kcalPer100": 18, "curiosity": "Uso culinário e limpeza leve.", "icon": "🍶" },
+{ "name": "Vinagre De Maçã", "category": "Mercearia", "kcalPer100": 22, "curiosity": "Aromático; muito usado em saladas.", "icon": "🍎" },
+{ "name": "Vinagre Balsâmico", "category": "Mercearia", "kcalPer100": 88, "curiosity": "Sabor adocicado e encorpado.", "icon": "🍇" },
+{ "name": "Molho De Pimenta", "category": "Mercearia", "kcalPer100": 15, "curiosity": "Picância e personalidade aos pratos.", "icon": "🌶️" },
+{ "name": "Molho Barbecue", "category": "Mercearia", "kcalPer100": 130, "curiosity": "Defumado e adocicado; carnes e sanduíches.", "icon": "🥫" },
+{ "name": "Molho De Alho", "category": "Mercearia", "kcalPer100": 180, "curiosity": "Intenso; acompanha churrascos e lanches.", "icon": "🧄" },
+{ "name": "Extrato De Tomate", "category": "Mercearia", "kcalPer100": 82, "curiosity": "Concentrado; rende molhos encorpados.", "icon": "🍅" },
+{ "name": "Tomate Pelado Em Lata", "category": "Mercearia", "kcalPer100": 24, "curiosity": "Base italiana para molhos.", "icon": "🥫" },
+{ "name": "Milho Em Conserva", "category": "Mercearia", "kcalPer100": 96, "curiosity": "Prático para saladas e refogados.", "icon": "🌽" },
+{ "name": "Ervilha Em Conserva", "category": "Mercearia", "kcalPer100": 81, "curiosity": "Guarnição rápida para o dia a dia.", "icon": "🫛" },
+{ "name": "Atum Em Lata (Óleo)", "category": "Mercearia", "kcalPer100": 198, "curiosity": "Sabor mais intenso; prático para molhos.", "icon": "🐟" },
+{ "name": "Atum Em Lata (Água)", "category": "Mercearia", "kcalPer100": 116, "curiosity": "Opção mais leve e com menos gordura.", "icon": "🐟" },
+{ "name": "Sardinha Em Lata", "category": "Mercearia", "kcalPer100": 208, "curiosity": "Fonte de cálcio e ômega-3.", "icon": "🐟" },
+{ "name": "Palmito Em Conserva", "category": "Mercearia", "kcalPer100": 28, "curiosity": "Crocante e suave; para saladas e recheios.", "icon": "🥫" },
+{ "name": "Azeitona Verde Fatiada", "category": "Mercearia", "kcalPer100": 145, "curiosity": "Salgada e marcante; lanche e pizzas.", "icon": "🫒" },
+{ "name": "Azeitona Preta Sem Caroço", "category": "Mercearia", "kcalPer100": 210, "curiosity": "Sabor intenso; combina com massas.", "icon": "🫒" },
+{ "name": "Picles De Pepino", "category": "Mercearia", "kcalPer100": 12, "curiosity": "Ácido e crocante; ótimo em sanduíches.", "icon": "🥒" },
+{ "name": "Champignon Em Conserva", "category": "Mercearia", "kcalPer100": 25, "curiosity": "Coringa para molhos e pizzas.", "icon": "🍄" },
+{ "name": "Mostarda Dijon", "category": "Mercearia", "kcalPer100": 135, "curiosity": "Mais pungente; culinária francesa.", "icon": "🥫" },
+{ "name": "Gergelim Branco", "category": "Mercearia", "kcalPer100": 573, "curiosity": "Sementes ricas em óleo; finalizam pratos.", "icon": "🌱" },
+{ "name": "Gergelim Preto", "category": "Mercearia", "kcalPer100": 573, "curiosity": "Sabor tostado e visual marcante.", "icon": "🌱" },
+{ "name": "Linhaça Dourada", "category": "Mercearia", "kcalPer100": 534, "curiosity": "Fonte de ômega-3 vegetal.", "icon": "🌾" },
+{ "name": "Linhaça Marrom", "category": "Mercearia", "kcalPer100": 534, "curiosity": "Uso em pães, vitaminas e saladas.", "icon": "🌾" },
+{ "name": "Chia", "category": "Mercearia", "kcalPer100": 486, "curiosity": "Forma gel; usada em pudins e pães.", "icon": "🌱" },
+{ "name": "Castanha-De-Caju Torrada", "category": "Mercearia", "kcalPer100": 553, "curiosity": "Crocrante; snack e confeitaria.", "icon": "🥜" },
+{ "name": "Castanha-Do-Pará (Do Brasil)", "category": "Mercearia", "kcalPer100": 656, "curiosity": "Rica em selênio; consumir com moderação.", "icon": "🥜" },
+{ "name": "Nozes Chilenas", "category": "Mercearia", "kcalPer100": 654, "curiosity": "Clássicas em doces e saladas.", "icon": "🥜" },
+{ "name": "Amêndoas Laminadas", "category": "Mercearia", "kcalPer100": 575, "curiosity": "Decoração de sobremesas e granolas.", "icon": "🌰" },
+{ "name": "Amendoim Torrado Sem Pele", "category": "Mercearia", "kcalPer100": 585, "curiosity": "Snack clássico e ingrediente de paçoca.", "icon": "🥜" },
+{ "name": "Paçoca Rolha", "category": "Mercearia", "kcalPer100": 500, "curiosity": "Doce típico de amendoim; derrete na boca.", "icon": "🍬" },
+{ "name": "Doce De Leite Pastoso", "category": "Mercearia", "kcalPer100": 310, "curiosity": "Clássico mineiro; cremoso e doce.", "icon": "🥛" },
+{ "name": "Goiabada Cascão", "category": "Mercearia", "kcalPer100": 260, "curiosity": "Combina com queijo minas (romeu e julieta).", "icon": "🍮" },
+{ "name": "Chocolate Em Barra 40% Cacau", "category": "Mercearia", "kcalPer100": 545, "curiosity": "Equilíbrio entre doce e amargo.", "icon": "🍫" },
+{ "name": "Chocolate Em Barra 60% Cacau", "category": "Mercearia", "kcalPer100": 530, "curiosity": "Mais intenso; uso em confeitaria.", "icon": "🍫" },
+{ "name": "Chocolate Em Barra 70% Cacau", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Amargor elegante e aromático.", "icon": "🍫" },
+{ "name": "Chocolate Em Gotas Meio Amargo", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Prático para derreter e moldar.", "icon": "🍫" },
+{ "name": "Cacau Em Pó 100%", "category": "Mercearia", "kcalPer100": 228, "curiosity": "Intenso e sem açúcar; bolos e bebidas.", "icon": "🍫" },
+{ "name": "Achocolatado Em Pó", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Mistura doce de cacau e açúcar.", "icon": "🍫" },
+{ "name": "Leite Em Pó Integral", "category": "Mercearia", "kcalPer100": 496, "curiosity": "Versátil; bebidas e confeitaria.", "icon": "🥛" },
+{ "name": "Leite Em Pó Desnatado", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Menos gordura; diluição rápida.", "icon": "🥛" },
+{ "name": "Aveia Em Flocos Finos", "category": "Mercearia", "kcalPer100": 389, "curiosity": "Boa para mingaus e panquecas.", "icon": "🌾" },
+{ "name": "Aveia Em Flocos Grossos", "category": "Mercearia", "kcalPer100": 389, "curiosity": "Mais textura; granolas e cookies.", "icon": "🌾" },
+{ "name": "Macarrão Parafuso", "category": "Mercearia", "kcalPer100": 371, "curiosity": "Retém bem molhos cremosos.", "icon": "🍝" },
+{ "name": "Lasanha Seca", "category": "Mercearia", "kcalPer100": 371, "curiosity": "Folhas para camadas com molho e queijo.", "icon": "🍝" },
+{ "name": "Quinoa Em Grãos", "category": "Mercearia", "kcalPer100": 368, "curiosity": "Proteína vegetal completa.", "icon": "🌾" },
+{ "name": "Cuscuz Marroquino", "category": "Mercearia", "kcalPer100": 376, "curiosity": "Sêmola hidratada; preparo rápido.", "icon": "🍚" },
+{ "name": "Cuscuz Nordestino (Flocos De Milho)", "category": "Mercearia", "kcalPer100": 365, "curiosity": "Tradição do Nordeste; versátil doce/salgado.", "icon": "🌽" },
+{ "name": "Pimenta-Do-Reino Moída", "category": "Mercearia", "kcalPer100": 251, "curiosity": "Tempero universal; use com parcimônia.", "icon": "🧂" },
+{ "name": "Cominho Em Pó", "category": "Mercearia", "kcalPer100": 375, "curiosity": "Marcante; comum em feijoadas e curries.", "icon": "🧂" },
+{ "name": "Colorau (Urucum)", "category": "Mercearia", "kcalPer100": 330, "curiosity": "Dá cor e leve sabor terroso.", "icon": "🧂" },
+{ "name": "Páprica Doce", "category": "Mercearia", "kcalPer100": 282, "curiosity": "Aromática e pouco picante.", "icon": "🧂" },
+{ "name": "Páprica Picante", "category": "Mercearia", "kcalPer100": 282, "curiosity": "Acentua cor e leve ardor.", "icon": "🌶️" },
+{ "name": "Curry Em Pó", "category": "Mercearia", "kcalPer100": 325, "curiosity": "Blend de especiarias; indiano.", "icon": "🧂" },
+{ "name": "Orégano Desidratado", "category": "Mercearia", "kcalPer100": 265, "curiosity": "Clássico para pizzas e molhos.", "icon": "🌿" },
+{ "name": "Manjericão Desidratado", "category": "Mercearia", "kcalPer100": 233, "curiosity": "Aromático; uso em molhos e carnes.", "icon": "🌿" },
+{ "name": "Alho Granulado", "category": "Mercearia", "kcalPer100": 331, "curiosity": "Praticidade no dia a dia.", "icon": "🧄" },
+{ "name": "Cebola Em Flocos", "category": "Mercearia", "kcalPer100": 349, "curiosity": "Realça caldos, molhos e farofas.", "icon": "🧅" },
+
+{ "name": "Água Mineral Sem Gás 500 Ml", "category": "Bebidas", "kcalPer100": 0, "curiosity": "Hidratação essencial no dia a dia.", "icon": "💧" },
+{ "name": "Água Mineral Com Gás 500 Ml", "category": "Bebidas", "kcalPer100": 0, "curiosity": "Efervescente e refrescante.", "icon": "💧" },
+{ "name": "Água De Coco 1 L", "category": "Bebidas", "kcalPer100": 20, "curiosity": "Naturalmente isotônica e rica em potássio.", "icon": "🥥" },
+{ "name": "Refrigerante Cola 2 L", "category": "Bebidas", "kcalPer100": 42, "curiosity": "Clássico gaseificado; consumir com moderação.", "icon": "🥤" },
+{ "name": "Refrigerante Guaraná 2 L", "category": "Bebidas", "kcalPer100": 42, "curiosity": "Sabor brasileiro; gelado é melhor.", "icon": "🥤" },
+{ "name": "Refrigerante Laranja 2 L", "category": "Bebidas", "kcalPer100": 46, "curiosity": "Doce e cítrico; com gás.", "icon": "🥤" },
+{ "name": "Refrigerante Cola Zero 2 L", "category": "Bebidas", "kcalPer100": 0, "curiosity": "Sem açúcares; adoçantes.", "icon": "🥤" },
+{ "name": "Isotônico Sabor Limão 500 Ml", "category": "Bebidas", "kcalPer100": 26, "curiosity": "Reposição de sais e líquidos.", "icon": "🥤" },
+{ "name": "Isotônico Sabor Uva 500 Ml", "category": "Bebidas", "kcalPer100": 26, "curiosity": "Uso pós-exercícios e calor intenso.", "icon": "🥤" },
+{ "name": "Energético Tradicional 250 Ml", "category": "Bebidas", "kcalPer100": 45, "curiosity": "Cafeína e taurina; consumo responsável.", "icon": "⚡" },
+{ "name": "Suco Integral De Uva 1 L", "category": "Bebidas", "kcalPer100": 60, "curiosity": "Apenas uva; sem adições.", "icon": "🍇" },
+{ "name": "Suco De Laranja 1 L", "category": "Bebidas", "kcalPer100": 45, "curiosity": "Fonte de vitamina C; sem gás.", "icon": "🍊" },
+{ "name": "Suco De Maçã 1 L", "category": "Bebidas", "kcalPer100": 46, "curiosity": "Doce e leve.", "icon": "🍎" },
+{ "name": "Chá Gelado Limão 1,5 L", "category": "Bebidas", "kcalPer100": 25, "curiosity": "Refresca e tem leve adstringência.", "icon": "🧋" },
+{ "name": "Chá Gelado Pêssego 1,5 L", "category": "Bebidas", "kcalPer100": 25, "curiosity": "Aromático e adocicado.", "icon": "🧋" },
+{ "name": "Café Pronto Em Lata 250 Ml", "category": "Bebidas", "kcalPer100": 25, "curiosity": "Bebida prática; servir gelada.", "icon": "☕" },
+{ "name": "Água Alcalina 1,5 L", "category": "Bebidas", "kcalPer100": 0, "curiosity": "pH elevado; preferência de alguns consumidores.", "icon": "💧" },
+{ "name": "Cerveja Pilsen Long Neck 355 Ml", "category": "Bebidas", "kcalPer100": 43, "curiosity": "Clássica e leve.", "icon": "🍺" },
+{ "name": "Cerveja Ipa Long Neck 355 Ml", "category": "Bebidas", "kcalPer100": 55, "curiosity": "Amargor de lúpulo mais pronunciado.", "icon": "🍺" },
+{ "name": "Cerveja Sem Álcool 350 Ml", "category": "Bebidas", "kcalPer100": 17, "curiosity": "Alternativa leve e segura.", "icon": "🍺" },
+{ "name": "Vinho Tinto Seco 750 Ml", "category": "Bebidas", "kcalPer100": 85, "curiosity": "Notas de frutas escuras; servir a 16–18°C.", "icon": "🍷" },
+{ "name": "Vinho Branco Seco 750 Ml", "category": "Bebidas", "kcalPer100": 82, "curiosity": "Cítrico e fresco; servir a 8–10°C.", "icon": "🥂" },
+{ "name": "Espumante Brut 750 Ml", "category": "Bebidas", "kcalPer100": 76, "curiosity": "Perlage fina; celebrações e entradas.", "icon": "🥂" },
+{ "name": "Cachaça Prata 700 Ml", "category": "Bebidas", "kcalPer100": 231, "curiosity": "Base da caipirinha; nacional.", "icon": "🍸" },
+{ "name": "Vodca 1 L", "category": "Bebidas", "kcalPer100": 231, "curiosity": "Neutra; coquetelaria.", "icon": "🍸" },
+{ "name": "Whisky 1 L", "category": "Bebidas", "kcalPer100": 250, "curiosity": "Amadurecido em barris; notas amadeiradas.", "icon": "🥃" },
+{ "name": "Gin 700 Ml", "category": "Bebidas", "kcalPer100": 231, "curiosity": "Botânicos e zimbro; tônica como clássico.", "icon": "🍸" },
+{ "name": "Leite Fermentado Garrafinha", "category": "Bebidas", "kcalPer100": 72, "curiosity": "Probióticos; consumo gelado.", "icon": "🥛" },
+{ "name": "Bebida Láctea Chocolate 1 L", "category": "Bebidas", "kcalPer100": 90, "curiosity": "Prática para lanches.", "icon": "🥤" },
+{ "name": "Bebida Vegetal De Amêndoas 1 L", "category": "Bebidas", "kcalPer100": 40, "curiosity": "Alternativa sem lactose; suave.", "icon": "🥛" },
+{ "name": "Bebida Vegetal De Aveia 1 L", "category": "Bebidas", "kcalPer100": 45, "curiosity": "Cremosa; boa para cafés.", "icon": "🥛" },
+{ "name": "Cápsulas De Café Espresso (Compatíveis)", "category": "Bebidas", "kcalPer100": 1, "curiosity": "Praticidade; intensidade variável.", "icon": "☕" },
+
+{ "name": "Detergente Neutro", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Remoção de gordura em louças; enxágue completo.", "icon": "🧼" },
+{ "name": "Detergente Limão", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Aroma cítrico e refrescante.", "icon": "🧼" },
+{ "name": "Sabão Em Pó", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Lavagem de roupas; seguir dosagem do rótulo.", "icon": "🧺" },
+{ "name": "Sabão Líquido Para Roupas", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Melhor diluição e rendimento.", "icon": "🧺" },
+{ "name": "Amaciante De Roupas", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Perfuma e macia as fibras.", "icon": "🧴" },
+{ "name": "Alvejante Sem Cloro", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Para roupas coloridas.", "icon": "🧴" },
+{ "name": "Água Sanitária", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Desinfecção pesada; uso com cuidado.", "icon": "🧴" },
+{ "name": "Desinfetante Pinho", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Perfuma e higieniza ambientes.", "icon": "🧴" },
+{ "name": "Multiuso Perfumado", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Superfícies diversas; não usar em telas.", "icon": "🧴" },
+{ "name": "Limpa Vidros", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Evita marcas; uso com pano seco.", "icon": "🧴" },
+{ "name": "Limpa Banheiro", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Remove resíduos de sabão e calcário.", "icon": "🧴" },
+{ "name": "Limpa Forno E Grelha", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Desengordurante potente; EPI recomendado.", "icon": "🧴" },
+{ "name": "Desengordurante Cozinha", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Ação rápida em gordura pesada.", "icon": "🧴" },
+{ "name": "Esponja Amarela E Verde", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Lado macio e abrasivo; troca frequente.", "icon": "🧽" },
+{ "name": "Fibra Abrasiva", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Uso em grelhas e panelas resistentes.", "icon": "🧽" },
+{ "name": "Panos Multiuso", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Reutilizáveis; lave com frequência.", "icon": "🧻" },
+{ "name": "Rodo De Pia", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Remove excesso de água rapidamente.", "icon": "🧹" },
+{ "name": "Vassoura De Piaçava", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Fios naturais; áreas externas.", "icon": "🧹" },
+{ "name": "Vassoura De Nylon", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Uso interno; leve e prática.", "icon": "🧹" },
+{ "name": "Pá De Lixo", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Coleta de resíduos sólidos domésticos.", "icon": "🗑️" },
+{ "name": "Saco De Lixo 30 L", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Para lixeiras de cozinha ou banheiro.", "icon": "🗑️" },
+{ "name": "Saco De Lixo 50 L", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Coleta de volumes maiores.", "icon": "🗑️" },
+{ "name": "Papel Higiênico Folha Dupla", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Mais macio; uso pessoal diário.", "icon": "🧻" },
+{ "name": "Papel Toalha Multi Folhas", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Secagem de mãos e superfícies.", "icon": "🧻" },
+{ "name": "Guardanapo De Mesa", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Apoio em refeições e eventos.", "icon": "🧻" },
+{ "name": "Lenço Umedecido Antisséptico", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Higienização rápida fora de casa.", "icon": "🧻" },
+{ "name": "Sabonete Em Barra Neutro", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Limpeza suave; adequado para todos os tipos de pele.", "icon": "🧼" },
+{ "name": "Sabonete Líquido Hidratante", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Fórmula cremosa com fragrância suave.", "icon": "🧴" },
+{ "name": "Shampoo Neutro", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Uso diário; sem agressão ao couro cabeludo.", "icon": "🧴" },
+{ "name": "Condicionador Hidratante", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Desembaraça e dá brilho aos cabelos.", "icon": "🧴" },
+{ "name": "Sabonete Íntimo Feminino", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Mantém o pH equilibrado e a higiene íntima.", "icon": "🌸" },
+{ "name": "Desodorante Aerosol Masculino", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Proteção e fragrância duradoura.", "icon": "🧴" },
+{ "name": "Desodorante Aerosol Feminino", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Perfume suave e proteção por 48h.", "icon": "🧴" },
+{ "name": "Creme Dental Menta 90 G", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Refresca o hálito e previne cáries.", "icon": "🪥" },
+{ "name": "Escova De Dentes Macia", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Cerdas suaves; ideal para uso diário.", "icon": "🪥" },
+{ "name": "Fio Dental 25 M", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Remove resíduos entre os dentes.", "icon": "🦷" },
+{ "name": "Enxaguante Bucal 500 Ml", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Combate bactérias e refresca o hálito.", "icon": "🪥" },
+{ "name": "Lâmina De Barbear", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Uso individual; troque regularmente.", "icon": "🪒" },
+{ "name": "Espuma De Barbear", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Facilita o deslizar da lâmina e evita irritações.", "icon": "🧴" },
+{ "name": "Absorvente Noturno", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Maior cobertura e absorção durante o sono.", "icon": "🩸" },
+{ "name": "Absorvente Diário", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Uso leve; mantém sensação de frescor.", "icon": "🩸" },
+{ "name": "Fralda Geriátrica M", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Conforto e segurança para adultos.", "icon": "🩹" },
+{ "name": "Algodão Hidrófilo 50 G", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Cuidados com a pele e curativos.", "icon": "💊" },
+{ "name": "Curativo Adesivo", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Protege pequenos ferimentos.", "icon": "🩹" },
+{ "name": "Álcool Em Gel 70%", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Higienização instantânea das mãos.", "icon": "🧴" },
+{ "name": "Repelente Em Spray", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Protege contra insetos; essencial ao ar livre.", "icon": "🌿" },
+
+{ "name": "Fralda Infantil G", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Alta absorção e conforto para o bebê.", "icon": "🍼" },
+{ "name": "Fralda Infantil M", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Proteção e maciez para o bebê.", "icon": "🍼" },
+{ "name": "Lenço Umedecido Infantil", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Limpeza suave para peles sensíveis.", "icon": "🧻" },
+{ "name": "Pomada Para Assaduras", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Cria barreira protetora contra irritações.", "icon": "🧴" },
+{ "name": "Sabonete Líquido Infantil", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Hipoalergênico; uso diário seguro.", "icon": "🧼" },
+{ "name": "Shampoo Infantil", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Sem lágrimas; fórmula delicada.", "icon": "🧴" },
+{ "name": "Mamadeira 240 Ml", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Material atóxico; fácil de higienizar.", "icon": "🍼" },
+{ "name": "Chupeta Anatômica", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Conforto e segurança para o bebê.", "icon": "🍼" },
+{ "name": "Pratinho Infantil", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Colorido e resistente.", "icon": "🍽️" },
+{ "name": "Copo Antivazamento", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Evita acidentes e sujeira.", "icon": "🥤" },
+{ "name": "Brinquedo De Banho", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Diversão segura durante o banho.", "icon": "🦆" },
+{ "name": "Chocalho Musical", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Estimula audição e coordenação.", "icon": "🎶" },
+{ "name": "Pelúcia Pequena", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Macia e acolhedora; brinquedo afetivo.", "icon": "🧸" },
+{ "name": "Blocos De Montar", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Desenvolve coordenação e criatividade.", "icon": "🧱" },
+{ "name": "Boneca Articulada", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Brincadeira simbólica e educativa.", "icon": "👧" },
+{ "name": "Carrinho De Brinquedo", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Estimula imaginação e coordenação.", "icon": "🚗" },
+{ "name": "Bola De Borracha", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Brincadeiras ao ar livre e exercício.", "icon": "🏀" },
+{ "name": "Livro Infantil Ilustrado", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Introduz leitura e cores desde cedo.", "icon": "📘" },
+{ "name": "Massinha De Modelar", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Desenvolve criatividade e tato.", "icon": "🎨" },
+
+{ "name": "Ração Para Cães Adultos 1 Kg", "category": "Pets", "kcalPer100": 350, "curiosity": "Alimentação balanceada para cães adultos.", "icon": "🐶" },
+{ "name": "Ração Para Gatos Adultos 1 Kg", "category": "Pets", "kcalPer100": 360, "curiosity": "Com taurina; essencial à saúde dos felinos.", "icon": "🐱" },
+{ "name": "Ração Para Cães Filhotes 1 Kg", "category": "Pets", "kcalPer100": 365, "curiosity": "Nutrição reforçada para crescimento.", "icon": "🐶" },
+{ "name": "Ração Para Gatos Filhotes 1 Kg", "category": "Pets", "kcalPer100": 370, "curiosity": "Rico em proteínas e vitaminas.", "icon": "🐱" },
+{ "name": "Petisco Para Cães", "category": "Pets", "kcalPer100": 380, "curiosity": "Recompensa saborosa e crocante.", "icon": "🦴" },
+{ "name": "Petisco Para Gatos", "category": "Pets", "kcalPer100": 370, "curiosity": "Snack funcional; ajuda na limpeza dental.", "icon": "🐾" },
+{ "name": "Areia Sanitária Para Gatos", "category": "Pets", "kcalPer100": 0, "curiosity": "Controle de odores e fácil descarte.", "icon": "🐾" },
+{ "name": "Coleira Para Cães", "category": "Pets", "kcalPer100": 0, "curiosity": "Segurança e identificação.", "icon": "🐕" },
+{ "name": "Guia De Passeio", "category": "Pets", "kcalPer100": 0, "curiosity": "Confortável e ajustável.", "icon": "🐕" },
+{ "name": "Brinquedo Para Cães", "category": "Pets", "kcalPer100": 0, "curiosity": "Estimula mordida e diversão.", "icon": "🦴" },
+{ "name": "Brinquedo Para Gatos", "category": "Pets", "kcalPer100": 0, "curiosity": "Entretenimento e exercício físico.", "icon": "🐾" },
+{ "name": "Cama Para Cães Pequenos", "category": "Pets", "kcalPer100": 0, "curiosity": "Conforto e descanso garantido.", "icon": "🛏️" },
+{ "name": "Cama Para Gatos", "category": "Pets", "kcalPer100": 0, "curiosity": "Design fechado; sensação de abrigo.", "icon": "🛏️" },
+{ "name": "Shampoo Para Cães", "category": "Pets", "kcalPer100": 0, "curiosity": "Limpeza e brilho no pelo.", "icon": "🧴" },
+{ "name": "Shampoo Para Gatos", "category": "Pets", "kcalPer100": 0, "curiosity": "Fórmula suave e sem perfume forte.", "icon": "🧴" },
+{ "name": "Tapete Higiênico", "category": "Pets", "kcalPer100": 0, "curiosity": "Absorção eficiente; uso interno.", "icon": "🧻" },
+{ "name": "Pote De Ração", "category": "Pets", "kcalPer100": 0, "curiosity": "Antiderrapante e resistente.", "icon": "🥣" },
+{ "name": "Pote De Água Para Pets", "category": "Pets", "kcalPer100": 0, "curiosity": "Mantém hidratação constante.", "icon": "🥣" },
+{ "name": "Escova De Pelos Para Cães", "category": "Pets", "kcalPer100": 0, "curiosity": "Evita nós e queda excessiva.", "icon": "🪮" },
+
+{ "name": "Lâmpada LED 9W", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Econômica e durável; iluminação branca.", "icon": "💡" },
+{ "name": "Tomada 10A", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Padrão brasileiro; uso em aparelhos leves.", "icon": "🔌" },
+{ "name": "Extensão Elétrica 3 Metros", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Amplia o alcance de energia elétrica.", "icon": "🔌" },
+{ "name": "Fita Isolante Preta", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Isolamento elétrico; uso em cabos e fios.", "icon": "🧵" },
+{ "name": "Interruptor Simples", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Controle de iluminação residencial.", "icon": "💡" },
+{ "name": "Parafuso 4x30mm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Fixação leve em madeira e drywall.", "icon": "🔩" },
+{ "name": "Prego 17x27", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Construção e pequenos reparos.", "icon": "🔨" },
+{ "name": "Martelo De Unha", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Ferramenta clássica para fixações.", "icon": "🔨" },
+{ "name": "Chave De Fenda Média", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Uso em parafusos de fenda simples.", "icon": "🪛" },
+{ "name": "Chave Phillips Média", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Mais firmeza em parafusos cruzados.", "icon": "🪛" },
+{ "name": "Trena 3 Metros", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Medições rápidas em reformas.", "icon": "📏" },
+{ "name": "Serrote 18 Pol", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Corte de madeira e pequenos ajustes.", "icon": "🪚" },
+{ "name": "Broca Para Concreto 8mm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Uso em furadeiras; concreto e alvenaria.", "icon": "🪛" },
+{ "name": "Furadeira 500W", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Ferramenta elétrica para perfurações.", "icon": "🔧" },
+{ "name": "Parafusadeira Sem Fio", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Facilita montagens e reformas.", "icon": "🔋" },
+{ "name": "Lixa Madeira 120", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Acabamento em móveis e superfícies.", "icon": "🪵" },
+{ "name": "Tinta Acrílica Branca 3,6 L", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Paredes internas; acabamento fosco.", "icon": "🎨" },
+{ "name": "Tinta Acrílica Fosca 18 L", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Balde econômico para grandes áreas.", "icon": "🎨" },
+{ "name": "Rolo De Pintura 23 Cm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Aplicação uniforme de tinta em paredes.", "icon": "🖌️" },
+{ "name": "Bandeja Para Pintura", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Apoio para rolo, reduz respingos.", "icon": "🧰" },
+{ "name": "Espátula De Aço", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Aplicação de massa e raspagem.", "icon": "🧰" },
+{ "name": "Massa Corrida 1,5 Kg", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Nivela pequenas imperfeições internas.", "icon": "🧱" },
+{ "name": "Argamassa Para Assentamento 20 Kg", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Fixação de pisos e revestimentos.", "icon": "🧱" },
+{ "name": "Rejunte Cinza 1 Kg", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Acabamento entre peças cerâmicas.", "icon": "🧱" },
+{ "name": "Cimento CP II 50 Kg", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Construção geral; manter protegido da umidade.", "icon": "🧱" },
+{ "name": "Cal Hidratada 20 Kg", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Argamassas e pinturas tradicionais (caiação).", "icon": "⚗️" },
+{ "name": "Areia Ensacada 20 Kg", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Uso em assentamento e reboco.", "icon": "🏗️" },
+{ "name": "Bucha De Nylon Nº 6", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Fixações leves em alvenaria.", "icon": "🪛" },
+{ "name": "Bucha De Nylon Nº 8", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Fixações médias em alvenaria.", "icon": "🪛" },
+{ "name": "Parafuso 5x50 Mm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Madeira e buchas de parede.", "icon": "🔩" },
+{ "name": "Parafuso Sextavado M8", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Montagens estruturais leves.", "icon": "🔩" },
+{ "name": "Arruela Lisa M8", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Distribui carga do parafuso.", "icon": "⚙️" },
+{ "name": "Porca Sextavada M8", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Aperto com chave de boca.", "icon": "🔧" },
+{ "name": "Fita Veda Rosca 18 Mm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Vedação de conexões hidráulicas.", "icon": "🧵" },
+{ "name": "Silicone Acético 280 G", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Selagem de vidros e áreas molhadas.", "icon": "🧪" },
+{ "name": "Selante Pu 400 G", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Vedação flexível e resistente.", "icon": "🧪" },
+{ "name": "Espuma Expansiva 500 Ml", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Preenche frestas e isola.", "icon": "🧯" },
+{ "name": "Canaleta Pvc 20x10 Mm 2 M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Organização de cabos aparentes.", "icon": "📦" },
+{ "name": "Conduíte Corrugado 25 Mm 10 M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Proteção de fiação embutida.", "icon": "🟠" },
+{ "name": "Cabo Flexível 2,5 Mm² 10 M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Circuitos de tomadas.", "icon": "🔌" },
+{ "name": "Cabo Flexível 4,0 Mm² 10 M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Circuitos de maior carga.", "icon": "🔌" },
+{ "name": "Disjuntor 10 A Curva B", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Proteção de circuito de iluminação.", "icon": "🧯" },
+{ "name": "Disjuntor 20 A Curva B", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Proteção de circuito de tomadas.", "icon": "🧯" },
+{ "name": "Tomada Dupla 10 A", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Padrão ABNT NBR 14136.", "icon": "🔌" },
+{ "name": "Tomada 20 A", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Eletrodomésticos de maior potência.", "icon": "🔌" },
+{ "name": "Placa 4x2 Para Tomada/Interruptor", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Acabamento de parede.", "icon": "🧱" },
+{ "name": "Interruptor Paralelo", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Acionamento de dois pontos distintos.", "icon": "💡" },
+{ "name": "Lâmpada Led Bulbo 12 W", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Alta eficiência e vida útil longa.", "icon": "💡" },
+{ "name": "Lâmpada Led Tubular T8 18 W", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Substitui fluorescentes com economia.", "icon": "💡" },
+{ "name": "Fita De Led 5 M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Iluminação decorativa versátil.", "icon": "💡" },
+{ "name": "Fonte 12 V Para Led 2 A", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Alimenta fitas e módulos LED.", "icon": "🔋" },
+{ "name": "Ducha Higiênica Metálica", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Higiene e praticidade no banheiro.", "icon": "🚿" },
+{ "name": "Torneira Para Cozinha Bica Alta", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Conforto para lavar louças.", "icon": "🚰" },
+{ "name": "Torneira Para Lavanderia 1/2\"", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Uso em tanques e áreas de serviço.", "icon": "🚰" },
+{ "name": "Assento Sanitário Oval", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Conforto e higiene.", "icon": "🚽" },
+{ "name": "Sifão Flexível 1.1/2\"", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Evita retorno de odores do esgoto.", "icon": "🧰" },
+{ "name": "Kit Registro De Pressão 1/2\"", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Controle de fluxo em chuveiros.", "icon": "🚿" },
+{ "name": "Chuveiro Elétrico 5500 W", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Banho quente instantâneo.", "icon": "🚿" },
+{ "name": "Tubo Pvc Soldável 25 Mm 3 M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Rede de água fria.", "icon": "🟦" },
+{ "name": "Joelho Pvc 90° 25 Mm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Mudança de direção na tubulação.", "icon": "🟦" },
+{ "name": "Tê Pvc 25 Mm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Derivação de linha de água.", "icon": "🟦" },
+{ "name": "Registro De Esfera 1/2\"", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Abre/fecha o fluxo com 1/4 de volta.", "icon": "🔘" },
+{ "name": "Cadeado Latão 25 Mm", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Segurança básica para portões e armários.", "icon": "🔒" },
+{ "name": "Corrente Aço 3 Mm 1 M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Amarração e travamento.", "icon": "⛓️" },
+{ "name": "Luvas Nitrílicas Tam M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Proteção química leve.", "icon": "🧤" },
+{ "name": "Óculos De Proteção Incolor", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Protege contra partículas.", "icon": "🥽" },
+{ "name": "Máscara PFF2", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Filtragem particulada em serviços.", "icon": "😷" },
+
+{ "name": "Panela Antiaderente 24 Cm", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Cozimento com menos óleo; limpeza fácil.", "icon": "🍳" },
+{ "name": "Frigideira 20 Cm", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Omeletes e grelhados rápidos.", "icon": "🍳" },
+{ "name": "Panela De Pressão 4,5 L", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Cozimento acelerado de grãos e carnes.", "icon": "🍲" },
+{ "name": "Caçarola 22 Cm", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Ensopados e molhos.", "icon": "🍲" },
+{ "name": "Assadeira Retangular Média", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Assados doces e salgados.", "icon": "🧁" },
+{ "name": "Forma Para Bolo 24 Cm", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Confeitaria do dia a dia.", "icon": "🎂" },
+{ "name": "Forma De Pão 30 Cm", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Pães e tortas retangulares.", "icon": "🍞" },
+{ "name": "Espátula De Silicone", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Não risca panelas antiaderentes.", "icon": "🥄" },
+{ "name": "Concha De Sopa", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Serviço de caldos e feijoadas.", "icon": "🥄" },
+{ "name": "Escumadeira", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Retira espuma e sólidos do caldo.", "icon": "🥄" },
+{ "name": "Faca Chef 8\"", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Corte universal na cozinha.", "icon": "🔪" },
+{ "name": "Faca De Pão 8\"", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Serrilhada para pães e bolos.", "icon": "🔪" },
+{ "name": "Tábuas De Corte (Conjunto)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Separar carnes, legumes e frutas.", "icon": "🪵" },
+{ "name": "Ralo Multiuso", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Rala queijos, legumes e chocolate.", "icon": "🧀" },
+{ "name": "Descascador De Legumes", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Praticidade e segurança.", "icon": "🥔" },
+{ "name": "Coador De Café Reutilizável", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Menos resíduos no preparo do café.", "icon": "☕" },
+{ "name": "Jarra De Vidro 1,5 L", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Serviço elegante de bebidas.", "icon": "🫗" },
+{ "name": "Garrafa Térmica 1 L", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Mantém líquidos quentes/frio por horas.", "icon": "🥤" },
+{ "name": "Potes Herméticos (Jogo 5 Pçs)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Armazenamento sem odores.", "icon": "🫙" },
+{ "name": "Escorredor De Pratos", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Secagem organizada de louças.", "icon": "🍽️" },
+{ "name": "Escorredor De Macarrão", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Drenagem de massas e hortifruti.", "icon": "🥣" },
+{ "name": "Prato Raso (Jogo 6)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Serviço de refeições.", "icon": "🍽️" },
+{ "name": "Prato Fundo (Jogo 6)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Sopas e caldos.", "icon": "🍽️" },
+{ "name": "Tigelas (Jogo 6)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Cereais e sobremesas.", "icon": "🥣" },
+{ "name": "Copos De Vidro 300 Ml (Jogo 6)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Uso diário para bebidas.", "icon": "🥛" },
+{ "name": "Taças Para Vinho (Par)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Melhora a apreciação aromática.", "icon": "🍷" },
+{ "name": "Canecas De Cerâmica (Par)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Cafés e chás quentinhos.", "icon": "☕" },
+{ "name": "Talheres Inox (Jogo 24 Pçs)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Completo para refeições.", "icon": "🍴" },
+{ "name": "Guardanapo De Pano (Jogo 4)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Reutilizável e elegante.", "icon": "🧻" },
+{ "name": "Pano De Prato (Jogo 3)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Apoio no preparo e limpeza.", "icon": "🧻" },
+{ "name": "Balde 12 L", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Lavagens e transporte de água.", "icon": "🪣" },
+{ "name": "Bacia Plástica 8 L", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Higienização de alimentos e roupas.", "icon": "🫧" },
+{ "name": "Varal De Chão Dobrável", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Secagem prática em espaços menores.", "icon": "🧺" },
+{ "name": "Pregadores De Roupas (Jogo 24)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Evita que as roupas escorreguem no varal.", "icon": "🧺" },
+{ "name": "Dispensador De Sabão Líquido", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Praticidade na pia da cozinha.", "icon": "🧴" },
+{ "name": "Lixeira Com Tampa 12 L", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Evita odores e mantém a organização.", "icon": "🗑️" },
+{ "name": "Lixeira Inox 20 L Com Pedal", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Abertura sem usar as mãos; higiênica.", "icon": "🗑️" },
+{ "name": "Porta-Detergente E Esponja", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Organiza a área da pia.", "icon": "🧽" },
+{ "name": "Escova Para Garrafas", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Alcança áreas estreitas para limpar.", "icon": "🧽" },
+{ "name": "Porta-Temperos Giratório 12 Potes", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Facilita acesso e visualização dos temperos.", "icon": "🧂" },
+{ "name": "Moedor De Pimenta Manual", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Moagem na hora realça o aroma.", "icon": "🌶️" },
+{ "name": "Afiador De Facas", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Mantém o fio das lâminas com segurança.", "icon": "🔪" },
+{ "name": "Abridor De Latas 3 Em 1", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Abre latas, tampas de rosca e garrafas.", "icon": "🧰" },
+{ "name": "Abridor De Garrafas Parede", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Prático para áreas gourmet.", "icon": "🍺" },
+{ "name": "Saca-Rolhas Sommelier", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Abrimento de vinhos com facilidade.", "icon": "🍷" },
+{ "name": "Jogo De Panelas 5 Peças Antiaderente", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Conjunto versátil para o dia a dia.", "icon": "🍳" },
+{ "name": "Tábua De Vidro Temperado", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Higiênica e fácil de limpar.", "icon": "🪵" },
+{ "name": "Tapete Para Pia Absorvente", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Evita poças e mantém a bancada seca.", "icon": "🧻" },
+{ "name": "Tapete Para Banheiro Antiderrapante", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Mais segurança ao sair do banho.", "icon": "🛁" },
+{ "name": "Cabide De Madeira (Jogo 6)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Suporta melhor peças pesadas.", "icon": "👚" },
+{ "name": "Cabide De Veludo (Jogo 10)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Evita escorregamento de roupas.", "icon": "👗" },
+{ "name": "Organizador De Gavetas Ajustável", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Setoriza meias, cintos e acessórios.", "icon": "🧦" },
+{ "name": "Cesto Organizadores (Kit 3)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Organização de despensa e armários.", "icon": "🧺" },
+{ "name": "Porta-Sabonete Líquido Vidro Âmbar", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Visual premium para lavabos.", "icon": "🧴" },
+{ "name": "Dispenser De Álcool Gel Parede", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Praticidade em áreas comuns.", "icon": "🧴" },
+{ "name": "Porta-Escovas Com Tampa", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Higiene e organização no banheiro.", "icon": "🪥" },
+{ "name": "Escova Sanitária Com Suporte", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Ajuda na limpeza do vaso.", "icon": "🧻" },
+{ "name": "Porta-Papel Higiênico Inox", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Resistente à umidade.", "icon": "🧻" },
+{ "name": "Kit Banheiro 5 Peças Inox", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Conjunto coordenado de acessórios.", "icon": "🛁" },
+{ "name": "Cortina Para Box Com Argolas", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Evita respingos; fácil instalação.", "icon": "🛁" },
+{ "name": "Suporte Para Shampoo De Canto", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Otimiza o espaço do box.", "icon": "🧴" },
+{ "name": "Toalha De Banho Felpuda", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Conforto e absorção.", "icon": "🧻" },
+{ "name": "Toalha De Rosto (Par)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Complemento para o jogo de banho.", "icon": "🧻" },
+{ "name": "Jogo De Cama Casal 180 Fios", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Conforto básico e boa durabilidade.", "icon": "🛏️" },
+{ "name": "Jogo De Cama Queen 300 Fios", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Toque mais macio e elegante.", "icon": "🛏️" },
+{ "name": "Protetor De Colchão Impermeável Casal", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Protege contra umidade e sujeiras.", "icon": "🛌" },
+{ "name": "Travesseiro Viscoelástico", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Adapta-se ao contorno da cabeça.", "icon": "🛌" },
+{ "name": "Edredom Casal Microfibra", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Aquece com leveza.", "icon": "🛌" },
+{ "name": "Manta Sofá Decorativa", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Aconchego e estilo à sala.", "icon": "🛋️" },
+{ "name": "Capas Para Almofadas (Jogo 4)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Renova o visual com baixo custo.", "icon": "🛋️" },
+{ "name": "Cortina Blackout Janela", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Bloqueia luz e aquece ambientes.", "icon": "🪟" },
+{ "name": "Barra De Cortina Extensível", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Instalação sem furos.", "icon": "🪟" },
+{ "name": "Aparador De Pelos Recarregável", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Uso rápido para barba e cabelo.", "icon": "🧔" },
+{ "name": "Balança Digital De Cozinha", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Precisão nas receitas e porções.", "icon": "⚖️" },
+{ "name": "Timer De Cozinha Magnético", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Controle de tempo em preparos.", "icon": "⏱️" },
+{ "name": "Termômetro De Forno", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Garante temperaturas corretas.", "icon": "🌡️" },
+{ "name": "Jogo De Medidores (Xícaras E Colheres)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Padroniza receitas com precisão.", "icon": "🥄" },
+{ "name": "Porta-Pães Com Tampa", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Mantém pães frescos por mais tempo.", "icon": "🍞" },
+{ "name": "Marmita Inox Com Vedação", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Transporta refeições com segurança.", "icon": "🍱" },
+{ "name": "Jogo Americano (Par)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Protege a mesa e compõe a decoração.", "icon": "🍽️" },
+{ "name": "Toalha De Mesa Impermeável 6 Lugares", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Limpeza rápida após as refeições.", "icon": "🍽️" },
+{ "name": "Protetor De Fogão Alumínio (Kit 4)", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Evita sujeira difícil em queimadores.", "icon": "🔥" },
+{ "name": "Tela Anti Respingo Para Frigideira", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Reduz respingos de óleo na cozinha.", "icon": "🛡️" },
+{ "name": "Protetor De Teflon Para Forno", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Reutilizável e fácil de limpar.", "icon": "🧁" },
+{ "name": "Escova Tira-Pelos Para Roupas", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Remove fiapos e pelos com facilidade.", "icon": "🧹" },
+{ "name": "Vassoura Mop Spray", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Pulveriza e limpa em uma passada.", "icon": "🧹" },
+{ "name": "Borrifador 500 Ml", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Uso com água, álcool ou limpadores.", "icon": "🧴" },
+{ "name": "Removedor De Manchas Roupas", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Aplique conforme instruções no rótulo.", "icon": "🧺" },
+{ "name": "Passadeira A Vapor Portátil", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Desamassa roupas rapidamente.", "icon": "🧺" },
+{ "name": "Tábua De Passar Roupa Regulável", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Superfície estável para passar.", "icon": "🧺" },
+
+{ "name": "Pilha AA Alcalina (Cartela 4)", "category": "Diversos", "kcalPer100": 0, "curiosity": "Uso em controles, brinquedos e lanternas.", "icon": "🔋" },
+{ "name": "Pilha AAA Alcalina (Cartela 4)", "category": "Diversos", "kcalPer100": 0, "curiosity": "Dispositivos menores e controles.", "icon": "🔋" },
+{ "name": "Bateria 9 V", "category": "Diversos", "kcalPer100": 0, "curiosity": "Multímetros e detectores de fumaça.", "icon": "🔋" },
+{ "name": "Carregador De Pilhas AA/AAA", "category": "Diversos", "kcalPer100": 0, "curiosity": "Economia com recarregáveis.", "icon": "🔌" },
+{ "name": "Power Bank 10.000 Mah", "category": "Diversos", "kcalPer100": 0, "curiosity": "Recarga portátil para o smartphone.", "icon": "🔋" },
+{ "name": "Power Bank 20.000 Mah", "category": "Diversos", "kcalPer100": 0, "curiosity": "Mais autonomia em viagens.", "icon": "🔋" },
+{ "name": "Cabo Usb-C 1 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Carregamento e dados em aparelhos modernos.", "icon": "🔌" },
+{ "name": "Cabo Lightning 1 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Compatível com aparelhos Apple.", "icon": "🔌" },
+{ "name": "Cabo Micro-Usb 1 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Para dispositivos mais antigos.", "icon": "🔌" },
+{ "name": "Carregador Usb 2 Portas 10 W", "category": "Diversos", "kcalPer100": 0, "curiosity": "Carrega dois aparelhos simultâneos.", "icon": "🔌" },
+{ "name": "Carregador Turbo 30 W Usb-C", "category": "Diversos", "kcalPer100": 0, "curiosity": "Suporte a carga rápida PD.", "icon": "⚡" },
+{ "name": "Carregador Veicular Duplo", "category": "Diversos", "kcalPer100": 0, "curiosity": "Carregamento no carro.", "icon": "🚗" },
+{ "name": "Suporte Veicular Magnético", "category": "Diversos", "kcalPer100": 0, "curiosity": "Prende o celular no painel.", "icon": "📱" },
+{ "name": "Suporte Articulado Para Celular Mesa", "category": "Diversos", "kcalPer100": 0, "curiosity": "Ajuste de ângulo em videochamadas.", "icon": "📱" },
+{ "name": "Tripé De Mesa Para Celular", "category": "Diversos", "kcalPer100": 0, "curiosity": "Estabilidade em gravações e lives.", "icon": "🎥" },
+{ "name": "Ring Light 10\"", "category": "Diversos", "kcalPer100": 0, "curiosity": "Iluminação uniforme para vídeos.", "icon": "💡" },
+{ "name": "Fone De Ouvido Intra-Auricular", "category": "Diversos", "kcalPer100": 0, "curiosity": "Compacto e leve.", "icon": "🎧" },
+{ "name": "Fone Bluetooth TWS", "category": "Diversos", "kcalPer100": 0, "curiosity": "Sem fios; estojo recarregável.", "icon": "🎧" },
+{ "name": "Headset Com Microfone Usb", "category": "Diversos", "kcalPer100": 0, "curiosity": "Chamadas e jogos no computador.", "icon": "🎧" },
+{ "name": "Caixa De Som Bluetooth Portátil", "category": "Diversos", "kcalPer100": 0, "curiosity": "Música em qualquer lugar.", "icon": "🔊" },
+{ "name": "Relógio Inteligente Básico", "category": "Diversos", "kcalPer100": 0, "curiosity": "Notificações e monitoramento simples.", "icon": "⌚" },
+{ "name": "Relógio Inteligente Fitness", "category": "Diversos", "kcalPer100": 0, "curiosity": "Métricas de exercícios e batimentos.", "icon": "⌚" },
+{ "name": "Pulseira Magnética Para Parafusos", "category": "Diversos", "kcalPer100": 0, "curiosity": "Mantém parafusos à mão em reparos.", "icon": "🧲" },
+{ "name": "Lanterna Led Recarregável", "category": "Diversos", "kcalPer100": 0, "curiosity": "Alto brilho para emergências.", "icon": "🔦" },
+{ "name": "Adaptador Tomada Universal", "category": "Diversos", "kcalPer100": 0, "curiosity": "Viagens internacionais com segurança.", "icon": "🔌" },
+{ "name": "Extensão Elétrica 5 Tomadas", "category": "Diversos", "kcalPer100": 0, "curiosity": "Organiza fontes e equipamentos.", "icon": "🔌" },
+{ "name": "Filtro De Linha 6 Tomadas", "category": "Diversos", "kcalPer100": 0, "curiosity": "Proteção contra surtos elétricos.", "icon": "⚡" },
+{ "name": "Protetor De Tomada Infantil", "category": "Diversos", "kcalPer100": 0, "curiosity": "Segurança em casas com crianças.", "icon": "🔒" },
+{ "name": "Alarme Portátil Porta/Janela", "category": "Diversos", "kcalPer100": 0, "curiosity": "Sinaliza aberturas não desejadas.", "icon": "🚨" },
+{ "name": "Câmera Wi-Fi 1080p Interna", "category": "Diversos", "kcalPer100": 0, "curiosity": "Monitoramento doméstico básico.", "icon": "📷" },
+{ "name": "Câmera Wi-Fi 2K Externa", "category": "Diversos", "kcalPer100": 0, "curiosity": "Resistente a intempéries; visão noturna.", "icon": "🎥" },
+{ "name": "Tomada Inteligente Wi-Fi", "category": "Diversos", "kcalPer100": 0, "curiosity": "Automação liga/desliga pelo app.", "icon": "🔌" },
+{ "name": "Lâmpada Inteligente E27", "category": "Diversos", "kcalPer100": 0, "curiosity": "Cores e cenas controladas por app.", "icon": "💡" },
+{ "name": "Sensor De Presença Iluminação", "category": "Diversos", "kcalPer100": 0, "curiosity": "Liga luz ao detectar movimento.", "icon": "🚶" },
+{ "name": "Sensor De Abertura Porta/Janela", "category": "Diversos", "kcalPer100": 0, "curiosity": "Automação e segurança básica.", "icon": "🚪" },
+{ "name": "Kit Jardim Mini Pá/Ancinho", "category": "Diversos", "kcalPer100": 0, "curiosity": "Cuidados com vasos e canteiros.", "icon": "🪴" },
+{ "name": "Regador 2 L", "category": "Diversos", "kcalPer100": 0, "curiosity": "Rega controlada para plantas.", "icon": "🪴" },
+{ "name": "Adubo Orgânico Granulado 1 Kg", "category": "Diversos", "kcalPer100": 0, "curiosity": "Nutrição sustentável para o solo.", "icon": "🪴" },
+{ "name": "Substrato Para Plantas 5 L", "category": "Diversos", "kcalPer100": 0, "curiosity": "Retém umidade e areja raízes.", "icon": "🪴" },
+{ "name": "Vaso Autoirrigável Médio", "category": "Diversos", "kcalPer100": 0, "curiosity": "Mantém irrigação por mais tempo.", "icon": "🪴" },
+{ "name": "Tesoura De Poda Pequena", "category": "Diversos", "kcalPer100": 0, "curiosity": "Corte limpo em ramos e flores.", "icon": "✂️" },
+{ "name": "Cordão De Varal 20 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Resistente e fácil de instalar.", "icon": "🧵" },
+{ "name": "Ganchos Adesivos 1 Kg (Jogo 6)", "category": "Diversos", "kcalPer100": 0, "curiosity": "Fixação sem furos em paredes.", "icon": "🪝" },
+{ "name": "Fita Dupla Face Forte 19 Mm 2 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Fixação rápida de objetos leves.", "icon": "🧷" },
+{ "name": "Fita Crepe 18 Mm 50 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Mascaramento em pinturas.", "icon": "🧻" },
+{ "name": "Fita Silver Tape 48 Mm 10 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Reparos emergenciais multiuso.", "icon": "🩹" },
+{ "name": "Emenda Rápida Mangueira 1/2\"", "category": "Diversos", "kcalPer100": 0, "curiosity": "Conexão fácil para irrigação.", "icon": "🧩" },
+{ "name": "Mangueira Jardim 1/2\" 20 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Alcance maior no quintal.", "icon": "🚿" },
+{ "name": "Esguicho Ajustável Mangueira", "category": "Diversos", "kcalPer100": 0, "curiosity": "Vários tipos de jato de água.", "icon": "🚿" },
+{ "name": "Cadeado Segredo 3 Dígitos", "category": "Diversos", "kcalPer100": 0, "curiosity": "Sem chave; fácil configurar.", "icon": "🔒" },
+{ "name": "Mochila 20 L Dia A Dia", "category": "Diversos", "kcalPer100": 0, "curiosity": "Compartimentos para organização.", "icon": "🎒" },
+{ "name": "Bolsa Térmica 10 L", "category": "Diversos", "kcalPer100": 0, "curiosity": "Mantém alimentos na temperatura por horas.", "icon": "🧊" },
+{ "name": "Squeeze Inox 750 Ml", "category": "Diversos", "kcalPer100": 0, "curiosity": "Resistente e reutilizável.", "icon": "🥤" },
+{ "name": "Copo Térmico 500 Ml", "category": "Diversos", "kcalPer100": 0, "curiosity": "Bebidas quentes ou geladas por mais tempo.", "icon": "🥤" },
+{ "name": "Capa De Chuva Adulto Leve", "category": "Diversos", "kcalPer100": 0, "curiosity": "Proteção contra chuvas inesperadas.", "icon": "🌧️" },
+{ "name": "Guarda-Chuva Automático", "category": "Diversos", "kcalPer100": 0, "curiosity": "Abertura rápida com um clique.", "icon": "☔" },
+{ "name": "Máscara De Dormir Anatômica", "category": "Diversos", "kcalPer100": 0, "curiosity": "Bloqueia luz para melhor descanso.", "icon": "😴" },
+{ "name": "Protetor Auricular Espuma (Par)", "category": "Diversos", "kcalPer100": 0, "curiosity": "Reduz ruído em viagens.", "icon": "🦻" },
+{ "name": "Kit Costura Portátil", "category": "Diversos", "kcalPer100": 0, "curiosity": "Agulhas, linhas e botões para emergências.", "icon": "🧵" },
+{ "name": "Caixa Organizadora 20 L Com Tampa", "category": "Diversos", "kcalPer100": 0, "curiosity": "Armazena itens e evita poeira.", "icon": "📦" },
+{ "name": "Etiquetas Adesivas Para Caixa", "category": "Diversos", "kcalPer100": 0, "curiosity": "Identificação fácil de conteúdo.", "icon": "🏷️" },
+{ "name": "Papel Contact 45 Cm 2 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Revestimento e personalização de superfícies.", "icon": "🧾" },
+{ "name": "Papel Alumínio 30 Cm 7,5 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Assar e conservar alimentos.", "icon": "🧻" },
+{ "name": "Filme Plástico Pvc 28 Cm 30 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Protege e conserva alimentos.", "icon": "🧻" },
+{ "name": "Papel Manteiga 30 Cm 5 M", "category": "Diversos", "kcalPer100": 0, "curiosity": "Assados que não grudam na assadeira.", "icon": "🧻" },
+{ "name": "Sacos Zip 1 L (Jogo 10)", "category": "Diversos", "kcalPer100": 0, "curiosity": "Armazenamento hermético prático.", "icon": "🧴" },
+{ "name": "Etiquetas Para Congelamento", "category": "Diversos", "kcalPer100": 0, "curiosity": "Datam e identificam alimentos no freezer.", "icon": "🏷️" },
+{ "name": "Caderno Universitário 10 Matérias", "category": "Diversos", "kcalPer100": 0, "curiosity": "Ideal para estudos e anotações.", "icon": "📓" },
+{ "name": "Caneta Esferográfica Azul", "category": "Diversos", "kcalPer100": 0, "curiosity": "Escrita leve e fluida.", "icon": "🖊️" },
+{ "name": "Caneta Esferográfica Preta", "category": "Diversos", "kcalPer100": 0, "curiosity": "Uso cotidiano e profissional.", "icon": "🖊️" },
+{ "name": "Caneta Marca Texto Amarelo", "category": "Diversos", "kcalPer100": 0, "curiosity": "Destaque em leituras e estudos.", "icon": "🖍️" },
+{ "name": "Lápis Preto Nº 2 HB", "category": "Diversos", "kcalPer100": 0, "curiosity": "Para escrita e desenho.", "icon": "✏️" },
+{ "name": "Apontador Duplo", "category": "Diversos", "kcalPer100": 0, "curiosity": "Para lápis comum e jumbo.", "icon": "✏️" },
+{ "name": "Borracha Escolar Branca", "category": "Diversos", "kcalPer100": 0, "curiosity": "Apaga sem manchar o papel.", "icon": "🩹" },
+{ "name": "Tesoura Escolar 13 Cm", "category": "Diversos", "kcalPer100": 0, "curiosity": "Ponta arredondada para segurança.", "icon": "✂️" },
+{ "name": "Régua 30 Cm Transparente", "category": "Diversos", "kcalPer100": 0, "curiosity": "Medições precisas e traços retos.", "icon": "📏" },
+{ "name": "Cola Branca Escolar 90 G", "category": "Diversos", "kcalPer100": 0, "curiosity": "Não tóxica; ideal para papel e EVA.", "icon": "🧴" },
+{ "name": "Grampeador Pequeno", "category": "Diversos", "kcalPer100": 0, "curiosity": "Organiza documentos e anotações.", "icon": "📎" },
+{ "name": "Grampos Nº 26/6", "category": "Diversos", "kcalPer100": 0, "curiosity": "Compatíveis com grampeadores pequenos.", "icon": "📎" },
+{ "name": "Post-It Amarelo 76x76 Mm", "category": "Diversos", "kcalPer100": 0, "curiosity": "Recados rápidos e lembretes.", "icon": "🗒️" },
+{ "name": "Envelope Ofício Branco 50 Un", "category": "Diversos", "kcalPer100": 0, "curiosity": "Envio de documentos e correspondências.", "icon": "✉️" },
+{ "name": "Pasta Sanfonada A4 12 Divisórias", "category": "Diversos", "kcalPer100": 0, "curiosity": "Organiza papéis por categoria.", "icon": "📂" },
+{ "name": "Agenda Anual 2025", "category": "Diversos", "kcalPer100": 0, "curiosity": "Planejamento pessoal e profissional.", "icon": "📅" },
+{ "name": "Planner Mensal Espiralado", "category": "Diversos", "kcalPer100": 0, "curiosity": "Visão ampla de compromissos.", "icon": "📆" },
+{ "name": "Pasta Com Elástico A4", "category": "Diversos", "kcalPer100": 0, "curiosity": "Mantém documentos seguros.", "icon": "📁" },
+{ "name": "Clip De Papel 50 Un", "category": "Diversos", "kcalPer100": 0, "curiosity": "Organização temporária de folhas.", "icon": "🧷" },
+{ "name": "Calculadora Básica 8 Dígitos", "category": "Diversos", "kcalPer100": 0, "curiosity": "Operações simples do dia a dia.", "icon": "🧮" },
+
+{ "name": "Arroz Branco Tipo 1 5 Kg", "category": "Mercearia", "kcalPer100": 130, "curiosity": "Base da alimentação brasileira.", "icon": "🍚" },
+{ "name": "Arroz Integral 1 Kg", "category": "Mercearia", "kcalPer100": 120, "curiosity": "Mais fibras e minerais que o branco.", "icon": "🌾" },
+{ "name": "Feijão Carioca 1 Kg", "category": "Mercearia", "kcalPer100": 127, "curiosity": "Fonte de ferro e proteínas vegetais.", "icon": "🫘" },
+{ "name": "Feijão Preto 1 Kg", "category": "Mercearia", "kcalPer100": 125, "curiosity": "Típico do feijão-tropeiro e da feijoada.", "icon": "🫘" },
+{ "name": "Macarrão Espaguete 500 G", "category": "Mercearia", "kcalPer100": 150, "curiosity": "Versátil; combina com diversos molhos.", "icon": "🍝" },
+{ "name": "Macarrão Parafuso 500 G", "category": "Mercearia", "kcalPer100": 149, "curiosity": "Ideal para saladas e pratos rápidos.", "icon": "🍝" },
+{ "name": "Macarrão Instantâneo Lámen", "category": "Mercearia", "kcalPer100": 420, "curiosity": "Pronto em poucos minutos.", "icon": "🍜" },
+{ "name": "Farinha De Trigo 1 Kg", "category": "Mercearia", "kcalPer100": 364, "curiosity": "Base para pães, bolos e massas.", "icon": "🌾" },
+{ "name": "Farinha De Mandioca 500 G", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Acompanha carnes e feijão.", "icon": "🥣" },
+{ "name": "Farofa Pronta 250 G", "category": "Mercearia", "kcalPer100": 390, "curiosity": "Tempero e crocância imediata.", "icon": "🥣" },
+{ "name": "Fubá Mimoso 500 G", "category": "Mercearia", "kcalPer100": 350, "curiosity": "Usado em bolos e mingaus.", "icon": "🌽" },
+{ "name": "Açúcar Cristal 1 Kg", "category": "Mercearia", "kcalPer100": 387, "curiosity": "Granulado; ideal para cafés e doces.", "icon": "🍬" },
+{ "name": "Açúcar Refinado 1 Kg", "category": "Mercearia", "kcalPer100": 387, "curiosity": "Dissolve facilmente em bebidas.", "icon": "🍬" },
+{ "name": "Açúcar Mascavo 1 Kg", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Sem refinamento químico; sabor leve de melaço.", "icon": "🍯" },
+{ "name": "Sal Refinado 1 Kg", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Fonte de iodo; essencial na culinária.", "icon": "🧂" },
+{ "name": "Sal Marinho Fino 1 Kg", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Menos processado; preserva minerais.", "icon": "🧂" },
+{ "name": "Molho De Tomate 340 G", "category": "Mercearia", "kcalPer100": 45, "curiosity": "Base para massas e refogados.", "icon": "🍅" },
+{ "name": "Extrato De Tomate 130 G", "category": "Mercearia", "kcalPer100": 90, "curiosity": "Mais concentrado que o molho comum.", "icon": "🍅" },
+{ "name": "Milho Verde Enlatado 200 G", "category": "Mercearia", "kcalPer100": 100, "curiosity": "Usado em saladas e tortas.", "icon": "🌽" },
+{ "name": "Ervilha Enlatada 200 G", "category": "Mercearia", "kcalPer100": 85, "curiosity": "Rica em proteínas vegetais.", "icon": "🫛" },
+{ "name": "Atum Em Óleo 170 G", "category": "Mercearia", "kcalPer100": 180, "curiosity": "Fonte de ômega-3 e proteínas.", "icon": "🐟" },
+{ "name": "Sardinha Em Óleo 125 G", "category": "Mercearia", "kcalPer100": 190, "curiosity": "Peixe popular e nutritivo.", "icon": "🐟" },
+{ "name": "Creme De Leite 200 G", "category": "Mercearia", "kcalPer100": 210, "curiosity": "Usado em doces e molhos.", "icon": "🥛" },
+{ "name": "Leite Condensado 395 G", "category": "Mercearia", "kcalPer100": 320, "curiosity": "Base de sobremesas brasileiras.", "icon": "🍮" },
+{ "name": "Leite Integral 1 L", "category": "Mercearia", "kcalPer100": 62, "curiosity": "Fonte de cálcio e proteínas.", "icon": "🥛" },
+{ "name": "Leite Desnatado 1 L", "category": "Mercearia", "kcalPer100": 45, "curiosity": "Menor teor de gordura.", "icon": "🥛" },
+{ "name": "Café Torrado E Moído 500 G", "category": "Mercearia", "kcalPer100": 80, "curiosity": "A bebida mais popular do Brasil.", "icon": "☕" },
+{ "name": "Café Solúvel 50 G", "category": "Mercearia", "kcalPer100": 200, "curiosity": "Preparação instantânea.", "icon": "☕" },
+{ "name": "Achocolatado Em Pó 400 G", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Preferido das crianças.", "icon": "🍫" },
+{ "name": "Leite Em Pó Integral 400 G", "category": "Mercearia", "kcalPer100": 480, "curiosity": "Longa duração; ideal para viagens.", "icon": "🥛" },
+{ "name": "Farinha Láctea 250 G", "category": "Mercearia", "kcalPer100": 370, "curiosity": "Pronta para misturar ao leite.", "icon": "🥣" },
+{ "name": "Aveia Em Flocos 500 G", "category": "Mercearia", "kcalPer100": 370, "curiosity": "Fonte de fibras solúveis.", "icon": "🌾" },
+{ "name": "Granola Integral 250 G", "category": "Mercearia", "kcalPer100": 410, "curiosity": "Mistura crocante de cereais e mel.", "icon": "🥣" },
+{ "name": "Biscoito Cream Cracker 200 G", "category": "Mercearia", "kcalPer100": 430, "curiosity": "Clássico lanche leve.", "icon": "🍘" },
+{ "name": "Biscoito Recheado Chocolate 130 G", "category": "Mercearia", "kcalPer100": 480, "curiosity": "Crosta crocante e recheio doce.", "icon": "🍪" },
+{ "name": "Bolacha Maizena 200 G", "category": "Mercearia", "kcalPer100": 420, "curiosity": "Leve e boa para sobremesas.", "icon": "🍪" },
+{ "name": "Pão De Forma 500 G", "category": "Mercearia", "kcalPer100": 260, "curiosity": "Usado em sanduíches rápidos.", "icon": "🍞" },
+{ "name": "Pão Integral 500 G", "category": "Mercearia", "kcalPer100": 240, "curiosity": "Mais fibras e sensação de saciedade.", "icon": "🍞" },
+{ "name": "Torradas Integrais 140 G", "category": "Mercearia", "kcalPer100": 410, "curiosity": "Acompanha patês e queijos.", "icon": "🍞" },
+{ "name": "Manteiga Com Sal 200 G", "category": "Mercearia", "kcalPer100": 720, "curiosity": "Sabor clássico no café da manhã.", "icon": "🧈" },
+{ "name": "Margarina 500 G", "category": "Mercearia", "kcalPer100": 710, "curiosity": "Alternativa vegetal à manteiga.", "icon": "🧈" },
+{ "name": "Geleia De Morango 200 G", "category": "Mercearia", "kcalPer100": 260, "curiosity": "Adoça pães e sobremesas.", "icon": "🍓" },
+{ "name": "Mel Puro 250 G", "category": "Mercearia", "kcalPer100": 304, "curiosity": "Antioxidante natural.", "icon": "🍯" },
+{ "name": "Pasta De Amendoim 500 G", "category": "Mercearia", "kcalPer100": 590, "curiosity": "Proteína e energia para esportistas.", "icon": "🥜" },
+{ "name": "Doce De Leite 400 G", "category": "Mercearia", "kcalPer100": 320, "curiosity": "Sobremesa tradicional mineira.", "icon": "🍮" },
+{ "name": "Barra De Chocolate Ao Leite 90 G", "category": "Mercearia", "kcalPer100": 530, "curiosity": "Conforto e prazer em cada pedaço.", "icon": "🍫" },
+{ "name": "Chocolate Amargo 70% 90 G", "category": "Mercearia", "kcalPer100": 540, "curiosity": "Mais cacau e menos açúcar.", "icon": "🍫" },
+{ "name": "Bala De Goma 100 G", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Coloridas e macias.", "icon": "🍬" },
+{ "name": "Chiclete Sem Açúcar 30 G", "category": "Mercearia", "kcalPer100": 240, "curiosity": "Refresca o hálito.", "icon": "🍬" },
+{ "name": "Amendoim Torrado 200 G", "category": "Mercearia", "kcalPer100": 580, "curiosity": "Lanche rápido e energético.", "icon": "🥜" },
+{ "name": "Castanha De Caju 100 G", "category": "Mercearia", "kcalPer100": 570, "curiosity": "Fonte de gorduras boas.", "icon": "🥜" },
+{ "name": "Mix De Nuts 120 G", "category": "Mercearia", "kcalPer100": 560, "curiosity": "Castanhas, amêndoas e frutas secas.", "icon": "🥜" },
+{ "name": "Cereal Matinal Açucarado 250 G", "category": "Mercearia", "kcalPer100": 390, "curiosity": "Preferido pelas crianças.", "icon": "🥣" },
+{ "name": "Cereal Matinal Integral 300 G", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Mais fibras para saciedade.", "icon": "🥣" },
+{ "name": "Granola Zero Açúcar 250 G", "category": "Mercearia", "kcalPer100": 410, "curiosity": "Adoçada com edulcorantes naturais.", "icon": "🥣" },
+{ "name": "Barra De Cereal Castanha 25 G", "category": "Mercearia", "kcalPer100": 430, "curiosity": "Lancha rápido e prático.", "icon": "🍫" },
+{ "name": "Barrinha De Proteína 50 G", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Suporte pós-treino.", "icon": "🏋️" },
+{ "name": "Biscoito De Polvilho 100 G", "category": "Mercearia", "kcalPer100": 470, "curiosity": "Leve e crocante; típico brasileiro.", "icon": "🥨" },
+{ "name": "Biscoito Água E Sal 200 G", "category": "Mercearia", "kcalPer100": 430, "curiosity": "Acompanha patês e queijos.", "icon": "🍘" },
+{ "name": "Biscoito Amanteigado 150 G", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Textura que derrete na boca.", "icon": "🍪" },
+{ "name": "Cookie Aveia E Uva-Passa 60 G", "category": "Mercearia", "kcalPer100": 480, "curiosity": "Combina fibras e doçura natural.", "icon": "🍪" },
+{ "name": "Pipoca Para Micro-ondas Manteiga", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Clássico de filmes em casa.", "icon": "🍿" },
+{ "name": "Pipoca Para Micro-ondas Natural", "category": "Mercearia", "kcalPer100": 470, "curiosity": "Permite temperar a gosto.", "icon": "🍿" },
+{ "name": "Batata Chips Tradicional 96 G", "category": "Mercearia", "kcalPer100": 540, "curiosity": "Snack crocante; consumo moderado.", "icon": "🥔" },
+{ "name": "Batata Chips Ondulada 96 G", "category": "Mercearia", "kcalPer100": 540, "curiosity": "Textura marcante para mergulhos.", "icon": "🥔" },
+{ "name": "Salgadinho De Milho Queijo 55 G", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Sabor intenso e crocância.", "icon": "🧀" },
+{ "name": "Amendoim Japonês 145 G", "category": "Mercearia", "kcalPer100": 540, "curiosity": "Camada crocante ao redor do grão.", "icon": "🥜" },
+{ "name": "Torradinha Integral 120 G", "category": "Mercearia", "kcalPer100": 420, "curiosity": "Boa com patês leves.", "icon": "🍞" },
+{ "name": "Patê De Atum 170 G", "category": "Mercearia", "kcalPer100": 230, "curiosity": "Pronto para sanduíches.", "icon": "🐟" },
+{ "name": "Patê De Frango 170 G", "category": "Mercearia", "kcalPer100": 210, "curiosity": "Opção cremosa para lanches.", "icon": "🍗" },
+{ "name": "Molho Pesto 190 G", "category": "Mercearia", "kcalPer100": 430, "curiosity": "Manjericão, pinoli e azeite; italiano.", "icon": "🌿" },
+{ "name": "Molho Alfredo 340 G", "category": "Mercearia", "kcalPer100": 220, "curiosity": "Cremoso; combina com fettuccine.", "icon": "🧀" },
+{ "name": "Molho De Tomate Basílico 340 G", "category": "Mercearia", "kcalPer100": 55, "curiosity": "Com folhas de manjericão.", "icon": "🍅" },
+{ "name": "Picles De Legumes 300 G", "category": "Mercearia", "kcalPer100": 28, "curiosity": "Conserva agridoce crocante.", "icon": "🥒" },
+{ "name": "Pepino Em Conserva 300 G", "category": "Mercearia", "kcalPer100": 16, "curiosity": "Acompanha hambúrgueres e sanduíches.", "icon": "🥒" },
+{ "name": "Aspargos Em Conserva 180 G", "category": "Mercearia", "kcalPer100": 22, "curiosity": "Guarnição sofisticada.", "icon": "🥗" },
+{ "name": "Cogumelo Shimeji 200 G", "category": "Mercearia", "kcalPer100": 35, "curiosity": "Salteados orientais; textura macia.", "icon": "🍄" },
+{ "name": "Cogumelo Paris Fatiado 200 G", "category": "Mercearia", "kcalPer100": 28, "curiosity": "Versátil em molhos e omeletes.", "icon": "🍄" },
+{ "name": "Sopa Instantânea Galinha 68 G", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Rápida para dias frios.", "icon": "🥣" },
+{ "name": "Sopa Instantânea Legumes 68 G", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Praticidade no jantar.", "icon": "🥣" },
+{ "name": "Purê De Batata Instantâneo 120 G", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Acompanhamento em minutos.", "icon": "🥔" },
+{ "name": "Farofa Pronta Apimentada 250 G", "category": "Mercearia", "kcalPer100": 400, "curiosity": "Toque picante no churrasco.", "icon": "🌶️" },
+{ "name": "Azeitona Verde Recheada 150 G", "category": "Mercearia", "kcalPer100": 150, "curiosity": "Com pimentão ou anchova.", "icon": "🫒" },
+{ "name": "Maionese Light 250 G", "category": "Mercearia", "kcalPer100": 190, "curiosity": "Menos gorduras por porção.", "icon": "🥫" },
+{ "name": "Mostarda Escura 200 G", "category": "Mercearia", "kcalPer100": 110, "curiosity": "Mais pungente, estilo Dijon.", "icon": "🥫" },
+{ "name": "Ketchup Picante 200 G", "category": "Mercearia", "kcalPer100": 120, "curiosity": "Doce com pimenta suave.", "icon": "🍅" },
+{ "name": "Cebola Frita Crocante 100 G", "category": "Mercearia", "kcalPer100": 560, "curiosity": "Finaliza hot-dogs e saladas.", "icon": "🧅" },
+{ "name": "Alho Frito Crocante 90 G", "category": "Mercearia", "kcalPer100": 590, "curiosity": "Toque aromático e crocante.", "icon": "🧄" },
+{ "name": "Tempero Baiano 60 G", "category": "Mercearia", "kcalPer100": 280, "curiosity": "Blend brasileiro de especiarias.", "icon": "🧂" },
+{ "name": "Ervas Finas 20 G", "category": "Mercearia", "kcalPer100": 250, "curiosity": "Mistura aromática universal.", "icon": "🌿" },
+{ "name": "Noz-Moscada Inteira 10 G", "category": "Mercearia", "kcalPer100": 525, "curiosity": "Rale na hora para mais aroma.", "icon": "🌰" },
+{ "name": "Cravo-Da-Índia 15 G", "category": "Mercearia", "kcalPer100": 274, "curiosity": "Marcante em doces e chás.", "icon": "🌸" },
+{ "name": "Canela Em Pau 20 G", "category": "Mercearia", "kcalPer100": 247, "curiosity": "Tradicional em sobremesas e bebidas.", "icon": "🌿" },
+{ "name": "Pimenta Calabresa 30 G", "category": "Mercearia", "kcalPer100": 320, "curiosity": "Picância para pizzas e molhos.", "icon": "🌶️" },
+{ "name": "Paprica Defumada 40 G", "category": "Mercearia", "kcalPer100": 282, "curiosity": "Aromatiza carnes e vegetais.", "icon": "🌶️" },
+{ "name": "Curry Madras 50 G", "category": "Mercearia", "kcalPer100": 325, "curiosity": "Mais picante que o curry comum.", "icon": "🧂" },
+{ "name": "Garam Masala 40 G", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Mix indiano aromático.", "icon": "🧂" },
+{ "name": "Tahine Pasta De Gergelim 200 G", "category": "Mercearia", "kcalPer100": 595, "curiosity": "Base de homus e molhos.", "icon": "🥫" },
+{ "name": "Homus Pronto 180 G", "category": "Mercearia", "kcalPer100": 230, "curiosity": "Grão-de-bico cremoso; spread saudável.", "icon": "🧆" },
+{ "name": "Guacamole Pronto 200 G", "category": "Mercearia", "kcalPer100": 180, "curiosity": "Avocado temperado, estilo mexicano.", "icon": "🥑" },
+{ "name": "Tortilha De Trigo 300 G", "category": "Mercearia", "kcalPer100": 320, "curiosity": "Wraps e quesadillas rápidas.", "icon": "🌮" },
+{ "name": "Tortilha De Milho 300 G", "category": "Mercearia", "kcalPer100": 330, "curiosity": "Base de tacos tradicionais.", "icon": "🌮" },
+{ "name": "Salsa Mexicana 200 G", "category": "Mercearia", "kcalPer100": 45, "curiosity": "Tomate, cebola e pimenta; fresca.", "icon": "🍅" },
+{ "name": "Feijão Enlatado Chili 400 G", "category": "Mercearia", "kcalPer100": 120, "curiosity": "Picante; pronto para aquecer.", "icon": "🫘" },
+{ "name": "Milho Para Pipoca 500 G", "category": "Mercearia", "kcalPer100": 375, "curiosity": "Pipoca caseira sem aditivos.", "icon": "🌽" },
+{ "name": "Goma De Tapioca 500 G", "category": "Mercearia", "kcalPer100": 160, "curiosity": "Base de crepiocas e tapiocas.", "icon": "🥞" },
+{ "name": "Polenta Instantânea 500 G", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Feita com fubá pré-cozido.", "icon": "🥣" },
+{ "name": "Quinoa Flocos 250 G", "category": "Mercearia", "kcalPer100": 370, "curiosity": "Misture em iogurtes e saladas.", "icon": "🌾" },
+{ "name": "Cuscuz De Milho 500 G", "category": "Mercearia", "kcalPer100": 365, "curiosity": "Tradição nordestina versátil.", "icon": "🌽" },
+{ "name": "Arroz Basmati 1 Kg", "category": "Mercearia", "kcalPer100": 130, "curiosity": "Aromático; grãos longos soltos.", "icon": "🍚" },
+{ "name": "Arroz Jasmine 1 Kg", "category": "Mercearia", "kcalPer100": 130, "curiosity": "Fragrância floral delicada.", "icon": "🍚" },
+{ "name": "Nori Folhas 10 Un", "category": "Mercearia", "kcalPer100": 350, "curiosity": "Alga para sushis e snacks.", "icon": "🟩" },
+{ "name": "Wasabi Em Pasta 43 G", "category": "Mercearia", "kcalPer100": 109, "curiosity": "Condimento picante japonês.", "icon": "🌿" },
+{ "name": "Gengibre Em Conserva 190 G", "category": "Mercearia", "kcalPer100": 60, "curiosity": "Acompanha sushi; refrescante.", "icon": "🫚" },
+{ "name": "Leite De Coco 200 Ml", "category": "Mercearia", "kcalPer100": 180, "curiosity": "Base de moquecas e doces.", "icon": "🥥" },
+{ "name": "Creme De Leite De Coco 200 Ml", "category": "Mercearia", "kcalPer100": 210, "curiosity": "Mais encorpado; culinária asiática.", "icon": "🥥" },
+{ "name": "Óleo De Coco 200 Ml", "category": "Mercearia", "kcalPer100": 884, "curiosity": "Uso culinário e confeitaria.", "icon": "🥥" },
+{ "name": "Vinagre De Arroz 250 Ml", "category": "Mercearia", "kcalPer100": 22, "curiosity": "Fundamental em sushi-meshi.", "icon": "🍶" },
+{ "name": "Shoyu Light 500 Ml", "category": "Mercearia", "kcalPer100": 45, "curiosity": "Menos sódio; sabor preservado.", "icon": "🥢" },
+{ "name": "Gochujang Pasta 200 G", "category": "Mercearia", "kcalPer100": 180, "curiosity": "Pasta coreana de pimenta e arroz.", "icon": "🌶️" },
+{ "name": "Molho De Ostras 255 G", "category": "Mercearia", "kcalPer100": 55, "curiosity": "Umami para salteados.", "icon": "🥫" },
+{ "name": "Molho De Peixe 200 Ml", "category": "Mercearia", "kcalPer100": 60, "curiosity": "Essencial no sudeste asiático.", "icon": "🐟" },
+{ "name": "Café Em Grãos 500 G", "category": "Mercearia", "kcalPer100": 2, "curiosity": "Moagem na hora; mais aroma.", "icon": "☕" },
+{ "name": "Café Orgânico 250 G", "category": "Mercearia", "kcalPer100": 2, "curiosity": "Cultivo sem agrotóxicos.", "icon": "☕" },
+{ "name": "Descafeinado 250 G", "category": "Mercearia", "kcalPer100": 2, "curiosity": "Aprecie café à noite sem agitação.", "icon": "☕" },
+{ "name": "Cápsulas De Café Intenso (10 Un)", "category": "Mercearia", "kcalPer100": 1, "curiosity": "Dose única compatível (Nespresso-like).", "icon": "☕" },
+{ "name": "Cápsulas De Café Lungo (10 Un)", "category": "Mercearia", "kcalPer100": 1, "curiosity": "Extração mais longa.", "icon": "☕" },
+{ "name": "Chá Preto Em Sachês 10 Un", "category": "Mercearia", "kcalPer100": 1, "curiosity": "Clássico encorpado.", "icon": "🍵" },
+{ "name": "Chá De Hortelã Em Sachês 10 Un", "category": "Mercearia", "kcalPer100": 1, "curiosity": "Refrescante e digestivo.", "icon": "🌿" },
+{ "name": "Chá De Camomila Em Sachês 10 Un", "category": "Mercearia", "kcalPer100": 1, "curiosity": "Calmante leve.", "icon": "🌼" },
+{ "name": "Adoçante Eritritol 300 G", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Baixas calorias e sabor neutro.", "icon": "🧁" },
+{ "name": "Xilitol 300 G", "category": "Mercearia", "kcalPer100": 240, "curiosity": "Adoça 1:1 com açúcar.", "icon": "🧁" },
+{ "name": "Stevia 50 Ml", "category": "Mercearia", "kcalPer100": 0, "curiosity": "Origem vegetal; alto poder adoçante.", "icon": "🌿" },
+{ "name": "Gelatina Sabor Morango 35 G", "category": "Mercearia", "kcalPer100": 350, "curiosity": "Sobremesa rápida de gelificar.", "icon": "🍓" },
+{ "name": "Gelatina Sabor Uva 35 G", "category": "Mercearia", "kcalPer100": 350, "curiosity": "Colorida e festiva.", "icon": "🍇" },
+{ "name": "Pudim Em Pó Caramelo 95 G", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Sobremesa cremosa e prática.", "icon": "🍮" },
+{ "name": "Mousse Em Pó Chocolate 100 G", "category": "Mercearia", "kcalPer100": 420, "curiosity": "Textura aerada em minutos.", "icon": "🍫" },
+{ "name": "Mistura Para Bolo Chocolate 400 G", "category": "Mercearia", "kcalPer100": 420, "curiosity": "Só acrescentar ovos e leite.", "icon": "🧁" },
+{ "name": "Mistura Para Bolo Laranja 400 G", "category": "Mercearia", "kcalPer100": 410, "curiosity": "Aroma cítrico agradável.", "icon": "🧁" },
+{ "name": "Cobertura Para Bolo Chocolate 250 G", "category": "Mercearia", "kcalPer100": 450, "curiosity": "Finaliza bolos e cupcakes.", "icon": "🍫" },
+{ "name": "Confeito Granulado 100 G", "category": "Mercearia", "kcalPer100": 480, "curiosity": "Decora brigadeiros e bolos.", "icon": "🍬" },
+{ "name": "Brigadeiro Em Lata 395 G", "category": "Mercearia", "kcalPer100": 330, "curiosity": "Pronto para recheios e coberturas.", "icon": "🍫" },
+{ "name": "Doce De Abóbora Cremoso 400 G", "category": "Mercearia", "kcalPer100": 250, "curiosity": "Tradição brasileira em colheradas.", "icon": "🎃" },
+{ "name": "Paçoca Cremosa 180 G", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Versão para passar no pão.", "icon": "🥜" },
+{ "name": "Rapadura 300 G", "category": "Mercearia", "kcalPer100": 380, "curiosity": "Açúcar de cana solidificado; rústico.", "icon": "🍯" },
+{ "name": "Doce De Leite Em Tablete 150 G", "category": "Mercearia", "kcalPer100": 400, "curiosity": "Clássico mineiro para presente.", "icon": "🍮" },
+{ "name": "Goiabada Em Barra 300 G", "category": "Mercearia", "kcalPer100": 260, "curiosity": "Perfeita com queijo (romeu e julieta).", "icon": "🍮" },
+{ "name": "Balde De Sorvete Baunilha 1,5 L", "category": "Mercearia", "kcalPer100": 200, "curiosity": "Sobremesa gelada para a família.", "icon": "🍨" },
+{ "name": "Picolé De Fruta 60 Ml", "category": "Mercearia", "kcalPer100": 90, "curiosity": "Refrescância de verão.", "icon": "🍧" },
+{ "name": "Molho De Soja Sem Glúten 500 Ml", "category": "Mercearia", "kcalPer100": 50, "curiosity": "Opção para celíacos.", "icon": "🥢" },
+{ "name": "Macarrão Sem Glúten Milho 500 G", "category": "Mercearia", "kcalPer100": 360, "curiosity": "Para dietas restritivas.", "icon": "🍝" },
+{ "name": "Biscoito Sem Glúten 120 G", "category": "Mercearia", "kcalPer100": 480, "curiosity": "Feito com farinhas alternativas.", "icon": "🍪" },
+{ "name": "Leite Sem Lactose 1 L", "category": "Mercearia", "kcalPer100": 60, "curiosity": "Mais leve para intolerantes.", "icon": "🥛" },
+{ "name": "Iogurte Sem Lactose 170 G", "category": "Mercearia", "kcalPer100": 95, "curiosity": "Textura e sabor preservados.", "icon": "🥣" },
+{ "name": "Bebida Vegetal De Soja 1 L", "category": "Mercearia", "kcalPer100": 45, "curiosity": "Alternativa acessível ao leite.", "icon": "🥛" },
+{ "name": "Proteína Texturizada De Soja 250 G", "category": "Mercearia", "kcalPer100": 340, "curiosity": "Substituto de carne em molhos.", "icon": "🌱" },
+{ "name": "Tofu 300 G", "category": "Mercearia", "kcalPer100": 76, "curiosity": "Queijo de soja; absorve temperos.", "icon": "🧀" },
+
+{ "name": "Hortelã Fresca", "category": "Hortifruti", "kcalPer100": 44, "curiosity": "Aroma refrescante para chás e saladas.", "icon": "🌿" },
+{ "name": "Mandioca (Aipim) Descascada 1 Kg", "category": "Hortifruti", "kcalPer100": 160, "curiosity": "Base de purês, fritas e cozidos.", "icon": "🥔" },
+{ "name": "Coco Seco Inteiro", "category": "Hortifruti", "kcalPer100": 354, "curiosity": "Polpa rica em gordura boa.", "icon": "🥥" },
+{ "name": "Abacaxi Pérola", "category": "Hortifruti", "kcalPer100": 50, "curiosity": "Doce e suculento; bom para sucos.", "icon": "🍍" },
+{ "name": "Berinjela Graúda", "category": "Hortifruti", "kcalPer100": 25, "curiosity": "Assados, refogados e antepastos.", "icon": "🍆" },
+{ "name": "Melancia Inteira", "category": "Hortifruti", "kcalPer100": 30, "curiosity": "Rica em água; super refrescante.", "icon": "🍉" },
+{ "name": "Melão Amarelo", "category": "Hortifruti", "kcalPer100": 34, "curiosity": "Aroma suave; ótimo no café da manhã.", "icon": "🍈" },
+{ "name": "Chocolate Em Barra 85% Cacau", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Amargor intenso; apreciado por puristas.", "icon": "🍫" },
+
+
 ]
