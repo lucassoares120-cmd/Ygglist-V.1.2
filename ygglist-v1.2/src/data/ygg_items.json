@@ -1,5 +1,5 @@
 [
-  { "name": "Abacate", "category": "Hortifruti", "kcalPer100": 160, "curiosity": "Fruta rica em gorduras boas; ótima para vitaminas e guacamole.", "icon": "🥑" },
+{ "name": "Abacate", "category": "Hortifruti", "kcalPer100": 160, "curiosity": "Fruta rica em gorduras boas; ótima para vitaminas e guacamole.", "icon": "🥑" },
 { "name": "Abacaxi", "category": "Hortifruti", "kcalPer100": 50, "curiosity": "Rico em bromelina e vitamina C; refrescante em sucos.", "icon": "🍍" },
 { "name": "Abiu", "category": "Hortifruti", "kcalPer100": 62, "curiosity": "Fruta amazônica doce e aromática; polpa macia.", "icon": "🌿" },
 { "name": "Abobrinha", "category": "Hortifruti", "kcalPer100": 17, "curiosity": "Baixa caloria; versátil em refogados e grelhados.", "icon": "🥬" },
@@ -117,7 +117,6 @@
 { "name": "Tomate Salada Débora", "category": "Hortifruti", "kcalPer100": 18, "curiosity": "Equilíbrio entre acidez e doçura.", "icon": "🍅" },
 { "name": "Uva Crimson (Sem Semente)", "category": "Hortifruti", "kcalPer100": 67, "curiosity": "Crocante; ótima para lanches.", "icon": "🍇" },
 { "name": "Uva Itália", "category": "Hortifruti", "kcalPer100": 69, "curiosity": "Bagos maiores; muito aromática.", "icon": "🍇" },
-
 { "name": "Açém Bovino (Peça)", "category": "Carnes e Frios", "kcalPer100": 217, "curiosity": "Corte versátil para moer, ensopar ou grelhar.", "icon": "🥩" },
 { "name": "Alcatra Bovino (Bife)", "category": "Carnes e Frios", "kcalPer100": 220, "curiosity": "Maciez equilibrada; bom para grelha.", "icon": "🥩" },
 { "name": "Asa De Frango", "category": "Carnes e Frios", "kcalPer100": 203, "curiosity": "Crocante assada; muito usada em petiscos.", "icon": "🍗" },
@@ -276,7 +275,6 @@
 { "name": "Manjericão Desidratado", "category": "Mercearia", "kcalPer100": 233, "curiosity": "Aromático; uso em molhos e carnes.", "icon": "🌿" },
 { "name": "Alho Granulado", "category": "Mercearia", "kcalPer100": 331, "curiosity": "Praticidade no dia a dia.", "icon": "🧄" },
 { "name": "Cebola Em Flocos", "category": "Mercearia", "kcalPer100": 349, "curiosity": "Realça caldos, molhos e farofas.", "icon": "🧅" },
-
 { "name": "Água Mineral Sem Gás 500 Ml", "category": "Bebidas", "kcalPer100": 0, "curiosity": "Hidratação essencial no dia a dia.", "icon": "💧" },
 { "name": "Água Mineral Com Gás 500 Ml", "category": "Bebidas", "kcalPer100": 0, "curiosity": "Efervescente e refrescante.", "icon": "💧" },
 { "name": "Água De Coco 1 L", "category": "Bebidas", "kcalPer100": 20, "curiosity": "Naturalmente isotônica e rica em potássio.", "icon": "🥥" },
@@ -309,7 +307,6 @@
 { "name": "Bebida Vegetal De Amêndoas 1 L", "category": "Bebidas", "kcalPer100": 40, "curiosity": "Alternativa sem lactose; suave.", "icon": "🥛" },
 { "name": "Bebida Vegetal De Aveia 1 L", "category": "Bebidas", "kcalPer100": 45, "curiosity": "Cremosa; boa para cafés.", "icon": "🥛" },
 { "name": "Cápsulas De Café Espresso (Compatíveis)", "category": "Bebidas", "kcalPer100": 1, "curiosity": "Praticidade; intensidade variável.", "icon": "☕" },
-
 { "name": "Detergente Neutro", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Remoção de gordura em louças; enxágue completo.", "icon": "🧼" },
 { "name": "Detergente Limão", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Aroma cítrico e refrescante.", "icon": "🧼" },
 { "name": "Sabão Em Pó", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Lavagem de roupas; seguir dosagem do rótulo.", "icon": "🧺" },
@@ -356,7 +353,6 @@
 { "name": "Curativo Adesivo", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Protege pequenos ferimentos.", "icon": "🩹" },
 { "name": "Álcool Em Gel 70%", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Higienização instantânea das mãos.", "icon": "🧴" },
 { "name": "Repelente Em Spray", "category": "Limpeza e Higiene", "kcalPer100": 0, "curiosity": "Protege contra insetos; essencial ao ar livre.", "icon": "🌿" },
-
 { "name": "Fralda Infantil G", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Alta absorção e conforto para o bebê.", "icon": "🍼" },
 { "name": "Fralda Infantil M", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Proteção e maciez para o bebê.", "icon": "🍼" },
 { "name": "Lenço Umedecido Infantil", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Limpeza suave para peles sensíveis.", "icon": "🧻" },
@@ -376,7 +372,6 @@
 { "name": "Bola De Borracha", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Brincadeiras ao ar livre e exercício.", "icon": "🏀" },
 { "name": "Livro Infantil Ilustrado", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Introduz leitura e cores desde cedo.", "icon": "📘" },
 { "name": "Massinha De Modelar", "category": "Bebês e Brinquedos", "kcalPer100": 0, "curiosity": "Desenvolve criatividade e tato.", "icon": "🎨" },
-
 { "name": "Ração Para Cães Adultos 1 Kg", "category": "Pets", "kcalPer100": 350, "curiosity": "Alimentação balanceada para cães adultos.", "icon": "🐶" },
 { "name": "Ração Para Gatos Adultos 1 Kg", "category": "Pets", "kcalPer100": 360, "curiosity": "Com taurina; essencial à saúde dos felinos.", "icon": "🐱" },
 { "name": "Ração Para Cães Filhotes 1 Kg", "category": "Pets", "kcalPer100": 365, "curiosity": "Nutrição reforçada para crescimento.", "icon": "🐶" },
@@ -396,7 +391,6 @@
 { "name": "Pote De Ração", "category": "Pets", "kcalPer100": 0, "curiosity": "Antiderrapante e resistente.", "icon": "🥣" },
 { "name": "Pote De Água Para Pets", "category": "Pets", "kcalPer100": 0, "curiosity": "Mantém hidratação constante.", "icon": "🥣" },
 { "name": "Escova De Pelos Para Cães", "category": "Pets", "kcalPer100": 0, "curiosity": "Evita nós e queda excessiva.", "icon": "🪮" },
-
 { "name": "Lâmpada LED 9W", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Econômica e durável; iluminação branca.", "icon": "💡" },
 { "name": "Tomada 10A", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Padrão brasileiro; uso em aparelhos leves.", "icon": "🔌" },
 { "name": "Extensão Elétrica 3 Metros", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Amplia o alcance de energia elétrica.", "icon": "🔌" },
@@ -464,7 +458,6 @@
 { "name": "Luvas Nitrílicas Tam M", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Proteção química leve.", "icon": "🧤" },
 { "name": "Óculos De Proteção Incolor", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Protege contra partículas.", "icon": "🥽" },
 { "name": "Máscara PFF2", "category": "Casa e Construção", "kcalPer100": 0, "curiosity": "Filtragem particulada em serviços.", "icon": "😷" },
-
 { "name": "Panela Antiaderente 24 Cm", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Cozimento com menos óleo; limpeza fácil.", "icon": "🍳" },
 { "name": "Frigideira 20 Cm", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Omeletes e grelhados rápidos.", "icon": "🍳" },
 { "name": "Panela De Pressão 4,5 L", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Cozimento acelerado de grãos e carnes.", "icon": "🍲" },
@@ -555,7 +548,6 @@
 { "name": "Removedor De Manchas Roupas", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Aplique conforme instruções no rótulo.", "icon": "🧺" },
 { "name": "Passadeira A Vapor Portátil", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Desamassa roupas rapidamente.", "icon": "🧺" },
 { "name": "Tábua De Passar Roupa Regulável", "category": "Utensílios Domésticos", "kcalPer100": 0, "curiosity": "Superfície estável para passar.", "icon": "🧺" },
-
 { "name": "Pilha AA Alcalina (Cartela 4)", "category": "Diversos", "kcalPer100": 0, "curiosity": "Uso em controles, brinquedos e lanternas.", "icon": "🔋" },
 { "name": "Pilha AAA Alcalina (Cartela 4)", "category": "Diversos", "kcalPer100": 0, "curiosity": "Dispositivos menores e controles.", "icon": "🔋" },
 { "name": "Bateria 9 V", "category": "Diversos", "kcalPer100": 0, "curiosity": "Multímetros e detectores de fumaça.", "icon": "🔋" },
@@ -643,7 +635,6 @@
 { "name": "Pasta Com Elástico A4", "category": "Diversos", "kcalPer100": 0, "curiosity": "Mantém documentos seguros.", "icon": "📁" },
 { "name": "Clip De Papel 50 Un", "category": "Diversos", "kcalPer100": 0, "curiosity": "Organização temporária de folhas.", "icon": "🧷" },
 { "name": "Calculadora Básica 8 Dígitos", "category": "Diversos", "kcalPer100": 0, "curiosity": "Operações simples do dia a dia.", "icon": "🧮" },
-
 { "name": "Arroz Branco Tipo 1 5 Kg", "category": "Mercearia", "kcalPer100": 130, "curiosity": "Base da alimentação brasileira.", "icon": "🍚" },
 { "name": "Arroz Integral 1 Kg", "category": "Mercearia", "kcalPer100": 120, "curiosity": "Mais fibras e minerais que o branco.", "icon": "🌾" },
 { "name": "Feijão Carioca 1 Kg", "category": "Mercearia", "kcalPer100": 127, "curiosity": "Fonte de ferro e proteínas vegetais.", "icon": "🫘" },
@@ -801,7 +792,6 @@
 { "name": "Bebida Vegetal De Soja 1 L", "category": "Mercearia", "kcalPer100": 45, "curiosity": "Alternativa acessível ao leite.", "icon": "🥛" },
 { "name": "Proteína Texturizada De Soja 250 G", "category": "Mercearia", "kcalPer100": 340, "curiosity": "Substituto de carne em molhos.", "icon": "🌱" },
 { "name": "Tofu 300 G", "category": "Mercearia", "kcalPer100": 76, "curiosity": "Queijo de soja; absorve temperos.", "icon": "🧀" },
-
 { "name": "Hortelã Fresca", "category": "Hortifruti", "kcalPer100": 44, "curiosity": "Aroma refrescante para chás e saladas.", "icon": "🌿" },
 { "name": "Mandioca (Aipim) Descascada 1 Kg", "category": "Hortifruti", "kcalPer100": 160, "curiosity": "Base de purês, fritas e cozidos.", "icon": "🥔" },
 { "name": "Coco Seco Inteiro", "category": "Hortifruti", "kcalPer100": 354, "curiosity": "Polpa rica em gordura boa.", "icon": "🥥" },
@@ -809,7 +799,5 @@
 { "name": "Berinjela Graúda", "category": "Hortifruti", "kcalPer100": 25, "curiosity": "Assados, refogados e antepastos.", "icon": "🍆" },
 { "name": "Melancia Inteira", "category": "Hortifruti", "kcalPer100": 30, "curiosity": "Rica em água; super refrescante.", "icon": "🍉" },
 { "name": "Melão Amarelo", "category": "Hortifruti", "kcalPer100": 34, "curiosity": "Aroma suave; ótimo no café da manhã.", "icon": "🍈" },
-{ "name": "Chocolate Em Barra 85% Cacau", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Amargor intenso; apreciado por puristas.", "icon": "🍫" },
-
-
+{ "name": "Chocolate Em Barra 85% Cacau", "category": "Mercearia", "kcalPer100": 520, "curiosity": "Amargor intenso; apreciado por puristas.", "icon": "🍫" }
 ]
