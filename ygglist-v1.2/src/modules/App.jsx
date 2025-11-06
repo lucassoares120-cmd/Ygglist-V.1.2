@@ -32,14 +32,15 @@ export default function App(){
   </svg>
 </button>
 
-          <div className="flex items-baseline gap-2">
-  <span className="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-950">
+          <div className="flex items-center gap-2 leading-none">
+  <span className="text-3xl sm:text-4xl font-extrabold text-emerald-950">
     YggList
   </span>
-  <span className="hidden sm:inline text-sm text-emerald-800/80 font-medium">
+  <span className="text-base text-emerald-800/80 font-medium translate-y-[2px]">
     Raiz que conecta
   </span>
 </div>
+
           <div>{user? <button onClick={logout} className="px-3 py-2 rounded-lg border text-sm">Sair</button> : <button onClick={fakeLogin} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Entrar com Google</button>}</div>
         </div>
         <nav className="max-w-6xl mx-auto px-3 pb-2">
