@@ -28,42 +28,66 @@ html, body {
 button, a, input, select {
   transition: all 0.15s ease;
 }
-/* animação de crescimento (leve) */
+/* ------- Animações ------- */
 @keyframes rootsGrow {
-  0%   { transform: translateY(20px) scaleY(0.95); opacity: 0; }
-  60%  { opacity: 0.20; }
-  100% { transform: translateY(0) scaleY(1); opacity: 0.28; }
+  0%   { transform: translateY(24px) scaleY(0.94); opacity: 0; }
+  60%  { opacity: 0.35; }
+  100% { transform: translateY(0) scaleY(1); opacity: 1; }
+}
+@keyframes rootsDrift {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
 }
 
-/* === Fundo com “raízes” no banner (mais visível) === */
+/* Conteúdo do banner acima das camadas */
+.roots-bg > * { position: relative; z-index: 2; }
+
+/* ------- Camada 1 (fundo, mais forte) ------- */
 .roots-bg::after {
   content: "";
   position: absolute;
-  inset: auto 0 0 0;       /* gruda na base */
-  height: 65%;             /* ocupa mais área */
+  inset: auto 0 0 0;      /* colado na base */
+  height: 72%;
+  z-index: 0;
   pointer-events: none;
-  opacity: 0.28;           /* mais forte que 0.15 */
+
+  opacity: 0.40;                          /* visível */
   background-repeat: no-repeat;
   background-position: left bottom;
-  background-size: 1400px auto;  /* um pouco maior */
-
-  /* melhora contraste no degradê claro */
+  background-size: 1600px auto;
   mix-blend-mode: multiply;
-  filter: saturate(110%) contrast(105%);
+  filter: saturate(110%) contrast(108%);
 
-  /* animação */
   transform-origin: left bottom;
-  animation: rootsGrow 1.2s ease-out 0.2s both;
+  animation: rootsGrow 1.1s ease-out 0.1s both;
 
-  /* SVG inline (raízes) */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23145A32' stop-opacity='0.35'/%3E%3Cstop offset='1' stop-color='%23145A32' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='2'%3E%3Cpath d='M50 10 C120 60, 90 120, 150 170 S250 270, 220 360'/%3E%3Cpath d='M220 0 C260 60, 240 120, 320 180 S420 260, 400 350'/%3E%3Cpath d='M420 20 C500 80, 500 140, 560 200 S660 280, 640 360'/%3E%3Cpath d='M640 0 C700 60, 720 120, 780 180 S900 260, 880 340'/%3E%3Cpath d='M880 10 C940 70, 960 130, 1020 190 S1120 270, 1100 350'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%230b5d33' stop-opacity='0.85'/%3E%3Cstop offset='1' stop-color='%230b5d33' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='4.5'%3E%3Cpath d='M40 15 C120 70, 90 135, 155 190 S255 290, 225 360'/%3E%3Cpath d='M230 5 C270 70, 245 135, 325 195 S430 280, 405 350'/%3E%3Cpath d='M435 25 C505 90, 505 150, 565 210 S665 290, 645 365'/%3E%3Cpath d='M650 0 C710 70, 730 135, 790 195 S905 280, 885 350'/%3E%3Cpath d='M885 15 C945 80, 965 145, 1025 205 S1125 285, 1105 355'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* micro-parallax no hover (opcional, bem sutil) */
-.roots-bg:hover::after {
-  transform: translateY(-4px);
-  transition: transform 400ms ease;
+/* ------- Camada 2 (acima, fina, com respiração) ------- */
+.roots-bg::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 66%;
+  z-index: 1;
+  pointer-events: none;
+
+  opacity: 0.22;
+  background-repeat: no-repeat;
+  background-position: 140px bottom;  /* leve deslocamento p/ parallax */
+  background-size: 1500px auto;
+
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+
+  animation: rootsDrift 3.6s ease-in-out 0.35s infinite alternate;
+
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23145A32' stop-opacity='0.65'/%3E%3Cstop offset='1' stop-color='%23145A32' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23g2)' stroke-width='2.2'%3E%3Cpath d='M80 30 C150 90, 120 150, 190 205 S290 300, 260 360'/%3E%3Cpath d='M300 10 C360 80, 340 145, 420 205 S520 285, 500 355'/%3E%3Cpath d='M520 35 C590 95, 600 155, 660 210 S760 285, 740 360'/%3E%3Cpath d='M760 15 C820 75, 840 140, 900 200 S1010 280, 990 350'/%3E%3C/g%3E%3C/svg%3E");
 }
+
+/* (toque sutil ao passar o mouse) */
+.roots-bg:hover::before { transform: translateY(-3px); transition: transform 400ms ease; }
 
 
 
