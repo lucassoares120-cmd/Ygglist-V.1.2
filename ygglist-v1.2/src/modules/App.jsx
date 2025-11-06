@@ -32,22 +32,30 @@ export default function App(){
 
     {/* Brand central (logo + textos) */}
     <div className="z-10 flex-1 flex justify-center">
-      <div className="flex items-center gap-3 sm:gap-4">
-        <img
-          src="/YggSymbol.png"
-          alt="Símbolo Yggdrasil"
-          className="h-8 w-8 sm:h-10 sm:w-10 rounded-md object-contain drop-shadow-md ring-1 ring-emerald-200/60"
-        />
-        <div className="font-brand leading-none">
-          <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-emerald-950">
-            YggList
-          </div>
-          <div className="text-sm sm:text-base text-emerald-800/90 mt-0.5 tracking-tight">
-            Raiz que conecta
-          </div>
-        </div>
+  <div className="relative flex items-center justify-center text-center">
+    {/* ÍCONE GRANDE AO FUNDO */}
+    <img
+      src="/YggSymbol.png"
+      alt="Símbolo Yggdrasil"
+      className="absolute inset-0 m-auto w-36 sm:w-44 md:w-52 opacity-25 blur-[0.3px] pointer-events-none select-none"
+      style={{
+        transform: 'translateY(-2px)',
+        filter: 'drop-shadow(0 0 8px rgba(0,128,64,0.3))'
+      }}
+    />
+
+    {/* TEXTO EM CIMA */}
+    <div className="relative font-brand leading-none">
+      <div className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-emerald-950 drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]">
+        YggList
+      </div>
+      <div className="text-lg sm:text-xl md:text-2xl text-emerald-800/90 mt-1 tracking-tight drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
+        Raiz que conecta
       </div>
     </div>
+  </div>
+</div>
+
 
     {/* Login (por cima da faixa) */}
     <div className="z-10">
