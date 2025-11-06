@@ -32,11 +32,11 @@ export default function App(){
   </svg>
 </button>
 
-          <div className="flex items-center gap-2 leading-none">
-  <span className="text-3xl sm:text-4xl font-extrabold text-emerald-950">
+          <div className="flex flex-col leading-tight font-brand">
+  <span className="text-4xl sm:text-5xl font-semibold text-emerald-950">
     YggList
   </span>
-  <span className="text-base text-emerald-800/80 font-medium translate-y-[2px]">
+  <span className="text-lg sm:text-xl text-emerald-800/90 font-medium tracking-tight -mt-1">
     Raiz que conecta
   </span>
 </div>
