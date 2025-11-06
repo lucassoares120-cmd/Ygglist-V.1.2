@@ -25,28 +25,36 @@ export default function Home({onNewList}){
   },[]);
   return (
     <section className="space-y-4">
-      {/* Banner YggList */}
-<section className="rounded-3xl border bg-gradient-to-r from-emerald-50 to-emerald-100 p-4 sm:p-6">
-  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+     {/* Banner YggList */}
+<section
+  className="
+    relative rounded-3xl border
+    bg-gradient-to-r from-emerald-50 to-emerald-100
+    p-6 sm:p-8 md:p-10
+    overflow-hidden roots-bg
+  "
+>
+  <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
     {/* LOGO */}
     <img
-      src="/YggSymbol.png"              // a imagem já está em /public
-      alt="Símbolo Yggdrassil"
-      className="h-28 w-28 sm:h-44 sm:w-44 rounded-xl object-cover ring-1 ring-emerald-200 shadow-md"
+      src="/YggSymbol.png"
+      alt="Símbolo Yggdrasil"
+      className="h-28 w-28 sm:h-44 sm:w-44 rounded-xl object-contain ring-1 ring-emerald-200 shadow-md"
       style={{ filter: 'drop-shadow(0 0 10px #3fa55b66)' }}
     />
 
     {/* TÍTULO + SUBTÍTULO */}
-    <div className="text-center sm:text-left flex-1">
-      <h1 className="text-4xl sm:text-6xl font-serif font-semibold text-emerald-900 leading-tight">
+    <div className="text-center sm:text-left flex-1 font-brand">
+      <h1 className="text-5xl sm:text-6xl font-semibold text-emerald-950 leading-tight">
         YggList
       </h1>
-      <p className="text-emerald-700 text-xl sm:text-3xl mt-1 sm:mt-2">
+      <p className="text-xl sm:text-2xl text-emerald-800/90 font-medium tracking-tight">
         Raiz que conecta
       </p>
     </div>
   </div>
 </section>
+
       <div className="bg-white rounded-2xl border shadow-sm p-4">
         <div className="flex items-center justify-between">
           <div><h2 className="text-xl font-semibold">Olá! 👋</h2><p className="text-slate-600">{greeting}</p></div>
