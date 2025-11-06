@@ -28,17 +28,41 @@ html, body {
 button, a, input, select {
   transition: all 0.15s ease;
 }
-/* === Fundo com “raízes” no banner === */
+/* animação de crescimento (leve) */
+@keyframes rootsGrow {
+  0%   { transform: translateY(20px) scaleY(0.95); opacity: 0; }
+  60%  { opacity: 0.20; }
+  100% { transform: translateY(0) scaleY(1); opacity: 0.28; }
+}
+
+/* === Fundo com “raízes” no banner (mais visível) === */
 .roots-bg::after {
   content: "";
   position: absolute;
-  inset: auto 0 0 0;
-  height: 55%;
+  inset: auto 0 0 0;       /* gruda na base */
+  height: 65%;             /* ocupa mais área */
   pointer-events: none;
-  opacity: 0.15;
+  opacity: 0.28;           /* mais forte que 0.15 */
   background-repeat: no-repeat;
   background-position: left bottom;
-  background-size: 1200px auto;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23145A32' stop-opacity='0.25'/%3E%3Cstop offset='1' stop-color='%23145A32' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='2'%3E%3Cpath d='M50 10 C120 60, 90 120, 150 170 S250 270, 220 340'/%3E%3Cpath d='M220 0 C260 60, 240 120, 320 180 S420 260, 400 320'/%3E%3Cpath d='M420 20 C500 80, 500 140, 560 200 S660 280, 640 360'/%3E%3Cpath d='M640 0 C700 60, 720 120, 780 180 S900 260, 880 330'/%3E%3Cpath d='M880 10 C940 70, 960 130, 1020 190 S1120 270, 1100 350'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 1400px auto;  /* um pouco maior */
+
+  /* melhora contraste no degradê claro */
+  mix-blend-mode: multiply;
+  filter: saturate(110%) contrast(105%);
+
+  /* animação */
+  transform-origin: left bottom;
+  animation: rootsGrow 1.2s ease-out 0.2s both;
+
+  /* SVG inline (raízes) */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23145A32' stop-opacity='0.35'/%3E%3Cstop offset='1' stop-color='%23145A32' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='2'%3E%3Cpath d='M50 10 C120 60, 90 120, 150 170 S250 270, 220 360'/%3E%3Cpath d='M220 0 C260 60, 240 120, 320 180 S420 260, 400 350'/%3E%3Cpath d='M420 20 C500 80, 500 140, 560 200 S660 280, 640 360'/%3E%3Cpath d='M640 0 C700 60, 720 120, 780 180 S900 260, 880 340'/%3E%3Cpath d='M880 10 C940 70, 960 130, 1020 190 S1120 270, 1100 350'/%3E%3C/g%3E%3C/svg%3E");
 }
+
+/* micro-parallax no hover (opcional, bem sutil) */
+.roots-bg:hover::after {
+  transform: translateY(-4px);
+  transition: transform 400ms ease;
+}
+
 
