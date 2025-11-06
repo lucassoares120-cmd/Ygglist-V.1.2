@@ -17,7 +17,7 @@ export default function App(){
   <div className="relative max-w-6xl mx-auto px-3 py-3 flex items-center justify-between">
 
     {/* FAIXA por trás */}
-    <div className="brand-band absolute inset-x-14 sm:inset-x-24 top-1 h-14 sm:h-16 rounded-2xl z-0" />
+    <div className="brand-band absolute left-16 right-44 sm:left-24 sm:right-40 top-1.5 h-14 sm:h-16 rounded-2xl z-0" />
 
     {/* Menu (fica por cima da faixa) */}
     <button
