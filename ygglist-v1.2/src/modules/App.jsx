@@ -36,7 +36,7 @@ export default function App(){
   <span className="text-4xl sm:text-5xl font-semibold text-emerald-950">
     YggList
   </span>
-  <span className="text-lg sm:text-xl text-emerald-800/90 font-medium tracking-tight -mt-1">
+  <span className="text-lg sm:text-2xl text-emerald-800/90 font-medium tracking-tight -mt-1">
     Raiz que conecta
   </span>
 </div>
