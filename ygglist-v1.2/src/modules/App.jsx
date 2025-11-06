@@ -32,14 +32,26 @@ export default function App(){
   </svg>
 </button>
 
-          <div className="flex flex-col leading-tight font-brand">
-  <span className="text-4xl sm:text-5xl font-semibold text-emerald-950">
-    YggList
-  </span>
-  <span className="text-lg sm:text-2xl text-emerald-800/90 font-medium tracking-tight -mt-1">
-    Raiz que conecta
-  </span>
+         {/* BRAND no topo com logo + título + subtítulo */}
+<div className="brand-cap flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 rounded-2xl border bg-gradient-to-r from-emerald-50 to-emerald-100">
+  {/* LOGO */}
+  <img
+    src="/YggSymbol.png"
+    alt="Símbolo Yggdrasil"
+    className="h-9 w-9 sm:h-12 sm:w-12 rounded-lg object-contain drop-shadow-md ring-1 ring-emerald-200/60"
+  />
+
+  {/* TÍTULO + SUBTÍTULO */}
+  <div className="font-brand leading-none">
+    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-emerald-950">
+      YggList
+    </div>
+    <div className="text-sm sm:text-base text-emerald-800/90 mt-0.5 tracking-tight">
+      Raiz que conecta
+    </div>
+  </div>
 </div>
+
 
           <div>{user? <button onClick={logout} className="px-3 py-2 rounded-lg border text-sm">Sair</button> : <button onClick={fakeLogin} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Entrar com Google</button>}</div>
         </div>
