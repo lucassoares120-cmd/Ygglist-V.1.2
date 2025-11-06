@@ -16,7 +16,7 @@ export default function App(){
       <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b">
         <div className="max-w-6xl mx-auto p-3 flex items-center justify-between">
           <button onClick={()=>setDrawer(true)} className="p-2 rounded-lg border bg-white">🌿</button>
-          <div className="flex items-center gap-2"><span className="text-lg font-bold">YggList</span><span className="text-xs text-ygg-700">Raiz que conecta</span></div>
+          <div className="flex items-center gap-2"><span className="text-lg font-extrabold">YggList</span><span className="text-xs text-ygg-700">Raiz que conecta</span></div>
           <div>{user? <button onClick={logout} className="px-3 py-2 rounded-lg border text-sm">Sair</button> : <button onClick={fakeLogin} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Entrar com Google</button>}</div>
         </div>
         <nav className="max-w-6xl mx-auto px-3 pb-2">
