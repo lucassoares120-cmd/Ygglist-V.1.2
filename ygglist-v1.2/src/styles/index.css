@@ -120,6 +120,23 @@ button, a, input, select {
   box-shadow: 0 6px 18px rgba(16,185,129,.12);
   position: relative;
   overflow: hidden;
+  /* esconde as pontas da faixa sob os botões */
+.brand-band{
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0) 0,
+    rgba(0,0,0,0.98) 36px,
+    rgba(0,0,0,0.98) calc(100% - 36px),
+    rgba(0,0,0,0) 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0) 0,
+    rgba(0,0,0,0.98) 36px,
+    rgba(0,0,0,0.98) calc(100% - 36px),
+    rgba(0,0,0,0) 100%
+  );
+}
 }
 
 /* raízes discretas na faixa (lado direito) */
