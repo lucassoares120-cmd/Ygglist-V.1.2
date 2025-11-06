@@ -32,15 +32,13 @@ button, a, input, select {
 .roots-bg::after {
   content: "";
   position: absolute;
-  inset: auto 0 0 0;     /* gruda na base do banner */
-  height: 35%;           /* cobre metade inferior */
+  inset: auto 0 0 0;
+  height: 55%;
   pointer-events: none;
-  opacity: 0.15;         /* intensidade do desenho */
+  opacity: 0.15;
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size: 1200px auto;
-
-  /* SVG inline leve (linhas orgânicas de raízes) */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23145A32' stop-opacity='0.25'/%3E%3Cstop offset='1' stop-color='%23145A32' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23g)' stroke-width='2'%3E%3Cpath d='M50 10 C120 60, 90 120, 150 170 S250 270, 220 340'/%3E%3Cpath d='M220 0 C260 60, 240 120, 320 180 S420 260, 400 320'/%3E%3Cpath d='M420 20 C500 80, 500 140, 560 200 S660 280, 640 360'/%3E%3Cpath d='M640 0 C700 60, 720 120, 780 180 S900 260, 880 330'/%3E%3Cpath d='M880 10 C940 70, 960 130, 1020 190 S1120 270, 1100 350'/%3E%3C/g%3E%3C/svg%3E");
 }
 
