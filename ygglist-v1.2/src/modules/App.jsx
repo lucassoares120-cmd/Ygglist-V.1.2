@@ -14,55 +14,59 @@ export default function App(){
   return (
     <div className="min-h-screen bg-ygg-50">
       <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b">
-        <div className="max-w-6xl mx-auto p-3 flex items-center justify-between">
-          <button
-  onClick={()=>setDrawer(true)}
-  aria-label="Abrir menu"
-  className="group p-2 rounded-lg border bg-white hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6 text-emerald-900"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
-  </svg>
-</button>
+  <div className="relative max-w-6xl mx-auto px-3 py-3 flex items-center justify-between">
 
-         {/* BRAND no topo com logo + título + subtítulo */}
-<div className="brand-cap flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 rounded-2xl border bg-gradient-to-r from-emerald-50 to-emerald-100">
-  {/* LOGO */}
-  <img
-    src="/YggSymbol.png"
-    alt="Símbolo Yggdrasil"
-    className="h-9 w-9 sm:h-12 sm:w-12 rounded-lg object-contain drop-shadow-md ring-1 ring-emerald-200/60"
-  />
+    {/* FAIXA por trás */}
+    <div className="brand-band absolute inset-x-14 sm:inset-x-24 top-1 h-14 sm:h-16 rounded-2xl z-0" />
 
-  {/* TÍTULO + SUBTÍTULO */}
-  <div className="font-brand leading-none">
-    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-emerald-950">
-      YggList
+    {/* Menu (fica por cima da faixa) */}
+    <button
+      onClick={()=>setDrawer(true)}
+      aria-label="Abrir menu"
+      className="z-10 group p-2 rounded-lg border bg-white hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    {/* Brand central (logo + textos) */}
+    <div className="z-10 flex-1 flex justify-center">
+      <div className="flex items-center gap-3 sm:gap-4">
+        <img
+          src="/YggSymbol.png"
+          alt="Símbolo Yggdrasil"
+          className="h-8 w-8 sm:h-10 sm:w-10 rounded-md object-contain drop-shadow-md ring-1 ring-emerald-200/60"
+        />
+        <div className="font-brand leading-none">
+          <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-emerald-950">
+            YggList
+          </div>
+          <div className="text-sm sm:text-base text-emerald-800/90 mt-0.5 tracking-tight">
+            Raiz que conecta
+          </div>
+        </div>
+      </div>
     </div>
-    <div className="text-sm sm:text-base text-emerald-800/90 mt-0.5 tracking-tight">
-      Raiz que conecta
+
+    {/* Login (por cima da faixa) */}
+    <div className="z-10">
+      {user
+        ? <button onClick={logout} className="px-3 py-2 rounded-lg border text-sm">Sair</button>
+        : <button onClick={fakeLogin} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Entrar com Google</button>
+      }
     </div>
   </div>
-</div>
 
+  <nav className="max-w-6xl mx-auto px-3 pb-2">
+    <div className="grid grid-cols-3 gap-2">
+      <Tab onClick={()=>setTab('home')}   active={tab==='home'}>Início</Tab>
+      <Tab onClick={()=>setTab('lists')}  active={tab==='lists'}>Listas</Tab>
+      <Tab onClick={()=>setTab('reports')}active={tab==='reports'}>Relatórios</Tab>
+    </div>
+  </nav>
+</header>
 
-          <div>{user? <button onClick={logout} className="px-3 py-2 rounded-lg border text-sm">Sair</button> : <button onClick={fakeLogin} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Entrar com Google</button>}</div>
-        </div>
-        <nav className="max-w-6xl mx-auto px-3 pb-2">
-          <div className="grid grid-cols-3 gap-2">
-            <Tab onClick={()=>setTab('home')} active={tab==='home'}>Início</Tab>
-            <Tab onClick={()=>setTab('lists')} active={tab==='lists'}>Listas</Tab>
-            <Tab onClick={()=>setTab('reports')} active={tab==='reports'}>Relatórios</Tab>
-          </div>
-        </nav>
-      </header>
       <main className="max-w-6xl mx-auto p-4 md:p-6">
         {tab==='home' && <Home onNewList={()=>setTab('lists')} />}
         {tab==='lists' && <Lists />}
