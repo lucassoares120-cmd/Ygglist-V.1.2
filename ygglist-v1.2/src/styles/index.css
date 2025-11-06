@@ -33,7 +33,7 @@ button, a, input, select {
   content: "";
   position: absolute;
   inset: auto 0 0 0;     /* gruda na base do banner */
-  height: 55%;           /* cobre metade inferior */
+  height: 35%;           /* cobre metade inferior */
   pointer-events: none;
   opacity: 0.15;         /* intensidade do desenho */
   background-repeat: no-repeat;
