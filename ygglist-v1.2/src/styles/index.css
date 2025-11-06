@@ -1,1 +1,30 @@
-@tailwind base;@tailwind components;@tailwind utilities;:root{color-scheme:light;}
+/* === TAILWIND BASE === */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === CONFIG VISUAL PADRÃO === */
+:root {
+  color-scheme: light;
+}
+
+/* === FONTES YGGLIST === */
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@400;600;700&family=Nunito+Sans:wght@400;600&display=swap');
+
+/* Fonte base para todo o app */
+html, body {
+  font-family: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  color: #062e1a; /* tom esverdeado sutil e moderno */
+  background-color: #f9faf9; /* fundo mais natural */
+}
+
+/* Fonte orgânica para títulos / branding */
+.font-brand {
+  font-family: 'Ysabeau SC', 'Cormorant Garamond', ui-serif, Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+/* Suaviza transições e reforça foco */
+button, a, input, select {
+  transition: all 0.15s ease;
+}
