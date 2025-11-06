@@ -15,7 +15,23 @@ export default function App(){
     <div className="min-h-screen bg-ygg-50">
       <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b">
         <div className="max-w-6xl mx-auto p-3 flex items-center justify-between">
-          <button onClick={()=>setDrawer(true)} className="p-2 rounded-lg border bg-white">🌿</button>
+          <button
+  onClick={()=>setDrawer(true)}
+  aria-label="Abrir menu"
+  className="group p-2 rounded-lg border bg-white hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6 text-emerald-900"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+</button>
+
           <div className="flex items-center gap-2"><span className="text-lg font-extrabold">YggList</span><span className="text-xs text-ygg-700">Raiz que conecta</span></div>
           <div>{user? <button onClick={logout} className="px-3 py-2 rounded-lg border text-sm">Sair</button> : <button onClick={fakeLogin} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Entrar com Google</button>}</div>
         </div>
