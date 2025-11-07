@@ -215,81 +215,126 @@ export default function Lists() {
 
   return (
     <section className="space-y-4">
-      <div className="bg-white rounded-2xl border shadow-sm p-4 flex items-end gap-3 flex-wrap">
-        <div>
-          <label className="text-sm">Dia</label>
-          <input type="date" value={dateISO} onChange={e => setDateISO(e.target.value)} className="border rounded-lg px-3 py-2" />
-        </div>
+      <div className="bg-white rounded-2xl border shadow-sm p-4 flex flex-wrap items-end gap-3">
+  {/* LOJA / MERCADO — linha própria */}
+  <div className="basis-full">
+    <label className="text-sm">Loja / Mercado</label>
+    <input
+      type="text"
+      value={store}
+      onChange={(e) => setStore(e.target.value)}
+      placeholder="Ex.: Supermercado X, Atacado Y"
+      className="w-full border rounded-lg px-3 py-2"
+    />
+  </div>
 
-        <div>
-          <label className="text-sm">Loja / Mercado</label>
-          <input
-            type="text"
-            value={store}
-            onChange={(e) => setStore(e.target.value)}
-            placeholder="Ex.: Supermercado X, Atacado Y"
-            className="border rounded-lg px-3 py-2"
-          />
-        </div>
+  {/* Dia */}
+  <div>
+    <label className="text-sm">Dia</label>
+    <input
+      type="date"
+      value={dateISO}
+      onChange={(e) => setDateISO(e.target.value)}
+      className="border rounded-lg px-3 py-2"
+    />
+  </div>
 
-        <div className="flex-1 min-w-[200px] relative">
-          <label className="text-sm">Item</label>
-          <input
-            value={name}
-            onChange={e => { setName(e.target.value); setShowSuggest(true); }}
-            onFocus={() => setShowSuggest(true)}
-            placeholder="Digite o item..."
-            className="w-full border rounded-lg px-3 py-2"
-          />
-          {showSuggest && suggestions.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 border rounded-lg bg-white shadow-sm p-2 text-sm max-h-56 overflow-auto">
-              {suggestions.map(s => (
-                <button
-                  key={s.name}
-                  onClick={() => pickSuggestion(s)}
-                  className="block w-full text-left p-1 rounded hover:bg-ygg-100"
-                >
-                  {s.name} • <span className="text-xs text-slate-500">{s.category}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div>
-          <label className="text-sm">Qtd</label>
-          <input type="number" min={0} step={1} value={qty} onChange={e => setQty(Number(e.target.value))} className="w-20 border rounded-lg px-3 py-2" />
-        </div>
-
-        <div>
-          <label className="text-sm">Tipo</label>
-          <select value={unit} onChange={e => setUnit(e.target.value)} className="border rounded-lg px-3 py-2">
-            <option>un</option><option>kg</option><option>g</option><option>L</option><option>mL</option>
-            <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
-            <option>garrafa</option><option>lata</option><option>outro</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="text-sm">Preço (R$)</label>
-          <input value={price} onChange={e => setPrice(e.target.value)} inputMode="decimal" placeholder="5,99" className="w-28 border rounded-lg px-3 py-2" />
-        </div>
-
-        <div>
-          <label className="text-sm">Peso</label>
-          <input value={weight} onChange={e => setWeight(e.target.value)} inputMode="decimal" placeholder="Opcional" className="w-28 border rounded-lg px-3 py-2" />
-        </div>
-
-        <div className="flex-1 min-w-[160px]">
-          <label className="text-sm">Observação</label>
-          <input value={note} onChange={e => setNote(e.target.value)} placeholder="Marca X, maturação, etc." className="w-full border rounded-lg px-3 py-2" />
-        </div>
-
-        <div>
-          <label className="text-sm invisible">.</label>
-          <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">✓ Adicionar</button>
-        </div>
+  {/* Item */}
+  <div className="flex-1 min-w-[200px] relative">
+    <label className="text-sm">Item</label>
+    <input
+      value={name}
+      onChange={(e) => { setName(e.target.value); setShowSuggest(true); }}
+      onFocus={() => setShowSuggest(true)}
+      placeholder="Digite o item..."
+      className="w-full border rounded-lg px-3 py-2"
+    />
+    {showSuggest && suggestions.length > 0 && (
+      <div className="absolute z-10 w-full mt-1 border rounded-lg bg-white shadow-sm p-2 text-sm max-h-56 overflow-auto">
+        {suggestions.map(s => (
+          <button
+            key={s.name}
+            onClick={() => pickSuggestion(s)}
+            className="block w-full text-left p-1 rounded hover:bg-ygg-100"
+          >
+            {s.name} • <span className="text-xs text-slate-500">{s.category}</span>
+          </button>
+        ))}
       </div>
+    )}
+  </div>
+
+  {/* Qtd */}
+  <div>
+    <label className="text-sm">Qtd</label>
+    <input
+      type="number"
+      min={0}
+      step={1}
+      value={qty}
+      onChange={(e) => setQty(Number(e.target.value))}
+      className="w-20 border rounded-lg px-3 py-2"
+    />
+  </div>
+
+  {/* Tipo */}
+  <div>
+    <label className="text-sm">Tipo</label>
+    <select
+      value={unit}
+      onChange={(e) => setUnit(e.target.value)}
+      className="border rounded-lg px-3 py-2"
+    >
+      <option>un</option><option>kg</option><option>g</option><option>L</option><option>mL</option>
+      <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
+      <option>garrafa</option><option>lata</option><option>outro</option>
+    </select>
+  </div>
+
+  {/* Preço */}
+  <div>
+    <label className="text-sm">Preço (R$)</label>
+    <input
+      value={price}
+      onChange={(e) => setPrice(e.target.value)}
+      inputMode="decimal"
+      placeholder="5,99"
+      className="w-28 border rounded-lg px-3 py-2"
+    />
+  </div>
+
+  {/* Peso */}
+  <div>
+    <label className="text-sm">Peso</label>
+    <input
+      value={weight}
+      onChange={(e) => setWeight(e.target.value)}
+      inputMode="decimal"
+      placeholder="Opcional"
+      className="w-28 border rounded-lg px-3 py-2"
+    />
+  </div>
+
+  {/* Observação */}
+  <div className="flex-1 min-w-[160px]">
+    <label className="text-sm">Observação</label>
+    <input
+      value={note}
+      onChange={(e) => setNote(e.target.value)}
+      placeholder="Marca X, maturação, etc."
+      className="w-full border rounded-lg px-3 py-2"
+    />
+  </div>
+
+  {/* Botão adicionar */}
+  <div>
+    <label className="text-sm invisible">.</label>
+    <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
+      ✓ Adicionar
+    </button>
+  </div>
+</div>
+
 
       <div className="grid md:grid-cols-2 gap-4">
         <div className="bg-white rounded-2xl border shadow-sm p-4">
