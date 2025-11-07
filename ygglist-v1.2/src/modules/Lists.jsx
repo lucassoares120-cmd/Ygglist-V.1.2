@@ -8,7 +8,18 @@ const findCatalog = (name)=> catalog.find(x => x.name.toLowerCase()===name.toLow
 export default function Lists(){
   const [data, setData] = useState(()=>load(STORAGE_KEY, {}));
   const [dateISO, setDateISO] = useState(todayISO());
+  const [store, setStore] = useState('');
   const day = useMemo(()=> data[dateISO] ?? {dateISO, items:[]}, [data, dateISO]);
+  const day = useMemo(() => data[dateISO] ?? { dateISO, items: [], store: '' }, [data, dateISO]);
+  // quando trocar a data, carregar a loja daquele dia
+useEffect(() => {
+  setStore(day.store || '');
+}, [dateISO]); // eslint-disable-line react-hooks/exhaustive-deps
+
+// quando usuário trocar a loja, refletir no "day"
+useEffect(() => {
+  setDay(prev => ({ ...prev, store }));
+}, [store]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(()=>{ save(STORAGE_KEY, data); },[data]);
   const setDay = (up)=> setData(p=> ({...p, [dateISO]: up(p[dateISO]??{dateISO, items:[]})}));
   const [name, setName] = useState('');
