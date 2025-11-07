@@ -92,7 +92,7 @@ export default function App(){
           </motion.div>
         )}
       </AnimatePresence>
-      <footer className="text-center text-xs text-slate-500 py-6">YggList — protótipo v1.2. Dados locais (v2: nuvem).</footer>
+      <footer className="text-center text-xs text-slate-500 py-6">YggList — protótipo v1.2.1 Dados locais (v2: nuvem).</footer>
     </div>
   );
 }
