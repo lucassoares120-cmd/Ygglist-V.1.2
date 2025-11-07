@@ -324,6 +324,30 @@ export default function Reports() {
       </div>
     </div>
   </div>
+const handleExportCSV = () => {
+  // 1) compras finalizadas dentro do período selecionado
+  const allPurchases = load(PURCHASES_KEY, []);
+  const purchasesInRange = allPurchases.filter(p => p.dateISO >= fromISO && p.dateISO <= toISO);
+
+  // 2) resumo por categoria que você já calcula para os gráficos
+  //    Supondo que você já tenha algo como `summaryByCat` calculado a partir de purchasesInRange:
+  //    Estrutura esperada: [{ category: 'Carnes', amount: 48.89, percent: 64.1 }, ...]
+  //    Se tiver outro nome, ajuste abaixo:
+  const csvText = buildCSV({
+    summaryByCat,
+    purchasesInRange,
+    fromISO,
+    toISO
+  });
+
+  const blob = new Blob([csvText], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ygglist_${fromISO}_a_${toISO}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+};
 
   {/* Linha 2: Exportações, embaixo e alinhadas */}
   <div className="mt-3 flex gap-2">
