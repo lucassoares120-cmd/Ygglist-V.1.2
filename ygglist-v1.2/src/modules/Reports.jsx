@@ -1,10 +1,67 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { PURCHASES_KEY, STORAGE_KEY, load } from '../lib.js';
 
 /* ====== helpers ====== */
 const iso = (d) => new Date(d).toISOString().slice(0, 10);
 const startOfMonth = (d) => iso(new Date(d.getFullYear(), d.getMonth(), 1));
 const endOfMonth   = (d) => iso(new Date(d.getFullYear(), d.getMonth() + 1, 0));
 const addDays      = (dateISO, n) => iso(new Date(new Date(dateISO).setDate(new Date(dateISO).getDate() + n)));
+// CSV safe
+const csvEscape = (v) => {
+  if (v == null) return '';
+  const s = String(v).replace(/"/g, '""');
+  return /[",\n;]/.test(s) ? `"${s}"` : s;
+};
+
+// Gera o CSV contendo (1) resumo por categoria e (2) detalhe por dia (todas as listas)
+function buildCSV({summaryByCat, purchasesInRange, fromISO, toISO}) {
+  const lines = [];
+
+  // Cabeçalho
+  lines.push(`Relatório YggList;Período;${fromISO};${toISO}`);
+  lines.push('');
+
+  // 1) RESUMO POR CATEGORIA
+  lines.push('Resumo por categoria');
+  lines.push('Categoria;Percentual;Valor (R$)');
+  summaryByCat.forEach(row => {
+    lines.push([
+      csvEscape(row.category),
+      `${row.percent.toFixed(1)}%`,
+      row.amount.toFixed(2).replace('.', ',')
+    ].join(';'));
+  });
+  lines.push('');
+
+  // 2) DETALHE POR DIA (todas as listas do período)
+  lines.push('Detalhe por dia (todas as listas)');
+  lines.push('Data;Loja;Item;Qtd;Un;Preço;Subtotal;Categoria;Observação');
+
+  // Cada "purchase" é uma compra finalizada no período
+  purchasesInRange.forEach(p => {
+    const store = p.store || '';
+    const date = p.dateISO || '';
+    (p.items || []).forEach(it => {
+      const qty = it.qty ?? 1;
+      const price = it.price ?? 0;
+      const subtotal = (qty * price);
+
+      lines.push([
+        csvEscape(date),
+        csvEscape(store),
+        csvEscape(it.name),
+        qty,
+        csvEscape(it.unit || 'un'),
+        String(price).replace('.', ','),
+        subtotal.toFixed(2).replace('.', ','),
+        csvEscape(it.category || ''),
+        csvEscape(it.note || '')
+      ].join(';'));
+    });
+  });
+
+  return lines.join('\n');
+}
 
 function parseListDate(list) {
   const raw = list?.date || list?.createdAt || list?.dia;
