@@ -178,6 +178,8 @@ button, a, input, select {
   0%{ transform: translateY(8px) scale(.96); opacity:0 }
   100%{ transform: translateY(0)  scale(1);   opacity:.22 }
 }
+/* barras com transição suave */
+.bg-emerald-600 { transition: width .35s ease; }
 
 
 
