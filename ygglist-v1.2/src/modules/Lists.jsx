@@ -56,6 +56,9 @@ export default function Lists() {
 
   // Drafts dos itens já adicionados
   const [draft, setDraft] = useState({});
+// controla se o painel do item está expandido (true/false)
+const [open, setOpen] = useState({});
+const toggleExpand = (id) => setOpen(o => ({ ...o, [id]: !o[id] }));
 
   const toBuy = day.items
     .filter(i => !i.inCart)
