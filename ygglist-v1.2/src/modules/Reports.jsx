@@ -348,89 +348,66 @@ export default function Reports() {
 
   return (
     <section className="space-y-4">
-      {/* === FILTROS / PERÍODO === */}
-      <div className="bg-white rounded-2xl border shadow-sm p-4">
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Botões de período rápido */}
-          <div className="flex gap-2 flex-wrap">
-            <button onClick={setLast7} className={chip("7d")}>
-              Últimos 7 dias
-            </button>
-            <button onClick={setWeek} className={chip("week")}>
-              Semana atual
-            </button>
-            <button onClick={setThisMonth} className={chip("month")}>
-              Este mês
-            </button>
-            <button onClick={setPrevMonth} className={chip("lastMonth")}>
-              Mês passado
-            </button>
-            <button onClick={setFree} className={chip("free")}>
-              Período livre
-            </button>
-          </div>
+      {/* === FILTROS / PERÍODO (3 linhas) === */}
+<div className="bg-white rounded-2xl border shadow-sm p-4 space-y-3">
+  {/* 1ª linha: botões de período rápido */}
+  <div className="flex flex-wrap items-center gap-2">
+    <button onClick={setLast7}     className={chip("7d")}>Últimos 7 dias</button>
+    <button onClick={setWeek}      className={chip("week")}>Semana atual</button>
+    <button onClick={setThisMonth} className={chip("month")}>Este mês</button>
+    <button onClick={setPrevMonth} className={chip("lastMonth")}>Mês passado</button>
+    <button onClick={setFree}      className={chip("free")}>Período livre</button>
+  </div>
 
-          {/* Selects à direita */}
-          <div className="ml-auto flex flex-wrap items-center gap-2">
-            {/* Mês */}
-            <div className="min-w-[160px]">
-              <label className="text-sm">Mês</label>
-              <select
-                value={monthSel}
-                onChange={(e) => {
-                  setMonthSel(e.target.value);
-                  setPreset("monthSelect");
-                }}
-                className="w-full border rounded-lg px-3 py-2"
-              >
-                {(months.length ? months : [monthSel]).map((m) => (
-                  <option key={m} value={m}>
-                    {m}
-                  </option>
-                ))}
-              </select>
-            </div>
+  {/* 2ª linha: mês, de, até */}
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+    {/* Mês */}
+    <div>
+      <label className="text-sm">Mês</label>
+      <select
+        value={monthSel}
+        onChange={(e) => { setMonthSel(e.target.value); setPreset("monthSelect"); }}
+        className="w-full border rounded-lg px-3 py-2"
+      >
+        {(months.length ? months : [monthSel]).map((m) => (
+          <option key={m} value={m}>{m}</option>
+        ))}
+      </select>
+    </div>
 
-            {/* De */}
-            <div>
-              <label className="text-sm">De</label>
-              <input
-                type="date"
-                value={from}
-                onChange={(e) => {
-                  setFrom(e.target.value);
-                  setPreset("free");
-                }}
-                className="border rounded-lg px-3 py-2"
-              />
-            </div>
+    {/* De */}
+    <div>
+      <label className="text-sm">De</label>
+      <input
+        type="date"
+        value={from}
+        onChange={(e) => { setFrom(e.target.value); setPreset("free"); }}
+        className="w-full border rounded-lg px-3 py-2"
+      />
+    </div>
 
-            {/* Até */}
-            <div>
-              <label className="text-sm">Até</label>
-              <input
-                type="date"
-                value={to}
-                onChange={(e) => {
-                  setTo(e.target.value);
-                  setPreset("free");
-                }}
-                className="border rounded-lg px-3 py-2"
-              />
-            </div>
-          </div>
-        </div>
+    {/* Até */}
+    <div>
+      <label className="text-sm">Até</label>
+      <input
+        type="date"
+        value={to}
+        onChange={(e) => { setTo(e.target.value); setPreset("free"); }}
+        className="w-full border rounded-lg px-3 py-2"
+      />
+    </div>
+  </div>
 
-        {/* Exportações embaixo */}
-        <div className="mt-3 flex gap-2">
-          <button onClick={handleExportCSV} className="px-3 py-2 rounded-lg border">
-            Exportar CSV
-          </button>
-          <button onClick={handleExportPNG} className="px-3 py-2 rounded-lg border">
-            Baixar PNG
-          </button>
-        </div>
-      </div>
+  {/* 3ª linha: Exportações */}
+  <div className="flex flex-wrap gap-2">
+    <button onClick={handleExportCSV} className="px-3 py-2 rounded-lg border">
+      Exportar CSV
+    </button>
+    <button onClick={handleExportPNG} className="px-3 py-2 rounded-lg border">
+      Baixar PNG
+    </button>
+  </div>
+</div>
 
       {/* RESUMO + MINI-GRÁFICO + COMPARAÇÃO */}
       <div className="bg-white rounded-2xl border p-4">
