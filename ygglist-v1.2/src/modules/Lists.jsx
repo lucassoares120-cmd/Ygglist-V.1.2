@@ -136,97 +136,151 @@ export default function Lists() {
     updateItem(id, patch);
   };
 
-  const ItemRow = ({ i, inCartView }) => {
-    const icon = iconFor(i);
-    const d = draft[i.id] || {};
-    return (
-      <div className="border rounded-xl p-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {icon ? <div className="text-2xl">{icon}</div> : <FallbackBadge name={i.name} />}
-            <div>
-              <div className="font-medium">{i.name}</div>
-              <div className="text-xs text-slate-500">
-                {i.category}{i.store ? ` • ${i.store}` : ''}
-              </div>
+  // === SUBSTITUIR O ItemRow ATUAL POR ESTE ===
+const ItemRow = React.memo(({ i, inCartView }) => {
+  const icon = iconFor(i);
+
+  // Estado local do editor (não depende do "draft" do componente pai)
+  const [local, setLocal] = React.useState({
+    qty: i.qty ?? 1,
+    unit: i.unit ?? 'un',
+    price: (i.price ?? '') + '',
+    weight: (i.weight ?? '') + '',
+    note: i.note ?? ''
+  });
+
+  // Se trocar de item (id muda), ressincroniza o editor
+  React.useEffect(() => {
+    setLocal({
+      qty: i.qty ?? 1,
+      unit: i.unit ?? 'un',
+      price: (i.price ?? '') + '',
+      weight: (i.weight ?? '') + '',
+      note: i.note ?? ''
+    });
+  }, [i.id]);
+
+  const setField = (field) => (e) => {
+    const v = e?.target?.value ?? e; // permite usar direto setField('qty')(123)
+    setLocal((prev) => ({ ...prev, [field]: v }));
+  };
+
+  const commit = () => {
+    updateItem(i.id, {
+      qty: Number(local.qty) || 0,
+      unit: local.unit,
+      price: toNumber(local.price),
+      weight: toNumber(local.weight),
+      note: local.note
+    });
+  };
+
+  const onEnterCommit = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      commit();
+    }
+  };
+
+  return (
+    <div className="border rounded-xl p-3">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {icon ? <div className="text-2xl">{icon}</div> : <FallbackBadge name={i.name} />}
+          <div>
+            <div className="font-medium">{i.name}</div>
+            <div className="text-xs text-slate-500">
+              {i.category}{i.store ? ` • ${i.store}` : ''}
             </div>
           </div>
-          <div className="text-sm">
-            {typeof i.price === 'number' ? fmtBRL(i.price * (i.qty || 1)) : '—'}
-          </div>
         </div>
-
-        <div className="mt-2 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
-          <input
-            type="number"
-            value={d.qty ?? i.qty}
-            onChange={e => setDraftField(i.id, 'qty', e.target.value)}
-            className="border rounded-lg px-2 py-1"
-          />
-
-          <select
-            value={d.unit ?? i.unit}
-            onChange={e => setDraftField(i.id, 'unit', e.target.value)}
-            className="border rounded-lg px-2 py-1"
-          >
-            <option>un</option><option>kg</option><option>g</option><option>L</option><option>mL</option>
-            <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
-            <option>garrafa</option><option>lata</option><option>outro</option>
-          </select>
-
-          {/* Preço do item (controlado pelo draft) */}
-          <input
-  type="text"
-  inputMode="decimal"
-  autoComplete="off"
-  value={d.price ?? (i.price ?? '')}
-  onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
-  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitDraft(i.id); }}}
-  placeholder="Preço"
-  className="border rounded-lg px-2 py-1"
-/>
-
-
-          {/* Peso do item (controlado pelo draft) */}
-          <input
-  type="text"
-  inputMode="decimal"
-  autoComplete="off"
-  value={d.weight ?? (i.weight ?? '')}
-  onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
-  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitDraft(i.id); }}}
-  placeholder="Peso"
-  className="border rounded-lg px-2 py-1"
-/>
-
-
-          <input
-            value={d.note ?? (i.note ?? '')}
-            onChange={e => setDraftField(i.id, 'note', e.target.value)}
-            placeholder="Obs."
-            className="border rounded-lg px-2 py-1"
-          />
-
-          <button onClick={() => commitDraft(i.id)} className="px-3 py-1 rounded-lg bg-ygg-700 text-white">✓</button>
-        </div>
-
-        <div className="mt-2 text-xs text-slate-500">
-          {i.kcalPer100
-            ? `${i.kcalPer100} kcal/100g`
-            : (lastPriceFor(i.name)
-              ? `Último: ${fmtBRL(lastPriceFor(i.name))}`
-              : (findCatalog(i.name)?.curiosity || ''))}
-        </div>
-
-        <div className="mt-2 flex items-center gap-2">
-          {inCartView
-            ? <button onClick={() => toggleCart(i.id, false)} className="px-3 py-2 rounded-lg bg-slate-200 text-sm">Voltar p/ Lista</button>
-            : <button onClick={() => toggleCart(i.id, true)} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Adicionar ao Carrinho</button>}
-          <button onClick={() => removeItem(i.id)} className="px-3 py-2 rounded-lg border text-sm">Remover</button>
+        <div className="text-sm">
+          {typeof i.price === 'number' ? fmtBRL(i.price * (i.qty || 1)) : '—'}
         </div>
       </div>
-    );
-  };
+
+      <div className="mt-2 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
+        {/* Qtd */}
+        <input
+          type="number"
+          value={local.qty}
+          onChange={setField('qty')}
+          onKeyDown={onEnterCommit}
+          className="border rounded-lg px-2 py-1"
+        />
+
+        {/* Tipo */}
+        <select
+          value={local.unit}
+          onChange={setField('unit')}
+          onKeyDown={onEnterCommit}
+          className="border rounded-lg px-2 py-1"
+        >
+          <option>un</option><option>kg</option><option>g</option><option>L</option><option>mL</option>
+          <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
+          <option>garrafa</option><option>lata</option><option>outro</option>
+        </select>
+
+        {/* Preço (texto+decimal) */}
+        <input
+          type="text"
+          inputMode="decimal"
+          autoComplete="off"
+          value={local.price}
+          onChange={setField('price')}
+          onKeyDown={onEnterCommit}
+          placeholder="Preço"
+          className="border rounded-lg px-2 py-1"
+        />
+
+        {/* Peso (texto+decimal) */}
+        <input
+          type="text"
+          inputMode="decimal"
+          autoComplete="off"
+          value={local.weight}
+          onChange={setField('weight')}
+          onKeyDown={onEnterCommit}
+          placeholder="Peso"
+          className="border rounded-lg px-2 py-1"
+        />
+
+        {/* Obs */}
+        <input
+          value={local.note}
+          onChange={setField('note')}
+          onKeyDown={onEnterCommit}
+          placeholder="Obs."
+          className="border rounded-lg px-2 py-1"
+        />
+
+        {/* Confirmar */}
+        <button
+          onClick={commit}
+          className="px-3 py-1 rounded-lg bg-ygg-700 text-white"
+        >
+          ✓
+        </button>
+      </div>
+
+      <div className="mt-2 text-xs text-slate-500">
+        {i.kcalPer100
+          ? `${i.kcalPer100} kcal/100g`
+          : (lastPriceFor(i.name)
+            ? `Último: ${fmtBRL(lastPriceFor(i.name))}`
+            : (findCatalog(i.name)?.curiosity || ''))}
+      </div>
+
+      <div className="mt-2 flex items-center gap-2">
+        {inCartView
+          ? <button onClick={() => toggleCart(i.id, false)} className="px-3 py-2 rounded-lg bg-slate-200 text-sm">Voltar p/ Lista</button>
+          : <button onClick={() => toggleCart(i.id, true)} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Adicionar ao Carrinho</button>}
+        <button onClick={() => removeItem(i.id)} className="px-3 py-2 rounded-lg border text-sm">Remover</button>
+      </div>
+    </div>
+  );
+});
+
 
   const finalizePurchase = () => {
     if (cart.length === 0) return;
