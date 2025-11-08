@@ -54,11 +54,13 @@ export default function Lists() {
   const [note, setNote] = useState('');
   const [showSuggest, setShowSuggest] = useState(false);
 
-  // Drafts dos itens já adicionados
-  const [draft, setDraft] = useState({});
-// controla se o painel do item está expandido (true/false)
-const [open, setOpen] = useState({});
-const toggleExpand = (id) => setOpen(o => ({ ...o, [id]: !o[id] }));
+  // Abertura/fechamento por item (acordeão)
+  const [open, setOpen] = useState({});
+  const toggleExpand = (id) => setOpen(o => ({ ...o, [id]: !o[id] }));
+
+  // Abertura/fechamento das colunas Lista / Carrinho
+  const [listOpen, setListOpen] = useState(true);
+  const [cartOpen, setCartOpen] = useState(true);
 
   const toBuy = day.items
     .filter(i => !i.inCart)
@@ -113,21 +115,20 @@ const toggleExpand = (id) => setOpen(o => ({ ...o, [id]: !o[id] }));
     setDay(prev => ({ ...prev, items: prev.items.filter(i => i.id !== id) }));
 
   // Mover todos os itens para o carrinho
-const moveAllToCart = () => {
-  setDay(prev => ({
-    ...prev,
-    items: prev.items.map(i => ({ ...i, inCart: true }))
-  }));
-};
+  const moveAllToCart = () => {
+    setDay(prev => ({
+      ...prev,
+      items: prev.items.map(i => ({ ...i, inCart: true }))
+    }));
+  };
 
-// Voltar todos os itens para a lista
-const moveAllToList = () => {
-  setDay(prev => ({
-    ...prev,
-    items: prev.items.map(i => ({ ...i, inCart: false }))
-  }));
-};
-
+  // Voltar todos os itens para a lista
+  const moveAllToList = () => {
+    setDay(prev => ({
+      ...prev,
+      items: prev.items.map(i => ({ ...i, inCart: false }))
+    }));
+  };
 
   const total = (list) => list.reduce((a, i) => a + (i.price || 0) * (i.qty || 1), 0);
 
@@ -142,166 +143,194 @@ const moveAllToList = () => {
     setShowSuggest(false);
   };
 
-  const setDraftField = (id, field, val) =>
-    setDraft(d => ({ ...d, [id]: { ...(d[id] || {}), [field]: val } }));
+  // ==== ITEM (acordeão + editor com estado local para evitar "travadas") ====
+  const ItemRow = React.memo(({ i, inCartView }) => {
+    const icon = iconFor(i);
+    const isOpen = !!open[i.id];
 
-  const commitDraft = (id) => {
-    const d = draft[id] || {};
-    const patch = {};
-    if (d.qty != null) patch.qty = Number(d.qty);
-    if (d.unit) patch.unit = d.unit;
-    if (d.price != null) patch.price = toNumber(d.price);
-    if (d.weight != null) patch.weight = toNumber(d.weight);
-    if (d.note != null) patch.note = d.note;
-    updateItem(id, patch);
-  };
+    // estado local do editor (não depende do pai enquanto digita)
+    const [local, setLocal] = useState({
+      qty: i.qty ?? 1,
+      unit: i.unit ?? 'un',
+      price: (i.price ?? '') + '',
+      weight: (i.weight ?? '') + '',
+      note: i.note ?? ''
+    });
 
-  // === SUBSTITUIR O ItemRow ATUAL POR ESTE ===
-const ItemRow = ({ i, inCartView }) => {
-  const icon = iconFor(i);
-  const d = draft[i.id] || {};
-  const isOpen = !!open[i.id];
+    // ressincroniza quando mudar o item
+    useEffect(() => {
+      setLocal({
+        qty: i.qty ?? 1,
+        unit: i.unit ?? 'un',
+        price: (i.price ?? '') + '',
+        weight: (i.weight ?? '') + '',
+        note: i.note ?? ''
+      });
+    }, [i.id]);
 
-  // total visível no cabeçalho (se não houver preço, mostra "—")
-  const headerTotal = (typeof i.price === 'number')
-    ? fmtBRL(i.price * (i.qty || 1))
-    : '—';
+    const setField = (field) => (e) => {
+      const v = e?.target?.value ?? e;
+      setLocal(prev => ({ ...prev, [field]: v }));
+    };
 
-  return (
-    <div className="border rounded-xl p-3">
-      {/* Cabeçalho compacto */}
-      <button
-        type="button"
-        onClick={() => toggleExpand(i.id)}
-        className="w-full flex items-center justify-between gap-3 text-left"
-      >
-        <div className="flex items-center gap-2">
-          {icon ? <div className="text-2xl">{icon}</div> : <FallbackBadge name={i.name} />}
-          <div>
-            <div className="font-medium">{i.name}</div>
-            <div className="text-xs text-slate-500">
-              {i.category}{i.store ? ` • ${i.store}` : ''}
+    const commit = () => {
+      updateItem(i.id, {
+        qty: Number(local.qty) || 0,
+        unit: local.unit,
+        price: toNumber(local.price),
+        weight: toNumber(local.weight),
+        note: local.note
+      });
+    };
+
+    const onEnterCommit = (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); commit(); }
+    };
+
+    // total visível no cabeçalho (se não houver preço, mostra "—")
+    const headerTotal = (typeof i.price === 'number')
+      ? fmtBRL(i.price * (i.qty || 1))
+      : '—';
+
+    return (
+      <div className="border rounded-xl p-3">
+        {/* Cabeçalho compacto */}
+        <button
+          type="button"
+          onClick={() => toggleExpand(i.id)}
+          onKeyDown={(e) => ((e.key === 'Enter' || e.key === ' ') && toggleExpand(i.id))}
+          className="w-full flex items-center justify-between gap-3 text-left"
+        >
+          <div className="flex items-center gap-2">
+            {icon ? <div className="text-2xl">{icon}</div> : <FallbackBadge name={i.name} />}
+            <div>
+              <div className="font-medium">{i.name}</div>
+              <div className="text-xs text-slate-500">
+                {i.category}{i.store ? ` • ${i.store}` : ''}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <div className="text-sm font-medium">{headerTotal}</div>
-          <span
-            className={`inline-block transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
-            aria-hidden
-          >
-            ▶
-          </span>
-        </div>
-      </button>
-
-      {/* Painel dobrável */}
-      {isOpen && (
-        <>
-          <div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
-            {/* Qtd */}
-            <input
-              type="number"
-              value={d.qty ?? i.qty}
-              onChange={e => setDraftField(i.id, 'qty', e.target.value)}
-              className="border rounded-lg px-2 py-1"
-            />
-
-            {/* Tipo */}
-            <select
-              value={d.unit ?? i.unit}
-              onChange={e => setDraftField(i.id, 'unit', e.target.value)}
-              className="border rounded-lg px-2 py-1"
+          <div className="flex items-center gap-3">
+            <div className="text-sm font-medium">{headerTotal}</div>
+            <span
+              className={`inline-block transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
+              aria-hidden
             >
-              <option>un</option><option>kg</option><option>g</option>
-              <option>L</option><option>mL</option>
-              <option>pacote</option><option>caixa</option><option>saco</option>
-              <option>bandeja</option><option>garrafa</option><option>lata</option>
-              <option>outro</option>
-            </select>
-
-            {/* Preço (controlado pelo draft) */}
-            <input
-              type="text"
-              inputMode="decimal"
-              autoComplete="off"
-              value={d.price ?? (i.price ?? '')}
-              onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitDraft(i.id); }}}
-              placeholder="Preço"
-              className="border rounded-lg px-2 py-1"
-            />
-
-            {/* Peso (controlado pelo draft) */}
-            <input
-              type="text"
-              inputMode="decimal"
-              autoComplete="off"
-              value={d.weight ?? (i.weight ?? '')}
-              onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitDraft(i.id); }}}
-              placeholder="Peso"
-              className="border rounded-lg px-2 py-1"
-            />
-
-            {/* Observação */}
-            <input
-              value={d.note ?? (i.note ?? '')}
-              onChange={e => setDraftField(i.id, 'note', e.target.value)}
-              placeholder="Obs."
-              className="border rounded-lg px-2 py-1"
-            />
-
-            {/* Salvar alterações do draft */}
-            <button
-              onClick={() => commitDraft(i.id)}
-              className="px-3 py-1 rounded-lg bg-ygg-700 text-white"
-              title="Aplicar alterações"
-            >
-              ✓
-            </button>
+              ▶
+            </span>
           </div>
+        </button>
 
-          {/* Dica / info abaixo do formulário */}
-          <div className="mt-2 text-xs text-slate-500">
-            {i.kcalPer100
-              ? `${i.kcalPer100} kcal/100g`
-              : (lastPriceFor(i.name)
-                  ? `Último: ${fmtBRL(lastPriceFor(i.name))}`
-                  : (findCatalog(i.name)?.curiosity || ''))}
-          </div>
+        {/* Painel dobrável */}
+        {isOpen && (
+          <>
+            <div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
+              {/* Qtd */}
+              <input
+                type="number"
+                value={local.qty}
+                onChange={setField('qty')}
+                onKeyDown={onEnterCommit}
+                className="border rounded-lg px-2 py-1"
+              />
 
-          {/* Ações de mover/remover */}
-          <div className="mt-2 flex items-center gap-2">
-            {inCartView ? (
-              <button
-                onClick={() => toggleCart(i.id, false)}
-                className="px-3 py-2 rounded-lg bg-slate-200 text-sm"
+              {/* Tipo */}
+              <select
+                value={local.unit}
+                onChange={setField('unit')}
+                onKeyDown={onEnterCommit}
+                className="border rounded-lg px-2 py-1"
               >
-                Voltar p/ Lista
-              </button>
-            ) : (
-              <button
-                onClick={() => toggleCart(i.id, true)}
-                className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm"
-              >
-                Adicionar ao Carrinho
-              </button>
-            )}
+                <option>un</option><option>kg</option><option>g</option>
+                <option>L</option><option>mL</option>
+                <option>pacote</option><option>caixa</option><option>saco</option>
+                <option>bandeja</option><option>garrafa</option><option>lata</option>
+                <option>outro</option>
+              </select>
 
-            <button
-              onClick={() => removeItem(i.id)}
-              className="px-3 py-2 rounded-lg border text-sm"
-            >
-              Remover
-            </button>
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+              {/* Preço (texto/decimal – livre para digitar) */}
+              <input
+                type="text"
+                inputMode="decimal"
+                autoComplete="off"
+                value={local.price}
+                onChange={setField('price')}
+                onKeyDown={onEnterCommit}
+                placeholder="Preço"
+                className="border rounded-lg px-2 py-1"
+              />
+
+              {/* Peso */}
+              <input
+                type="text"
+                inputMode="decimal"
+                autoComplete="off"
+                value={local.weight}
+                onChange={setField('weight')}
+                onKeyDown={onEnterCommit}
+                placeholder="Peso"
+                className="border rounded-lg px-2 py-1"
+              />
+
+              {/* Obs */}
+              <input
+                value={local.note}
+                onChange={setField('note')}
+                onKeyDown={onEnterCommit}
+                placeholder="Obs."
+                className="border rounded-lg px-2 py-1"
+              />
+
+              {/* Confirmar */}
+              <button
+                onClick={() => { commit(); /* opcional: toggleExpand(i.id); */ }}
+                className="px-3 py-1 rounded-lg bg-ygg-700 text-white"
+                title="Aplicar alterações"
+              >
+                ✓
+              </button>
+            </div>
+
+            {/* Dica / info */}
+            <div className="mt-2 text-xs text-slate-500">
+              {i.kcalPer100
+                ? `${i.kcalPer100} kcal/100g`
+                : (lastPriceFor(i.name)
+                    ? `Último: ${fmtBRL(lastPriceFor(i.name))}`
+                    : (findCatalog(i.name)?.curiosity || ''))}
+            </div>
+
+            {/* Ações */}
+            <div className="mt-2 flex items-center gap-2">
+              {inCartView ? (
+                <button
+                  onClick={() => toggleCart(i.id, false)}
+                  className="px-3 py-2 rounded-lg bg-slate-200 text-sm"
+                >
+                  Voltar p/ Lista
+                </button>
+              ) : (
+                <button
+                  onClick={() => toggleCart(i.id, true)}
+                  className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm"
+                >
+                  Adicionar ao Carrinho
+                </button>
+              )}
+
+              <button
+                onClick={() => removeItem(i.id)}
+                className="px-3 py-2 rounded-lg border text-sm"
+              >
+                Remover
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    );
+  });
 
   const finalizePurchase = () => {
     if (cart.length === 0) return;
@@ -457,56 +486,81 @@ const ItemRow = ({ i, inCartView }) => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
+        {/* LISTA */}
         <div className="bg-white rounded-2xl border shadow-sm p-4">
           <div className="flex items-center justify-between gap-2 mb-2">
-  <div className="flex items-center gap-2">
-    <span>📝</span>
-    <h3 className="font-semibold">Lista</h3>
-  </div>
+            <button
+              type="button"
+              onClick={() => setListOpen(v => !v)}
+              className="flex items-center gap-2"
+              title="Expandir/contrair lista"
+            >
+              <span>📝</span>
+              <h3 className="font-semibold">
+                Lista <span className="text-slate-500 font-normal">({toBuy.length})</span>
+              </h3>
+              <span className={`inline-block transition-transform duration-200 ${listOpen ? 'rotate-90' : ''}`}>▶</span>
+            </button>
 
-  <button
-    onClick={moveAllToCart}
-    disabled={toBuy.length === 0}
-    className={`px-3 py-1 rounded-lg text-sm border ${
-      toBuy.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
-    }`}
-    title="Enviar todos os itens da lista para o carrinho"
-  >
-    ➕ Adicionar tudo ao carrinho
-  </button>
-</div>
+            <button
+              onClick={moveAllToCart}
+              disabled={toBuy.length === 0}
+              className={`px-3 py-1 rounded-lg text-sm border ${
+                toBuy.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
+              }`}
+              title="Enviar todos os itens da lista para o carrinho"
+            >
+              ➕ Adicionar tudo ao carrinho
+            </button>
+          </div>
 
           <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(toBuy))}</div>
-          <div className="space-y-2">
-            {toBuy.map(i => <ItemRow key={i.id} i={i} inCartView={false} />)}
-            {toBuy.length === 0 && <p className="text-sm text-slate-500">Nada aqui por enquanto.</p>}
-          </div>
+
+          {listOpen && (
+            <div className="space-y-2">
+              {toBuy.map(i => <ItemRow key={i.id} i={i} inCartView={false} />)}
+              {toBuy.length === 0 && <p className="text-sm text-slate-500">Nada aqui por enquanto.</p>}
+            </div>
+          )}
         </div>
 
+        {/* CARRINHO */}
         <div className="bg-white rounded-2xl border shadow-sm p-4">
           <div className="flex items-center justify-between gap-2 mb-2">
-  <div className="flex items-center gap-2">
-    <span>🛒</span>
-    <h3 className="font-semibold">Carrinho</h3>
-  </div>
+            <button
+              type="button"
+              onClick={() => setCartOpen(v => !v)}
+              className="flex items-center gap-2"
+              title="Expandir/contrair carrinho"
+            >
+              <span>🛒</span>
+              <h3 className="font-semibold">
+                Carrinho <span className="text-slate-500 font-normal">({cart.length})</span>
+              </h3>
+              <span className={`inline-block transition-transform duration-200 ${cartOpen ? 'rotate-90' : ''}`}>▶</span>
+            </button>
 
-  <button
-    onClick={moveAllToList}
-    disabled={cart.length === 0}
-    className={`px-3 py-1 rounded-lg text-sm border ${
-      cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
-    }`}
-    title="Devolver todos os itens do carrinho para a lista"
-  >
-    ↩ Voltar tudo p/ lista
-  </button>
-</div>
+            <button
+              onClick={moveAllToList}
+              disabled={cart.length === 0}
+              className={`px-3 py-1 rounded-lg text-sm border ${
+                cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
+              }`}
+              title="Devolver todos os itens do carrinho para a lista"
+            >
+              ↩ Voltar tudo p/ lista
+            </button>
+          </div>
 
           <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(cart))}</div>
-          <div className="space-y-2">
-            {cart.map(i => <ItemRow key={i.id} i={i} inCartView={true} />)}
-            {cart.length === 0 && <p className="text-sm text-slate-500">Nenhum item no carrinho.</p>}
-          </div>
+
+          {cartOpen && (
+            <div className="space-y-2">
+              {cart.map(i => <ItemRow key={i.id} i={i} inCartView={true} />)}
+              {cart.length === 0 && <p className="text-sm text-slate-500">Nenhum item no carrinho.</p>}
+            </div>
+          )}
+
           <div className="mt-3">
             <button onClick={() => finalizePurchase()} className="px-4 py-3 rounded-xl bg-emerald-600 text-white w-full">
               ✅ Compra finalizada (salvar)
