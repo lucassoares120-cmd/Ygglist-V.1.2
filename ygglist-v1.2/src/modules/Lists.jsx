@@ -17,41 +17,44 @@ export default function Lists() {
   const [dateISO, setDateISO] = useState(todayISO());
   const [store, setStore] = useState('');
 
-  // helper para escrever o "dia" atual dentro do STORAGE_KEY
+  // Escreve o "dia" atual dentro do STORAGE_KEY
   const setDay = (up) =>
     setData(p => ({
       ...p,
       [dateISO]: up(p[dateISO] ?? { dateISO, items: [], store: '' })
     }));
 
-  // snapshot do dia atual (sempre com chave store)
+  // Snapshot do dia atual (sempre com chave store)
   const day = useMemo(
     () => data[dateISO] ?? { dateISO, items: [], store: '' },
     [data, dateISO]
   );
 
-  // persiste o STORAGE sempre que "data" muda
+  // Persiste sempre que "data" muda
   useEffect(() => { save(STORAGE_KEY, data); }, [data]);
 
-  // ao trocar a data, carregue a loja salva naquele dia
+  // Ao trocar a data, carrega a loja salva naquele dia
   useEffect(() => {
     setStore(day.store || '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateISO]);
 
-  // quando usuário trocar a loja, reflita no dia atual
+  // Quando trocar a loja, reflete no dia atual
   useEffect(() => {
     setDay(prev => ({ ...prev, store }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store]);
 
+  // Form de adição
   const [name, setName] = useState('');
   const [qty, setQty] = useState(1);
   const [unit, setUnit] = useState('un');
-  const [price, setPrice] = useState('');
-  const [weight, setWeight] = useState('');
+  const [price, setPrice] = useState('');     // texto enquanto digita
+  const [weight, setWeight] = useState('');   // texto enquanto digita
   const [note, setNote] = useState('');
   const [showSuggest, setShowSuggest] = useState(false);
+
+  // Drafts dos itens já adicionados
   const [draft, setDraft] = useState({});
 
   const toBuy = day.items
@@ -88,7 +91,7 @@ export default function Lists() {
       icon,
       kcalPer100: kcal,
       category: cat,
-      store: store || '',      // <<< herda a loja do dia
+      store: store || '',
       inCart: false,
       createdAt: Date.now()
     };
@@ -154,33 +157,58 @@ export default function Lists() {
         </div>
 
         <div className="mt-2 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
-          <input type="number" value={d.qty ?? i.qty} onChange={e => setDraftField(i.id, 'qty', e.target.value)} className="border rounded-lg px-2 py-1" />
-          <select value={d.unit ?? i.unit} onChange={e => setDraftField(i.id, 'unit', e.target.value)} className="border rounded-lg px-2 py-1">
+          <input
+            type="number"
+            value={d.qty ?? i.qty}
+            onChange={e => setDraftField(i.id, 'qty', e.target.value)}
+            className="border rounded-lg px-2 py-1"
+          />
+
+          <select
+            value={d.unit ?? i.unit}
+            onChange={e => setDraftField(i.id, 'unit', e.target.value)}
+            className="border rounded-lg px-2 py-1"
+          >
             <option>un</option><option>kg</option><option>g</option><option>L</option><option>mL</option>
             <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
             <option>garrafa</option><option>lata</option><option>outro</option>
           </select>
-         <input
-  type="text"
-  inputMode="decimal"
-  autoComplete="off"
-  defaultValue={i.price ?? ''}
-  onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
-  placeholder="Preço"
-  className="border rounded-lg px-2 py-1"
-/>
 
-<input
-  type="text"
-  inputMode="decimal"
-  autoComplete="off"
-  defaultValue={i.weight ?? ''}
-  onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
-  placeholder="Peso"
-  className="border rounded-lg px-2 py-1"
-/>
+          {/* Preço do item (controlado pelo draft) */}
+          <input
+            type="text"
+            inputMode="decimal"
+            autoComplete="off"
+            value={d.price ?? ''}  // usa só o draft durante a digitação
+            onFocus={() => {
+              if (d.price == null) setDraftField(i.id, 'price', i.price ?? '');
+            }}
+            onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
+            placeholder="Preço"
+            className="border rounded-lg px-2 py-1"
+          />
 
-          <input value={d.note ?? (i.note ?? '')} onChange={e => setDraftField(i.id, 'note', e.target.value)} placeholder="Obs." className="border rounded-lg px-2 py-1" />
+          {/* Peso do item (controlado pelo draft) */}
+          <input
+            type="text"
+            inputMode="decimal"
+            autoComplete="off"
+            value={d.weight ?? ''} // idem
+            onFocus={() => {
+              if (d.weight == null) setDraftField(i.id, 'weight', i.weight ?? '');
+            }}
+            onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
+            placeholder="Peso"
+            className="border rounded-lg px-2 py-1"
+          />
+
+          <input
+            value={d.note ?? (i.note ?? '')}
+            onChange={e => setDraftField(i.id, 'note', e.target.value)}
+            placeholder="Obs."
+            className="border rounded-lg px-2 py-1"
+          />
+
           <button onClick={() => commitDraft(i.id)} className="px-3 py-1 rounded-lg bg-ygg-700 text-white">✓</button>
         </div>
 
@@ -208,13 +236,12 @@ export default function Lists() {
     const purchases = load(PURCHASES_KEY, []);
     const dayStore = day.store || store || '';
 
-    // garante store em cada item salvo
     const cartWithStore = cart.map(i => ({ ...i, store: i.store || dayStore }));
 
     purchases.push({
       id: uid(),
       dateISO,
-      store: dayStore,                 // <<< loja/mercado desta compra
+      store: dayStore,
       items: cartWithStore,
       total: total(cartWithStore),
       createdAt: Date.now()
@@ -222,7 +249,6 @@ export default function Lists() {
 
     save(PURCHASES_KEY, purchases);
 
-    // limpa só o inCart dos itens finalizados
     setDay(prev => ({
       ...prev,
       items: prev.items.map(i => cart.find(c => c.id === i.id) ? { ...i, inCart: false } : i)
@@ -234,131 +260,128 @@ export default function Lists() {
   return (
     <section className="space-y-4">
       <div className="bg-white rounded-2xl border shadow-sm p-4 flex flex-wrap items-end gap-3">
-  {/* LOJA / MERCADO — linha própria */}
-  <div className="basis-full">
-    <label className="text-sm">Loja / Mercado</label>
-    <input
-      type="text"
-      value={store}
-      onChange={(e) => setStore(e.target.value)}
-      placeholder="Ex.: Supermercado X, Atacado Y"
-      className="w-full border rounded-lg px-3 py-2"
-    />
-  </div>
+        {/* Loja / Mercado */}
+        <div className="basis-full">
+          <label className="text-sm">Loja / Mercado</label>
+          <input
+            type="text"
+            value={store}
+            onChange={(e) => setStore(e.target.value)}
+            placeholder="Ex.: Supermercado X, Atacado Y"
+            className="w-full border rounded-lg px-3 py-2"
+          />
+        </div>
 
-  {/* Dia */}
-  <div>
-    <label className="text-sm">Dia</label>
-    <input
-      type="date"
-      value={dateISO}
-      onChange={(e) => setDateISO(e.target.value)}
-      className="border rounded-lg px-3 py-2"
-    />
-  </div>
+        {/* Dia */}
+        <div>
+          <label className="text-sm">Dia</label>
+          <input
+            type="date"
+            value={dateISO}
+            onChange={(e) => setDateISO(e.target.value)}
+            className="border rounded-lg px-3 py-2"
+          />
+        </div>
 
-  {/* Item */}
-  <div className="flex-1 min-w-[200px] relative">
-    <label className="text-sm">Item</label>
-    <input
-      value={name}
-      onChange={(e) => { setName(e.target.value); setShowSuggest(true); }}
-      onFocus={() => setShowSuggest(true)}
-      placeholder="Digite o item..."
-      className="w-full border rounded-lg px-3 py-2"
-    />
-    {showSuggest && suggestions.length > 0 && (
-      <div className="absolute z-10 w-full mt-1 border rounded-lg bg-white shadow-sm p-2 text-sm max-h-56 overflow-auto">
-        {suggestions.map(s => (
-          <button
-            key={s.name}
-            onClick={() => pickSuggestion(s)}
-            className="block w-full text-left p-1 rounded hover:bg-ygg-100"
+        {/* Item */}
+        <div className="flex-1 min-w-[200px] relative">
+          <label className="text-sm">Item</label>
+          <input
+            value={name}
+            onChange={(e) => { setName(e.target.value); setShowSuggest(true); }}
+            onFocus={() => setShowSuggest(true)}
+            placeholder="Digite o item..."
+            className="w-full border rounded-lg px-3 py-2"
+          />
+          {showSuggest && suggestions.length > 0 && (
+            <div className="absolute z-10 w-full mt-1 border rounded-lg bg-white shadow-sm p-2 text-sm max-h-56 overflow-auto">
+              {suggestions.map(s => (
+                <button
+                  key={s.name}
+                  onClick={() => pickSuggestion(s)}
+                  className="block w-full text-left p-1 rounded hover:bg-ygg-100"
+                >
+                  {s.name} • <span className="text-xs text-slate-500">{s.category}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Qtd */}
+        <div>
+          <label className="text-sm">Qtd</label>
+          <input
+            type="number"
+            min={0}
+            step={1}
+            value={qty}
+            onChange={(e) => setQty(Number(e.target.value))}
+            className="w-20 border rounded-lg px-3 py-2"
+          />
+        </div>
+
+        {/* Tipo */}
+        <div>
+          <label className="text-sm">Tipo</label>
+          <select
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)}
+            className="border rounded-lg px-3 py-2"
           >
-            {s.name} • <span className="text-xs text-slate-500">{s.category}</span>
+            <option>un</option><option>kg</option><option>g</option><option>L</option><option>mL</option>
+            <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
+            <option>garrafa</option><option>lata</option><option>outro</option>
+          </select>
+        </div>
+
+        {/* Preço (form de adição) */}
+        <div>
+          <label className="text-sm">Preço (R$)</label>
+          <input
+            type="text"
+            inputMode="decimal"
+            autoComplete="off"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="5,99"
+            className="w-28 border rounded-lg px-3 py-2"
+          />
+        </div>
+
+        {/* Peso (form de adição) */}
+        <div>
+          <label className="text-sm">Peso</label>
+          <input
+            type="text"
+            inputMode="decimal"
+            autoComplete="off"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            placeholder="Opcional"
+            className="w-28 border rounded-lg px-3 py-2"
+          />
+        </div>
+
+        {/* Observação */}
+        <div className="flex-1 min-w-[160px]">
+          <label className="text-sm">Observação</label>
+          <input
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Marca X, maturação, etc."
+            className="w-full border rounded-lg px-3 py-2"
+          />
+        </div>
+
+        {/* Botão adicionar */}
+        <div>
+          <label className="text-sm invisible">.</label>
+          <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
+            ✓ Adicionar
           </button>
-        ))}
+        </div>
       </div>
-    )}
-  </div>
-
-  {/* Qtd */}
-  <div>
-    <label className="text-sm">Qtd</label>
-    <input
-      type="number"
-      min={0}
-      step={1}
-      value={qty}
-      onChange={(e) => setQty(Number(e.target.value))}
-      className="w-20 border rounded-lg px-3 py-2"
-    />
-  </div>
-
-  {/* Tipo */}
-  <div>
-    <label className="text-sm">Tipo</label>
-    <select
-      value={unit}
-      onChange={(e) => setUnit(e.target.value)}
-      className="border rounded-lg px-3 py-2"
-    >
-      <option>un</option><option>kg</option><option>g</option><option>L</option><option>mL</option>
-      <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
-      <option>garrafa</option><option>lata</option><option>outro</option>
-    </select>
-  </div>
-
- {/* Preço do item (controlado pelo draft, sem reset) */}
-<input
-  type="text"
-  inputMode="decimal"
-  autoComplete="off"
-  value={d.price ?? ''}                          // usa só o draft durante a digitação
-  onFocus={() => {                               // semeia o draft com o valor atual do item no foco
-    if (d.price == null) setDraftField(i.id, 'price', i.price ?? '');
-  }}
-  onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
-  placeholder="Preço"
-  className="border rounded-lg px-2 py-1"
-/>
-
-{/* Peso do item (controlado pelo draft, sem reset) */}
-<input
-  type="text"
-  inputMode="decimal"
-  autoComplete="off"
-  value={d.weight ?? ''}                         // idem
-  onFocus={() => {
-    if (d.weight == null) setDraftField(i.id, 'weight', i.weight ?? '');
-  }}
-  onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
-  placeholder="Peso"
-  className="border rounded-lg px-2 py-1"
-/>
-
-
-
-  {/* Observação */}
-  <div className="flex-1 min-w-[160px]">
-    <label className="text-sm">Observação</label>
-    <input
-      value={note}
-      onChange={(e) => setNote(e.target.value)}
-      placeholder="Marca X, maturação, etc."
-      className="w-full border rounded-lg px-3 py-2"
-    />
-  </div>
-
-  {/* Botão adicionar */}
-  <div>
-    <label className="text-sm invisible">.</label>
-    <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
-      ✓ Adicionar
-    </button>
-  </div>
-</div>
-
 
       <div className="grid md:grid-cols-2 gap-4">
         <div className="bg-white rounded-2xl border shadow-sm p-4">
