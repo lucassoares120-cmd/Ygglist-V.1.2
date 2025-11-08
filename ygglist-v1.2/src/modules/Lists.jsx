@@ -176,31 +176,29 @@ export default function Lists() {
 
           {/* Preço do item (controlado pelo draft) */}
           <input
-            type="text"
-            inputMode="decimal"
-            autoComplete="off"
-            value={d.price ?? ''}  // usa só o draft durante a digitação
-            onFocus={() => {
-              if (d.price == null) setDraftField(i.id, 'price', i.price ?? '');
-            }}
-            onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
-            placeholder="Preço"
-            className="border rounded-lg px-2 py-1"
-          />
+  type="text"
+  inputMode="decimal"
+  autoComplete="off"
+  value={d.price ?? (i.price ?? '')}
+  onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
+  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitDraft(i.id); }}}
+  placeholder="Preço"
+  className="border rounded-lg px-2 py-1"
+/>
+
 
           {/* Peso do item (controlado pelo draft) */}
           <input
-            type="text"
-            inputMode="decimal"
-            autoComplete="off"
-            value={d.weight ?? ''} // idem
-            onFocus={() => {
-              if (d.weight == null) setDraftField(i.id, 'weight', i.weight ?? '');
-            }}
-            onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
-            placeholder="Peso"
-            className="border rounded-lg px-2 py-1"
-          />
+  type="text"
+  inputMode="decimal"
+  autoComplete="off"
+  value={d.weight ?? (i.weight ?? '')}
+  onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
+  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitDraft(i.id); }}}
+  placeholder="Peso"
+  className="border rounded-lg px-2 py-1"
+/>
+
 
           <input
             value={d.note ?? (i.note ?? '')}
