@@ -480,7 +480,24 @@ const ItemRow = React.memo(({ i, inCartView }) => {
         </div>
 
         <div className="bg-white rounded-2xl border shadow-sm p-4">
-          <div className="flex items-center gap-2 mb-2"><span>🛒</span><h3 className="font-semibold">Carrinho</h3></div>
+          <div className="flex items-center justify-between gap-2 mb-2">
+  <div className="flex items-center gap-2">
+    <span>🛒</span>
+    <h3 className="font-semibold">Carrinho</h3>
+  </div>
+
+  <button
+    onClick={moveAllToList}
+    disabled={cart.length === 0}
+    className={`px-3 py-1 rounded-lg text-sm border ${
+      cart.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
+    }`}
+    title="Devolver todos os itens do carrinho para a lista"
+  >
+    ↩ Voltar tudo p/ lista
+  </button>
+</div>
+
           <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(cart))}</div>
           <div className="space-y-2">
             {cart.map(i => <ItemRow key={i.id} i={i} inCartView={true} />)}
