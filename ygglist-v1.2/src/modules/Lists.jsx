@@ -160,8 +160,26 @@ export default function Lists() {
             <option>pacote</option><option>caixa</option><option>saco</option><option>bandeja</option>
             <option>garrafa</option><option>lata</option><option>outro</option>
           </select>
-          <input value={d.price ?? (i.price ?? '')} onChange={e => setDraftField(i.id, 'price', e.target.value)} placeholder="Preço" className="border rounded-lg px-2 py-1" />
-          <input value={d.weight ?? (i.weight ?? '')} onChange={e => setDraftField(i.id, 'weight', e.target.value)} placeholder="Peso" className="border rounded-lg px-2 py-1" />
+         <input
+  type="text"
+  inputMode="decimal"
+  autoComplete="off"
+  defaultValue={i.price ?? ''}
+  onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
+  placeholder="Preço"
+  className="border rounded-lg px-2 py-1"
+/>
+
+<input
+  type="text"
+  inputMode="decimal"
+  autoComplete="off"
+  defaultValue={i.weight ?? ''}
+  onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
+  placeholder="Peso"
+  className="border rounded-lg px-2 py-1"
+/>
+
           <input value={d.note ?? (i.note ?? '')} onChange={e => setDraftField(i.id, 'note', e.target.value)} placeholder="Obs." className="border rounded-lg px-2 py-1" />
           <button onClick={() => commitDraft(i.id)} className="px-3 py-1 rounded-lg bg-ygg-700 text-white">✓</button>
         </div>
