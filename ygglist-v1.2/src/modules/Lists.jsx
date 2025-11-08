@@ -109,6 +109,23 @@ export default function Lists() {
   const removeItem = (id) =>
     setDay(prev => ({ ...prev, items: prev.items.filter(i => i.id !== id) }));
 
+  // Mover todos os itens para o carrinho
+const moveAllToCart = () => {
+  setDay(prev => ({
+    ...prev,
+    items: prev.items.map(i => ({ ...i, inCart: true }))
+  }));
+};
+
+// Voltar todos os itens para a lista
+const moveAllToList = () => {
+  setDay(prev => ({
+    ...prev,
+    items: prev.items.map(i => ({ ...i, inCart: false }))
+  }));
+};
+
+
   const total = (list) => list.reduce((a, i) => a + (i.price || 0) * (i.qty || 1), 0);
 
   const suggestions = name.length > 0
