@@ -309,29 +309,35 @@ export default function Lists() {
     </select>
   </div>
 
-  {/* Preço */}
-  <div>
-    <label className="text-sm">Preço (R$)</label>
-    <input
-      value={price}
-      onChange={(e) => setPrice(e.target.value)}
-      inputMode="decimal"
-      placeholder="5,99"
-      className="w-28 border rounded-lg px-3 py-2"
-    />
-  </div>
+ {/* Preço do item (controlado pelo draft, sem reset) */}
+<input
+  type="text"
+  inputMode="decimal"
+  autoComplete="off"
+  value={d.price ?? ''}                          // usa só o draft durante a digitação
+  onFocus={() => {                               // semeia o draft com o valor atual do item no foco
+    if (d.price == null) setDraftField(i.id, 'price', i.price ?? '');
+  }}
+  onChange={(e) => setDraftField(i.id, 'price', e.target.value)}
+  placeholder="Preço"
+  className="border rounded-lg px-2 py-1"
+/>
 
-  {/* Peso */}
-  <div>
-    <label className="text-sm">Peso</label>
-    <input
-      value={weight}
-      onChange={(e) => setWeight(e.target.value)}
-      inputMode="decimal"
-      placeholder="Opcional"
-      className="w-28 border rounded-lg px-3 py-2"
-    />
-  </div>
+{/* Peso do item (controlado pelo draft, sem reset) */}
+<input
+  type="text"
+  inputMode="decimal"
+  autoComplete="off"
+  value={d.weight ?? ''}                         // idem
+  onFocus={() => {
+    if (d.weight == null) setDraftField(i.id, 'weight', i.weight ?? '');
+  }}
+  onChange={(e) => setDraftField(i.id, 'weight', e.target.value)}
+  placeholder="Peso"
+  className="border rounded-lg px-2 py-1"
+/>
+
+
 
   {/* Observação */}
   <div className="flex-1 min-w-[160px]">
