@@ -264,56 +264,78 @@ export default function Lists() {
           <>
             <div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
               {/* Qtd (texto, aceita , .) */}
-              <input
-                type="text"
-                inputMode="decimal"
-                autoComplete="off"
-                value={local.qty}
-                onChange={setField('qty')}
-                onBlur={onBlurCommit}
-                onKeyDown={onEnterCommit}
-                className="border rounded-lg px-2 py-1"
-                placeholder="Qtd"
-              />
+            {/* === dentro do bloco {isOpen && ( <> ... </> )} === */}
 
-              {/* Tipo */}
-              <select
-                value={local.unit}
-                onChange={(e) => { setField('unit')(e); commit(); }}
-                className="border rounded-lg px-2 py-1"
-              >
-                <option>un</option><option>kg</option><option>g</option>
-                <option>L</option><option>mL</option>
-                <option>pacote</option><option>caixa</option><option>saco</option>
-                <option>bandeja</option><option>garrafa</option><option>lata</option>
-                <option>outro</option>
-              </select>
+{/* 1) GRID mantém Qtd / Tipo / Preço (REMOVA o Observação daqui) */}
+<div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
+  {/* Qtd */}
+  <input
+    type="text"
+    inputMode="decimal"
+    autoComplete="off"
+    value={local.qty}
+    onChange={setField('qty')}
+    onBlur={onBlurCommit}
+    onKeyDown={onEnterCommit}
+    className="border rounded-lg px-2 py-1"
+    placeholder="Qtd"
+  />
 
-              {/* Preço */}
-              <input
-                type="text"
-                inputMode="decimal"
-                autoComplete="off"
-                value={local.price}
-                onChange={setField('price')}
-                onBlur={onBlurCommit}
-                onKeyDown={onEnterCommit}
-                placeholder="Preço"
-                className="border rounded-lg px-2 py-1"
-              />
+  {/* Tipo */}
+  <select
+    value={local.unit}
+    onChange={(e) => { setField('unit')(e); commit(); }}
+    className="border rounded-lg px-2 py-1"
+  >
+    <option>un</option><option>kg</option><option>g</option>
+    <option>L</option><option>mL</option>
+    <option>pacote</option><option>caixa</option><option>saco</option>
+    <option>bandeja</option><option>garrafa</option><option>lata</option>
+    <option>outro</option>
+  </select>
 
-              {/* Observação (livre texto) */}
-              <input
-                type="text"
-                autoComplete="off"
-                value={local.weight}
-                onChange={setField('weight')}
-                onBlur={onBlurCommit}
-                onKeyDown={onEnterCommit}
-                placeholder="Observação"
-                className="border rounded-lg px-2 py-1"
-              />
-            </div>
+  {/* Preço */}
+  <input
+    type="text"
+    inputMode="decimal"
+    autoComplete="off"
+    value={local.price}
+    onChange={setField('price')}
+    onBlur={onBlurCommit}
+    onKeyDown={onEnterCommit}
+    placeholder="Preço"
+    className="border rounded-lg px-2 py-1"
+  />
+</div>
+
+{/* 2) NOVA LINHA: Observação em largura total, ANTES de kcal/curiosidade */}
+<div className="mt-2">
+  <input
+    type="text"
+    autoComplete="off"
+    value={local.weight}
+    onChange={setField('weight')}
+    onBlur={onBlurCommit}
+    onKeyDown={onEnterCommit}
+    placeholder="Observação"
+    className="w-full border rounded-lg px-3 py-2"
+  />
+</div>
+
+{/* (mantém) kcal + curiosidade logo abaixo */}
+<div className="mt-2 text-xs text-slate-500 flex flex-wrap items-center gap-2">
+  {i.kcalPer100 && <span>{i.kcalPer100} kcal/100g</span>}
+  {i.note && (
+    <>
+      {i.kcalPer100 ? <span>•</span> : null}
+      <span className="truncate">{i.note}</span>
+    </>
+  )}
+  {!i.kcalPer100 && !i.note && lastPriceFor(i.name) && (
+    <span>Último: {fmtBRL(lastPriceFor(i.name))}</span>
+  )}
+</div>
+
 
             {/* kcal + curiosidade (apenas exibição) */}
             <div className="mt-2 text-xs text-slate-500 flex flex-wrap items-center gap-2">
