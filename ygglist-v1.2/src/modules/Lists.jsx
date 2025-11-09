@@ -1,56 +1,41 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import catalog from '../data/ygg_items.json';
 import { STORAGE_KEY, PURCHASES_KEY, fmtBRL, uid, todayISO, load, save, catIcon } from '../lib.js';
 
-// =====================
-// Helpers
-// =====================
+/* ========================
+   Helpers
+======================== */
 const iconFor = (it) => it.icon || catIcon[it.category] || null;
 const findCatalog = (name) =>
   catalog.find((x) => x.name.toLowerCase() === name.toLowerCase());
 
-/**
- * Converte string numérica em número aceitando:
- *  - "1,5"  -> 1.5
- *  - "1.5"  -> 1.5
- *  - "1.234,56" -> 1234.56
- *  - "1,234.56" -> 1234.56
- * Mantém suporte a valores vazios.
- */
+/** Converte string numérica em número aceitando formatos locais. */
 const toLocaleNumber = (v) => {
   if (v === null || v === undefined) return 0;
   if (typeof v === 'number') return isFinite(v) ? v : 0;
 
   let s = String(v).trim();
   if (!s) return 0;
-
-  // pega apenas dígitos, vírgulas e pontos
   s = s.replace(/[^\d.,\-]/g, '');
 
   const lastComma = s.lastIndexOf(',');
   const lastDot = s.lastIndexOf('.');
   let decimalSep = null;
 
-  if (lastComma === -1 && lastDot === -1) {
-    // só dígitos
-    return Number(s) || 0;
-  }
+  if (lastComma === -1 && lastDot === -1) return Number(s) || 0;
   if (lastComma === -1) decimalSep = '.';
   else if (lastDot === -1) decimalSep = ',';
-  else decimalSep = lastComma > lastDot ? ',' : '.'; // o último é o separador decimal
+  else decimalSep = lastComma > lastDot ? ',' : '.';
 
   const thousandSep = decimalSep === ',' ? '.' : ',';
-  // remove todos os separadores de milhar
-  const reThousand = new RegExp('\\' + thousandSep, 'g');
-  s = s.replace(reThousand, '');
-  // troca decimal pelo ponto
-  if (decimalSep) s = s.replace(decimalSep, '.');
+  s = s.replace(new RegExp('\\' + thousandSep, 'g'), '');
+  s = s.replace(decimalSep, '.');
 
   const n = Number(s);
   return isFinite(n) ? n : 0;
 };
 
-// preserva a rolagem da página durante updates
+// evita “pulo” de rolagem após updates
 const withScrollLock = (fn) => {
   const y = typeof window !== 'undefined' ? window.scrollY : 0;
   fn();
@@ -65,26 +50,28 @@ function FallbackBadge({ name }) {
   );
 }
 
+/* ========================
+   Componente principal
+======================== */
 export default function Lists() {
-  // ===================== estado raiz =====================
   const [data, setData] = useState(() => load(STORAGE_KEY, {}));
   const [dateISO, setDateISO] = useState(todayISO());
   const [store, setStore] = useState('');
 
-  // formulário de adição
+  // form de adição
   const [name, setName] = useState('');
-  const [qtyStr, setQtyStr] = useState('1');         // texto livre
+  const [qtyStr, setQtyStr] = useState('1');       // texto livre
   const [unit, setUnit] = useState('un');
-  const [priceStr, setPriceStr] = useState('');      // texto livre
-  const [obs, setObs] = useState('');                // Observação (texto)
-  const [curiosity, setCuriosity] = useState('');    // Curiosidade (texto)
+  const [priceStr, setPriceStr] = useState('');
+  const [obs, setObs] = useState('');              // Observação (texto)
+  const [curiosity, setCuriosity] = useState('');  // Curiosidade (texto)
   const [showSuggest, setShowSuggest] = useState(false);
 
-  // acordeão por item
+  // estado de expandido por item
   const [open, setOpen] = useState({});
   const toggleExpand = (id) => setOpen((o) => ({ ...o, [id]: !o[id] }));
 
-  // acordeões das colunas
+  // retrátil por coluna
   const [listOpen, setListOpen] = useState(true);
   const [cartOpen, setCartOpen] = useState(true);
 
@@ -92,7 +79,7 @@ export default function Lists() {
   const [listQuery, setListQuery] = useState('');
   const [cartQuery, setCartQuery] = useState('');
 
-  // escreve o "dia" atual no STORAGE
+  // escreve o “dia” atual no storage
   const setDay = (updater) =>
     setData((p) => ({
       ...p,
@@ -108,37 +95,33 @@ export default function Lists() {
   // persistência
   useEffect(() => { save(STORAGE_KEY, data); }, [data]);
 
-  // carregar loja salva no dia
+  // sincroniza loja ao trocar de data
   useEffect(() => { setStore(day.store || ''); /* eslint-disable-next-line */ }, [dateISO]);
-
-  // refletir mudança de loja no dia
   useEffect(() => { setDay((prev) => ({ ...prev, store })); /* eslint-disable-next-line */ }, [store]);
 
-  // ===================== query/sort =====================
-  const allToBuyUnfiltered = day.items
-    .filter((i) => !i.inCart)
-    .sort((a, b) => (a.category || '').localeCompare(b.category || '') || a.name.localeCompare(b.name));
+  /* ====== lista e carrinho filtrados/ordenados ====== */
+  const stableSort = (a, b) =>
+    (a.category || '').localeCompare(b.category || '') ||
+    a.name.localeCompare(b.name) ||
+    (a.createdAt || 0) - (b.createdAt || 0);
 
-  const allCartUnfiltered = day.items
-    .filter((i) => i.inCart)
-    .sort((a, b) => (a.category || '').localeCompare(b.category || '') || a.name.localeCompare(b.name));
+  const allToBuyUnfiltered = day.items.filter((i) => !i.inCart).sort(stableSort);
+  const allCartUnfiltered  = day.items.filter((i) =>  i.inCart).sort(stableSort);
 
-  // filtro de busca
   const matches = (q, i) => {
     if (!q) return true;
     const s = q.toLowerCase();
     return (
       (i.name || '').toLowerCase().includes(s) ||
       (i.category || '').toLowerCase().includes(s) ||
-      (i.weight || '').toLowerCase().includes(s) ||     // Observação
-      (i.note || '').toLowerCase().includes(s)          // Curiosidade
+      (i.weight || '').toLowerCase().includes(s) ||  // Observação
+      (i.note || '').toLowerCase().includes(s)       // Curiosidade
     );
   };
 
   const toBuy = allToBuyUnfiltered.filter((i) => matches(listQuery, i));
-  const cart = allCartUnfiltered.filter((i) => matches(cartQuery, i));
+  const cart  = allCartUnfiltered.filter((i) => matches(cartQuery, i));
 
-  // ===================== utils =====================
   const lastPriceFor = (n) => {
     const all = Object.values(data)
       .flatMap((d) => d.items)
@@ -147,7 +130,7 @@ export default function Lists() {
     return s?.price;
   };
 
-  // ===================== CRUD itens =====================
+  /* ====== CRUD ====== */
   function addItem() {
     const nm = (name || '').trim();
     if (!nm) return;
@@ -162,8 +145,8 @@ export default function Lists() {
       qty: toLocaleNumber(qtyStr) || 1,
       unit,
       price: toLocaleNumber(priceStr),
-      weight: obs || '',                  // Observação (texto)
-      note: curiosity || findCatalog(nm)?.curiosity || '', // Curiosidade
+      weight: obs || '',
+      note: curiosity || findCatalog(nm)?.curiosity || '',
       icon,
       kcalPer100: kcal,
       category: cat,
@@ -174,7 +157,7 @@ export default function Lists() {
 
     setDay((prev) => ({ ...prev, items: [item, ...prev.items] }));
 
-    // reset form
+    // reset
     setName('');
     setQtyStr('1');
     setUnit('un');
@@ -202,10 +185,7 @@ export default function Lists() {
 
   const removeItem = (id) =>
     withScrollLock(() =>
-      setDay((prev) => ({
-        ...prev,
-        items: prev.items.filter((i) => i.id !== id),
-      }))
+      setDay((prev) => ({ ...prev, items: prev.items.filter((i) => i.id !== id) }))
     );
 
   const moveAllToCart = () =>
@@ -236,27 +216,27 @@ export default function Lists() {
     setShowSuggest(false);
   };
 
-  // ===================== ItemRow =====================
+  /* ====== Row do item (digitação isolada + autosave) ====== */
   const ItemRow = React.memo(({ i, inCartView }) => {
     const icon = iconFor(i);
     const isOpen = !!open[i.id];
 
-    // estado local livre (para digitação suave)
+    // estado local livre
     const [local, setLocal] = useState({
       qty: (i.qty ?? 1) + '',
       unit: i.unit ?? 'un',
       price: (i.price ?? '') + '',
-      weight: (i.weight ?? '') + '', // Observação
-      note: i.note ?? '',            // Curiosidade
+      weight: (i.weight ?? ''),
+      note: i.note ?? '',
     });
 
-    // ressincroniza ao trocar de item
+    // re-sincroniza apenas se trocar o item
     useEffect(() => {
       setLocal({
         qty: (i.qty ?? 1) + '',
         unit: i.unit ?? 'un',
         price: (i.price ?? '') + '',
-        weight: (i.weight ?? '') + '',
+        weight: (i.weight ?? ''),
         note: i.note ?? '',
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -264,12 +244,14 @@ export default function Lists() {
 
     const setField = (field) => (e) => {
       const v = e?.target?.value ?? e;
-      setLocal((prev) => ({ ...prev, [field]: v }));
+      setLocal((p) => ({ ...p, [field]: v }));
     };
 
-    // auto-save (debounce)
+    // debounce para salvar no pai
+    const saveTimer = useRef(null);
     useEffect(() => {
-      const t = setTimeout(() => {
+      clearTimeout(saveTimer.current);
+      saveTimer.current = setTimeout(() => {
         updateItem(i.id, {
           qty: toLocaleNumber(local.qty) || 0,
           unit: local.unit,
@@ -277,15 +259,18 @@ export default function Lists() {
           weight: local.weight,
           note: local.note,
         });
-      }, 250);
-      return () => clearTimeout(t);
+      }, 300);
+      return () => clearTimeout(saveTimer.current);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [local.qty, local.unit, local.price, local.weight, local.note]);
 
+    // total mostrado no cabeçalho usa o que está sendo digitado
     const headerTotal =
-      typeof i.price === 'number'
-        ? fmtBRL(toLocaleNumber(i.price) * (toLocaleNumber(i.qty) || 1))
-        : '—';
+      local.price !== ''
+        ? fmtBRL(toLocaleNumber(local.price) * (toLocaleNumber(local.qty) || 1))
+        : (typeof i.price === 'number'
+            ? fmtBRL(toLocaleNumber(i.price) * (toLocaleNumber(i.qty) || 1))
+            : '—');
 
     return (
       <div className="border rounded-xl p-3">
@@ -317,7 +302,7 @@ export default function Lists() {
           </div>
         </button>
 
-        {/* Painel dobrável */}
+        {/* Painel */}
         {isOpen && (
           <>
             <div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
@@ -330,6 +315,7 @@ export default function Lists() {
                 onChange={setField('qty')}
                 className="border rounded-lg px-2 py-1"
                 placeholder="Qtd"
+                onFocus={() => setOpen((o) => ({ ...o, [i.id]: true }))}
               />
 
               {/* Tipo */}
@@ -354,9 +340,10 @@ export default function Lists() {
                 onChange={setField('price')}
                 placeholder="Preço"
                 className="border rounded-lg px-2 py-1"
+                onFocus={() => setOpen((o) => ({ ...o, [i.id]: true }))}
               />
 
-              {/* Observação (texto) */}
+              {/* Observação (livre texto) */}
               <input
                 type="text"
                 autoComplete="off"
@@ -377,7 +364,7 @@ export default function Lists() {
               />
             </div>
 
-            {/* Info (kcal + curiosidade lado a lado) */}
+            {/* kcal + curiosidade */}
             <div className="mt-2 text-xs text-slate-500 flex flex-wrap items-center gap-2">
               {i.kcalPer100 && <span>{i.kcalPer100} kcal/100g</span>}
               {i.note && (
@@ -408,7 +395,6 @@ export default function Lists() {
                   Adicionar ao Carrinho
                 </button>
               )}
-
               <button
                 onClick={() => removeItem(i.id)}
                 className="px-3 py-2 rounded-lg border text-sm"
@@ -422,13 +408,12 @@ export default function Lists() {
     );
   });
 
-  // ===================== finalizar compra =====================
+  /* ====== Finalizar compra ====== */
   const finalizePurchase = () => {
     if (cart.length === 0) return;
 
     const purchases = load(PURCHASES_KEY, []);
     const dayStore = day.store || store || '';
-
     const cartWithStore = cart.map((i) => ({ ...i, store: i.store || dayStore }));
 
     purchases.push({
@@ -442,26 +427,18 @@ export default function Lists() {
 
     save(PURCHASES_KEY, purchases);
 
-    // limpa tudo do dia (lista & carrinho) e zera loja
+    // limpa tudo (lista/carrinho) e loja
     setData((prev) => ({
       ...prev,
       [dateISO]: { dateISO, items: [], store: '' },
     }));
-
-    // reseta form de entrada
     setStore('');
-    setName('');
-    setQtyStr('1');
-    setUnit('un');
-    setPriceStr('');
-    setObs('');
-    setCuriosity('');
-    setShowSuggest(false);
+    setName(''); setQtyStr('1'); setUnit('un'); setPriceStr(''); setObs(''); setCuriosity(''); setShowSuggest(false);
 
     alert('Compra finalizada e salva!');
   };
 
-  // ===================== render =====================
+  /* ====== Render ====== */
   const suggestionsList =
     name.length > 0 && suggestions.length > 0 ? (
       <div className="absolute z-10 w-full mt-1 border rounded-lg bg-white shadow-sm p-2 text-sm max-h-56 overflow-auto">
@@ -568,7 +545,7 @@ export default function Lists() {
             type="text"
             value={obs}
             onChange={(e) => setObs(e.target.value)}
-            placeholder="Observações gerais (marca, maturação, etc.)"
+            placeholder="Observações (marca, maturação, etc.)"
             className="w-full border rounded-lg px-3 py-2"
           />
         </div>
@@ -580,7 +557,7 @@ export default function Lists() {
             type="text"
             value={curiosity}
             onChange={(e) => setCuriosity(e.target.value)}
-            placeholder="Curiosidades do item"
+            placeholder="Curiosidade do item"
             className="w-full border rounded-lg px-3 py-2"
           />
         </div>
@@ -617,7 +594,7 @@ export default function Lists() {
               className={`px-3 py-1 rounded-lg text-sm border ${
                 allToBuyUnfiltered.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
               }`}
-              title="Enviar todos os itens da lista para o carrinho"
+              title="Enviar todos para o carrinho"
             >
               ➕ Adicionar tudo ao carrinho
             </button>
@@ -666,7 +643,7 @@ export default function Lists() {
               className={`px-3 py-1 rounded-lg text-sm border ${
                 allCartUnfiltered.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
               }`}
-              title="Devolver todos os itens do carrinho para a lista"
+              title="Devolver todos para a lista"
             >
               ↩ Voltar tudo p/ lista
             </button>
