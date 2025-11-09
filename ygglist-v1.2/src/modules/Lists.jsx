@@ -3,29 +3,58 @@ import catalog from '../data/ygg_items.json';
 import { STORAGE_KEY, PURCHASES_KEY, fmtBRL, uid, todayISO, load, save, catIcon } from '../lib.js';
 
 // =====================
-// Helpers locais
+// Helpers
 // =====================
 const iconFor = (it) => it.icon || catIcon[it.category] || null;
 const findCatalog = (name) =>
   catalog.find((x) => x.name.toLowerCase() === name.toLowerCase());
 
-// aceita "1,5" ou "1.5" e valores vazios
-const toNumberLoose = (v) => {
+/**
+ * Converte string numérica em número aceitando:
+ *  - "1,5"  -> 1.5
+ *  - "1.5"  -> 1.5
+ *  - "1.234,56" -> 1234.56
+ *  - "1,234.56" -> 1234.56
+ * Mantém suporte a valores vazios.
+ */
+const toLocaleNumber = (v) => {
   if (v === null || v === undefined) return 0;
   if (typeof v === 'number') return isFinite(v) ? v : 0;
-  const s = String(v).trim().replace(/\./g, '').replace(',', '.'); // "1.234,56" -> "1234.56"
+
+  let s = String(v).trim();
+  if (!s) return 0;
+
+  // pega apenas dígitos, vírgulas e pontos
+  s = s.replace(/[^\d.,\-]/g, '');
+
+  const lastComma = s.lastIndexOf(',');
+  const lastDot = s.lastIndexOf('.');
+  let decimalSep = null;
+
+  if (lastComma === -1 && lastDot === -1) {
+    // só dígitos
+    return Number(s) || 0;
+  }
+  if (lastComma === -1) decimalSep = '.';
+  else if (lastDot === -1) decimalSep = ',';
+  else decimalSep = lastComma > lastDot ? ',' : '.'; // o último é o separador decimal
+
+  const thousandSep = decimalSep === ',' ? '.' : ',';
+  // remove todos os separadores de milhar
+  const reThousand = new RegExp('\\' + thousandSep, 'g');
+  s = s.replace(reThousand, '');
+  // troca decimal pelo ponto
+  if (decimalSep) s = s.replace(decimalSep, '.');
+
   const n = Number(s);
   return isFinite(n) ? n : 0;
 };
 
-// preserva a rolagem da página durante updates pesados
+// preserva a rolagem da página durante updates
 const withScrollLock = (fn) => {
   const y = typeof window !== 'undefined' ? window.scrollY : 0;
   fn();
-  if (typeof window !== 'undefined') {
-    // após o repaint
-    setTimeout(() => window.scrollTo(0, y), 0);
-  }
+  if (typeof window !== 'undefined') setTimeout(() => window.scrollTo(0, y), 0);
 };
 
 function FallbackBadge({ name }) {
@@ -44,11 +73,11 @@ export default function Lists() {
 
   // formulário de adição
   const [name, setName] = useState('');
-  const [qtyStr, setQtyStr] = useState('1');         // livre (aceita vírgula/ponto)
+  const [qtyStr, setQtyStr] = useState('1');         // texto livre
   const [unit, setUnit] = useState('un');
-  const [priceStr, setPriceStr] = useState('');      // livre
-  const [obs, setObs] = useState('');                // novo Observação (ex-Peso) — texto
-  const [curiosity, setCuriosity] = useState('');    // novo Curiosidade (ex-Observação/nota)
+  const [priceStr, setPriceStr] = useState('');      // texto livre
+  const [obs, setObs] = useState('');                // Observação (texto)
+  const [curiosity, setCuriosity] = useState('');    // Curiosidade (texto)
   const [showSuggest, setShowSuggest] = useState(false);
 
   // acordeão por item
@@ -77,61 +106,43 @@ export default function Lists() {
   );
 
   // persistência
-  useEffect(() => {
-    save(STORAGE_KEY, data);
-  }, [data]);
+  useEffect(() => { save(STORAGE_KEY, data); }, [data]);
 
   // carregar loja salva no dia
-  useEffect(() => {
-    setStore(day.store || '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dateISO]);
+  useEffect(() => { setStore(day.store || ''); /* eslint-disable-next-line */ }, [dateISO]);
 
   // refletir mudança de loja no dia
-  useEffect(() => {
-    setDay((prev) => ({ ...prev, store }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store]);
+  useEffect(() => { setDay((prev) => ({ ...prev, store })); /* eslint-disable-next-line */ }, [store]);
 
   // ===================== query/sort =====================
   const allToBuyUnfiltered = day.items
     .filter((i) => !i.inCart)
-    .sort(
-      (a, b) =>
-        (a.category || '').localeCompare(b.category || '') ||
-        a.name.localeCompare(b.name)
-    );
+    .sort((a, b) => (a.category || '').localeCompare(b.category || '') || a.name.localeCompare(b.name));
 
   const allCartUnfiltered = day.items
     .filter((i) => i.inCart)
-    .sort(
-      (a, b) =>
-        (a.category || '').localeCompare(b.category || '') ||
-        a.name.localeCompare(b.name)
-    );
+    .sort((a, b) => (a.category || '').localeCompare(b.category || '') || a.name.localeCompare(b.name));
 
-  // filtro de busca (nome, categoria, observação, curiosidade)
+  // filtro de busca
   const matches = (q, i) => {
     if (!q) return true;
     const s = q.toLowerCase();
     return (
       (i.name || '').toLowerCase().includes(s) ||
       (i.category || '').toLowerCase().includes(s) ||
-      (i.weight || '').toLowerCase().includes(s) ||      // "Observação" (texto)
-      (i.note || '').toLowerCase().includes(s)           // "Curiosidade"
+      (i.weight || '').toLowerCase().includes(s) ||     // Observação
+      (i.note || '').toLowerCase().includes(s)          // Curiosidade
     );
   };
 
   const toBuy = allToBuyUnfiltered.filter((i) => matches(listQuery, i));
   const cart = allCartUnfiltered.filter((i) => matches(cartQuery, i));
 
-  // ===================== utilidades =====================
+  // ===================== utils =====================
   const lastPriceFor = (n) => {
     const all = Object.values(data)
       .flatMap((d) => d.items)
-      .filter(
-        (i) => i.name.toLowerCase() === n.toLowerCase() && typeof i.price === 'number'
-      );
+      .filter((i) => i.name.toLowerCase() === n.toLowerCase() && typeof i.price === 'number');
     const s = all.sort((a, b) => b.createdAt - a.createdAt)[0];
     return s?.price;
   };
@@ -148,13 +159,11 @@ export default function Lists() {
     const item = {
       id: uid(),
       name: nm,
-      qty: toNumberLoose(qtyStr) || 1,
+      qty: toLocaleNumber(qtyStr) || 1,
       unit,
-      price: toNumberLoose(priceStr),
-      // "weight" agora é texto livre (Observação)
-      weight: obs || '',
-      // "note" é Curiosidade
-      note: curiosity || findCatalog(nm)?.curiosity || '',
+      price: toLocaleNumber(priceStr),
+      weight: obs || '',                  // Observação (texto)
+      note: curiosity || findCatalog(nm)?.curiosity || '', // Curiosidade
       icon,
       kcalPer100: kcal,
       category: cat,
@@ -165,7 +174,7 @@ export default function Lists() {
 
     setDay((prev) => ({ ...prev, items: [item, ...prev.items] }));
 
-    // reset do form
+    // reset form
     setName('');
     setQtyStr('1');
     setUnit('un');
@@ -201,31 +210,23 @@ export default function Lists() {
 
   const moveAllToCart = () =>
     withScrollLock(() =>
-      setDay((prev) => ({
-        ...prev,
-        items: prev.items.map((i) => ({ ...i, inCart: true })),
-      }))
+      setDay((prev) => ({ ...prev, items: prev.items.map((i) => ({ ...i, inCart: true })) }))
     );
 
   const moveAllToList = () =>
     withScrollLock(() =>
-      setDay((prev) => ({
-        ...prev,
-        items: prev.items.map((i) => ({ ...i, inCart: false })),
-      }))
+      setDay((prev) => ({ ...prev, items: prev.items.map((i) => ({ ...i, inCart: false })) }))
     );
 
   const total = (list) =>
     list.reduce(
-      (a, i) => a + (toNumberLoose(i.price) || 0) * (toNumberLoose(i.qty) || 1),
+      (a, i) => a + (toLocaleNumber(i.price) || 0) * (toLocaleNumber(i.qty) || 1),
       0
     );
 
   const suggestions =
     name.length > 0
-      ? catalog
-          .filter((x) => x.name.toLowerCase().includes(name.toLowerCase()))
-          .slice(0, 10)
+      ? catalog.filter((x) => x.name.toLowerCase().includes(name.toLowerCase())).slice(0, 10)
       : [];
 
   const pickSuggestion = (s) => {
@@ -235,18 +236,18 @@ export default function Lists() {
     setShowSuggest(false);
   };
 
-  // ===================== ItemRow (auto-save / sem ✓) =====================
+  // ===================== ItemRow =====================
   const ItemRow = React.memo(({ i, inCartView }) => {
     const icon = iconFor(i);
     const isOpen = !!open[i.id];
 
-    // estado local do editor (livre)
+    // estado local livre (para digitação suave)
     const [local, setLocal] = useState({
       qty: (i.qty ?? 1) + '',
       unit: i.unit ?? 'un',
       price: (i.price ?? '') + '',
-      weight: (i.weight ?? '') + '',
-      note: i.note ?? '',
+      weight: (i.weight ?? '') + '', // Observação
+      note: i.note ?? '',            // Curiosidade
     });
 
     // ressincroniza ao trocar de item
@@ -266,16 +267,14 @@ export default function Lists() {
       setLocal((prev) => ({ ...prev, [field]: v }));
     };
 
-    // auto-save com debounce leve
+    // auto-save (debounce)
     useEffect(() => {
       const t = setTimeout(() => {
         updateItem(i.id, {
-          qty: toNumberLoose(local.qty) || 0,
+          qty: toLocaleNumber(local.qty) || 0,
           unit: local.unit,
-          price: toNumberLoose(local.price),
-          // weight como texto
+          price: toLocaleNumber(local.price),
           weight: local.weight,
-          // note como texto (curiosidade)
           note: local.note,
         });
       }, 250);
@@ -285,7 +284,7 @@ export default function Lists() {
 
     const headerTotal =
       typeof i.price === 'number'
-        ? fmtBRL(toNumberLoose(i.price) * (toNumberLoose(i.qty) || 1))
+        ? fmtBRL(toLocaleNumber(i.price) * (toLocaleNumber(i.qty) || 1))
         : '—';
 
     return (
@@ -294,22 +293,15 @@ export default function Lists() {
         <button
           type="button"
           onClick={() => toggleExpand(i.id)}
-          onKeyDown={(e) =>
-            (e.key === 'Enter' || e.key === ' ') && toggleExpand(i.id)
-          }
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleExpand(i.id)}
           className="w-full flex items-center justify-between gap-3 text-left"
         >
           <div className="flex items-center gap-2">
-            {icon ? (
-              <div className="text-2xl">{icon}</div>
-            ) : (
-              <FallbackBadge name={i.name} />
-            )}
+            {icon ? <div className="text-2xl">{icon}</div> : <FallbackBadge name={i.name} />}
             <div>
               <div className="font-medium">{i.name}</div>
               <div className="text-xs text-slate-500">
-                {i.category}
-                {i.store ? ` • ${i.store}` : ''}
+                {i.category}{i.store ? ` • ${i.store}` : ''}
               </div>
             </div>
           </div>
@@ -317,9 +309,7 @@ export default function Lists() {
           <div className="flex items-center gap-3">
             <div className="text-sm font-medium">{headerTotal}</div>
             <span
-              className={`inline-block transition-transform duration-200 ${
-                isOpen ? 'rotate-90' : ''
-              }`}
+              className={`inline-block transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
               aria-hidden
             >
               ▶
@@ -331,7 +321,7 @@ export default function Lists() {
         {isOpen && (
           <>
             <div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
-              {/* Qtd (texto, aceita vírgula/ponto) */}
+              {/* Qtd (texto) */}
               <input
                 type="text"
                 inputMode="decimal"
@@ -348,17 +338,10 @@ export default function Lists() {
                 onChange={setField('unit')}
                 className="border rounded-lg px-2 py-1"
               >
-                <option>un</option>
-                <option>kg</option>
-                <option>g</option>
-                <option>L</option>
-                <option>mL</option>
-                <option>pacote</option>
-                <option>caixa</option>
-                <option>saco</option>
-                <option>bandeja</option>
-                <option>garrafa</option>
-                <option>lata</option>
+                <option>un</option><option>kg</option><option>g</option>
+                <option>L</option><option>mL</option>
+                <option>pacote</option><option>caixa</option><option>saco</option>
+                <option>bandeja</option><option>garrafa</option><option>lata</option>
                 <option>outro</option>
               </select>
 
@@ -373,7 +356,7 @@ export default function Lists() {
                 className="border rounded-lg px-2 py-1"
               />
 
-              {/* Observação (ex-Peso) — texto */}
+              {/* Observação (texto) */}
               <input
                 type="text"
                 autoComplete="off"
@@ -383,7 +366,7 @@ export default function Lists() {
                 className="border rounded-lg px-2 py-1"
               />
 
-              {/* Curiosidade (ex-Observação/nota) */}
+              {/* Curiosidade */}
               <input
                 type="text"
                 autoComplete="off"
@@ -394,13 +377,18 @@ export default function Lists() {
               />
             </div>
 
-            {/* Info */}
-            <div className="mt-2 text-xs text-slate-500">
-              {i.kcalPer100
-                ? `${i.kcalPer100} kcal/100g`
-                : lastPriceFor(i.name)
-                ? `Último: ${fmtBRL(lastPriceFor(i.name))}`
-                : ''}
+            {/* Info (kcal + curiosidade lado a lado) */}
+            <div className="mt-2 text-xs text-slate-500 flex flex-wrap items-center gap-2">
+              {i.kcalPer100 && <span>{i.kcalPer100} kcal/100g</span>}
+              {i.note && (
+                <>
+                  {i.kcalPer100 ? <span>•</span> : null}
+                  <span className="truncate">{i.note}</span>
+                </>
+              )}
+              {!i.kcalPer100 && !i.note && lastPriceFor(i.name) && (
+                <span>Último: {fmtBRL(lastPriceFor(i.name))}</span>
+              )}
             </div>
 
             {/* Ações */}
@@ -474,9 +462,24 @@ export default function Lists() {
   };
 
   // ===================== render =====================
+  const suggestionsList =
+    name.length > 0 && suggestions.length > 0 ? (
+      <div className="absolute z-10 w-full mt-1 border rounded-lg bg-white shadow-sm p-2 text-sm max-h-56 overflow-auto">
+        {suggestions.map((s) => (
+          <button
+            key={s.name}
+            onClick={() => pickSuggestion(s)}
+            className="block w-full text-left p-1 rounded hover:bg-ygg-100"
+          >
+            {s.name} • <span className="text-xs text-slate-500">{s.category}</span>
+          </button>
+        ))}
+      </div>
+    ) : null;
+
   return (
     <section className="space-y-4">
-      {/* Formulário de entrada */}
+      {/* Formulário */}
       <div className="bg-white rounded-2xl border shadow-sm p-4 flex flex-wrap items-end gap-3">
         {/* Loja / Mercado */}
         <div className="basis-full">
@@ -506,28 +509,12 @@ export default function Lists() {
           <label className="text-sm">Item</label>
           <input
             value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setShowSuggest(true);
-            }}
+            onChange={(e) => { setName(e.target.value); setShowSuggest(true); }}
             onFocus={() => setShowSuggest(true)}
             placeholder="Digite o item..."
             className="w-full border rounded-lg px-3 py-2"
           />
-          {showSuggest && suggestions.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 border rounded-lg bg-white shadow-sm p-2 text-sm max-h-56 overflow-auto">
-              {suggestions.map((s) => (
-                <button
-                  key={s.name}
-                  onClick={() => pickSuggestion(s)}
-                  className="block w-full text-left p-1 rounded hover:bg-ygg-100"
-                >
-                  {s.name} •{' '}
-                  <span className="text-xs text-slate-500">{s.category}</span>
-                </button>
-              ))}
-            </div>
-          )}
+          {suggestionsList}
         </div>
 
         {/* Qtd (texto livre) */}
@@ -574,7 +561,7 @@ export default function Lists() {
           />
         </div>
 
-        {/* Observação (ex-Peso) — nova linha */}
+        {/* Observação (nova linha) */}
         <div className="basis-full md:basis-[48%]">
           <label className="text-sm">Observação</label>
           <input
@@ -601,10 +588,7 @@ export default function Lists() {
         {/* Botão adicionar */}
         <div>
           <label className="text-sm invisible">.</label>
-          <button
-            onClick={() => addItem()}
-            className="px-4 py-2 rounded-lg bg-ygg-700 text-white"
-          >
+          <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
             ✓ Adicionar
           </button>
         </div>
@@ -622,27 +606,16 @@ export default function Lists() {
             >
               <span>📝</span>
               <h3 className="font-semibold">
-                Lista{' '}
-                <span className="text-slate-500 font-normal">
-                  ({allToBuyUnfiltered.length})
-                </span>
+                Lista <span className="text-slate-500 font-normal">({allToBuyUnfiltered.length})</span>
               </h3>
-              <span
-                className={`inline-block transition-transform duration-200 ${
-                  listOpen ? 'rotate-90' : ''
-                }`}
-              >
-                ▶
-              </span>
+              <span className={`inline-block transition-transform duration-200 ${listOpen ? 'rotate-90' : ''}`}>▶</span>
             </button>
 
             <button
               onClick={moveAllToCart}
               disabled={allToBuyUnfiltered.length === 0}
               className={`px-3 py-1 rounded-lg text-sm border ${
-                allToBuyUnfiltered.length === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-ygg-100'
+                allToBuyUnfiltered.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
               }`}
               title="Enviar todos os itens da lista para o carrinho"
             >
@@ -661,18 +634,12 @@ export default function Lists() {
             />
           </div>
 
-          <div className="text-sm text-slate-600 mb-2">
-            Total: {fmtBRL(total(toBuy))}
-          </div>
+          <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(toBuy))}</div>
 
           {listOpen && (
             <div className="space-y-2">
-              {toBuy.map((i) => (
-                <ItemRow key={i.id} i={i} inCartView={false} />
-              ))}
-              {toBuy.length === 0 && (
-                <p className="text-sm text-slate-500">Nada aqui por enquanto.</p>
-              )}
+              {toBuy.map((i) => <ItemRow key={i.id} i={i} inCartView={false} />)}
+              {toBuy.length === 0 && <p className="text-sm text-slate-500">Nada aqui por enquanto.</p>}
             </div>
           )}
         </div>
@@ -688,27 +655,16 @@ export default function Lists() {
             >
               <span>🛒</span>
               <h3 className="font-semibold">
-                Carrinho{' '}
-                <span className="text-slate-500 font-normal">
-                  ({allCartUnfiltered.length})
-                </span>
+                Carrinho <span className="text-slate-500 font-normal">({allCartUnfiltered.length})</span>
               </h3>
-              <span
-                className={`inline-block transition-transform duration-200 ${
-                  cartOpen ? 'rotate-90' : ''
-                }`}
-              >
-                ▶
-              </span>
+              <span className={`inline-block transition-transform duration-200 ${cartOpen ? 'rotate-90' : ''}`}>▶</span>
             </button>
 
             <button
               onClick={moveAllToList}
               disabled={allCartUnfiltered.length === 0}
               className={`px-3 py-1 rounded-lg text-sm border ${
-                allCartUnfiltered.length === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-ygg-100'
+                allCartUnfiltered.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ygg-100'
               }`}
               title="Devolver todos os itens do carrinho para a lista"
             >
@@ -727,28 +683,17 @@ export default function Lists() {
             />
           </div>
 
-          <div className="text-sm text-slate-600 mb-2">
-            Total: {fmtBRL(total(cart))}
-          </div>
+          <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(cart))}</div>
 
           {cartOpen && (
             <div className="space-y-2">
-              {cart.map((i) => (
-                <ItemRow key={i.id} i={i} inCartView={true} />
-              ))}
-              {cart.length === 0 && (
-                <p className="text-sm text-slate-500">
-                  Nenhum item no carrinho.
-                </p>
-              )}
+              {cart.map((i) => <ItemRow key={i.id} i={i} inCartView={true} />)}
+              {cart.length === 0 && <p className="text-sm text-slate-500">Nenhum item no carrinho.</p>}
             </div>
           )}
 
           <div className="mt-3">
-            <button
-              onClick={() => finalizePurchase()}
-              className="px-4 py-3 rounded-xl bg-emerald-600 text-white w-full"
-            >
+            <button onClick={() => finalizePurchase()} className="px-4 py-3 rounded-xl bg-emerald-600 text-white w-full">
               ✅ Compra finalizada (salvar)
             </button>
           </div>
