@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import catalog from '../data/ygg_items.json';
 import { STORAGE_KEY, PURCHASES_KEY, fmtBRL, uid, todayISO, load, save, catIcon } from '../lib.js';
 
@@ -188,189 +188,188 @@ export default function Lists() {
 
   /* ===== Linha do item ===== */
   const ItemRow = React.memo(({ i, inCartView }) => {
-    const icon = iconFor(i);
-    const isOpen = !!open[i.id];
+  const icon = iconFor(i);
+  const isOpen = !!open[i.id];
 
-    // estado local (não perde foco)
-    const [local, setLocal] = useState({
+  // estado local (não perde foco)
+  const [local, setLocal] = useState({
+    qty: (i.qty ?? 1) + '',
+    unit: i.unit ?? 'un',
+    price: (i.price ?? '') + '',
+    weight: i.weight ?? '',
+  });
+
+  // re-sincroniza apenas quando trocar o item
+  useEffect(() => {
+    setLocal({
       qty: (i.qty ?? 1) + '',
       unit: i.unit ?? 'un',
       price: (i.price ?? '') + '',
-      weight: (i.weight ?? ''),
+      weight: i.weight ?? '',
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i.id]);
 
-    // re-sincroniza apenas quando trocar o item
-    useEffect(() => {
-      setLocal({
-        qty: (i.qty ?? 1) + '',
-        unit: i.unit ?? 'un',
-        price: (i.price ?? '') + '',
-        weight: (i.weight ?? ''),
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [i.id]);
+  const setField = (field) => (e) => {
+    const v = e?.target?.value ?? e;
+    setLocal((p) => ({ ...p, [field]: v }));
+  };
 
-    const setField = (field) => (e) => {
-      const v = e?.target?.value ?? e;
-      setLocal(p => ({ ...p, [field]: v }));
-    };
+  const commit = () => {
+    updateItem(i.id, {
+      qty: toLocaleNumber(local.qty) || 0,
+      unit: local.unit,
+      price: toLocaleNumber(local.price),
+      weight: local.weight,
+    });
+  };
 
-    const commit = () => {
-      updateItem(i.id, {
-        qty: toLocaleNumber(local.qty) || 0,
-        unit: local.unit,
-        price: toLocaleNumber(local.price),
-        weight: local.weight,
-      });
-    };
+  const onBlurCommit = () => commit();
+  const onEnterCommit = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      commit();
+    }
+  };
 
-    const onBlurCommit = () => commit();
-    const onEnterCommit = (e) => { if (e.key === 'Enter') { e.preventDefault(); commit(); } };
+  // total mostrado usa o que está digitando
+  const headerTotal =
+    local.price !== ''
+      ? fmtBRL(toLocaleNumber(local.price) * (toLocaleNumber(local.qty) || 1))
+      : typeof i.price === 'number'
+      ? fmtBRL(toLocaleNumber(i.price) * (toLocaleNumber(i.qty) || 1))
+      : '—';
 
-    // total mostrado usa o que está digitando
-    const headerTotal =
-      local.price !== ''
-        ? fmtBRL(toLocaleNumber(local.price) * (toLocaleNumber(local.qty) || 1))
-        : (typeof i.price === 'number'
-            ? fmtBRL(toLocaleNumber(i.price) * (toLocaleNumber(i.qty) || 1))
-            : '—');
-
-    return (
-      <div className="border rounded-xl p-3">
-        {/* Cabeçalho compacto */}
-        <button
-          type="button"
-          onClick={() => toggleExpand(i.id)}
-          className="w-full flex items-center justify-between gap-3 text-left"
-        >
-          <div className="flex items-center gap-2">
-            {icon ? <div className="text-2xl">{icon}</div> : <FallbackBadge name={i.name} />}
-            <div>
-              <div className="font-medium">{i.name}</div>
-              <div className="text-xs text-slate-500">
-                {i.category}{i.store ? ` • ${i.store}` : ''}
-              </div>
+  return (
+    <div className="border rounded-xl p-3">
+      {/* Cabeçalho compacto */}
+      <button
+        type="button"
+        onClick={() => toggleExpand(i.id)}
+        className="w-full flex items-center justify-between gap-3 text-left"
+      >
+        <div className="flex items-center gap-2">
+          {icon ? <div className="text-2xl">{icon}</div> : <FallbackBadge name={i.name} />}
+          <div>
+            <div className="font-medium">{i.name}</div>
+            <div className="text-xs text-slate-500">
+              {i.category}
+              {i.store ? ` • ${i.store}` : ''}
             </div>
           </div>
+        </div>
 
-          <div className="flex items-center gap-3">
-            <div className="text-sm font-medium">{headerTotal}</div>
-            <span className={`inline-block transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}>▶</span>
+        <div className="flex items-center gap-3">
+          <div className="text-sm font-medium">{headerTotal}</div>
+          <span className={`inline-block transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}>
+            ▶
+          </span>
+        </div>
+      </button>
+
+      {/* Painel editável */}
+      {isOpen && (
+        <>
+          {/* GRID: Qtd / Tipo / Preço (SEM observação aqui) */}
+          <div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
+            {/* Qtd */}
+            <input
+              type="text"
+              inputMode="decimal"
+              autoComplete="off"
+              value={local.qty}
+              onChange={setField('qty')}
+              onBlur={onBlurCommit}
+              onKeyDown={onEnterCommit}
+              className="border rounded-lg px-2 py-1"
+              placeholder="Qtd"
+            />
+
+            {/* Tipo */}
+            <select
+              value={local.unit}
+              onChange={(e) => {
+                setField('unit')(e);
+                commit();
+              }}
+              className="border rounded-lg px-2 py-1"
+            >
+              <option>un</option>
+              <option>kg</option>
+              <option>g</option>
+              <option>L</option>
+              <option>mL</option>
+              <option>pacote</option>
+              <option>caixa</option>
+              <option>saco</option>
+              <option>bandeja</option>
+              <option>garrafa</option>
+              <option>lata</option>
+              <option>outro</option>
+            </select>
+
+            {/* Preço */}
+            <input
+              type="text"
+              inputMode="decimal"
+              autoComplete="off"
+              value={local.price}
+              onChange={setField('price')}
+              onBlur={onBlurCommit}
+              onKeyDown={onEnterCommit}
+              placeholder="Preço"
+              className="border rounded-lg px-2 py-1"
+            />
           </div>
-        </button>
 
-        {/* Painel editável */}
-        {isOpen && (
-          <>
-            <div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
-              {/* Qtd (texto, aceita , .) */}
-            {/* === dentro do bloco {isOpen && ( <> ... </> )} === */}
+          {/* NOVA LINHA: Observação em largura total */}
+          <div className="mt-2">
+            <input
+              type="text"
+              autoComplete="off"
+              value={local.weight}
+              onChange={setField('weight')}
+              onBlur={onBlurCommit}
+              onKeyDown={onEnterCommit}
+              placeholder="Observação"
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
 
-{/* 1) GRID mantém Qtd / Tipo / Preço (REMOVA o Observação daqui) */}
-<div className="mt-3 grid grid-cols-2 md:grid-cols-6 gap-2 text-sm">
-  {/* Qtd */}
-  <input
-    type="text"
-    inputMode="decimal"
-    autoComplete="off"
-    value={local.qty}
-    onChange={setField('qty')}
-    onBlur={onBlurCommit}
-    onKeyDown={onEnterCommit}
-    className="border rounded-lg px-2 py-1"
-    placeholder="Qtd"
-  />
+          {/* kcal + curiosidade (apenas exibição) */}
+          <div className="mt-2 text-xs text-slate-500 flex flex-wrap items-center gap-2">
+            {i.kcalPer100 && <span>{i.kcalPer100} kcal/100g</span>}
+            {i.note && (
+              <>
+                {i.kcalPer100 ? <span>•</span> : null}
+                <span className="truncate">{i.note}</span>
+              </>
+            )}
+            {!i.kcalPer100 && !i.note && lastPriceFor(i.name) && (
+              <span>Último: {fmtBRL(lastPriceFor(i.name))}</span>
+            )}
+          </div>
 
-  {/* Tipo */}
-  <select
-    value={local.unit}
-    onChange={(e) => { setField('unit')(e); commit(); }}
-    className="border rounded-lg px-2 py-1"
-  >
-    <option>un</option><option>kg</option><option>g</option>
-    <option>L</option><option>mL</option>
-    <option>pacote</option><option>caixa</option><option>saco</option>
-    <option>bandeja</option><option>garrafa</option><option>lata</option>
-    <option>outro</option>
-  </select>
-
-  {/* Preço */}
-  <input
-    type="text"
-    inputMode="decimal"
-    autoComplete="off"
-    value={local.price}
-    onChange={setField('price')}
-    onBlur={onBlurCommit}
-    onKeyDown={onEnterCommit}
-    placeholder="Preço"
-    className="border rounded-lg px-2 py-1"
-  />
-</div>
-
-{/* 2) NOVA LINHA: Observação em largura total, ANTES de kcal/curiosidade */}
-<div className="mt-2">
-  <input
-    type="text"
-    autoComplete="off"
-    value={local.weight}
-    onChange={setField('weight')}
-    onBlur={onBlurCommit}
-    onKeyDown={onEnterCommit}
-    placeholder="Observação"
-    className="w-full border rounded-lg px-3 py-2"
-  />
-</div>
-
-{/* (mantém) kcal + curiosidade logo abaixo */}
-<div className="mt-2 text-xs text-slate-500 flex flex-wrap items-center gap-2">
-  {i.kcalPer100 && <span>{i.kcalPer100} kcal/100g</span>}
-  {i.note && (
-    <>
-      {i.kcalPer100 ? <span>•</span> : null}
-      <span className="truncate">{i.note}</span>
-    </>
-  )}
-  {!i.kcalPer100 && !i.note && lastPriceFor(i.name) && (
-    <span>Último: {fmtBRL(lastPriceFor(i.name))}</span>
-  )}
-</div>
-
-
-            {/* kcal + curiosidade (apenas exibição) */}
-            <div className="mt-2 text-xs text-slate-500 flex flex-wrap items-center gap-2">
-              {i.kcalPer100 && <span>{i.kcalPer100} kcal/100g</span>}
-              {i.note && (
-                <>
-                  {i.kcalPer100 ? <span>•</span> : null}
-                  <span className="truncate">{i.note}</span>
-                </>
-              )}
-              {!i.kcalPer100 && !i.note && lastPriceFor(i.name) && (
-                <span>Último: {fmtBRL(lastPriceFor(i.name))}</span>
-              )}
-            </div>
-
-            {/* Ações */}
-            <div className="mt-2 flex items-center gap-2">
-              {inCartView ? (
-                <button onClick={() => toggleCartItem(i.id, false)} className="px-3 py-2 rounded-lg bg-slate-200 text-sm">
-                  Voltar p/ Lista
-                </button>
-              ) : (
-                <button onClick={() => toggleCartItem(i.id, true)} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">
-                  Adicionar ao Carrinho
-                </button>
-              )}
-              <button onClick={() => removeItem(i.id)} className="px-3 py-2 rounded-lg border text-sm">
-                Remover
+          {/* Ações */}
+          <div className="mt-2 flex items-center gap-2">
+            {inCartView ? (
+              <button onClick={() => toggleCartItem(i.id, false)} className="px-3 py-2 rounded-lg bg-slate-200 text-sm">
+                Voltar p/ Lista
               </button>
-            </div>
-          </>
-        )}
-      </div>
-    );
-  });
+            ) : (
+              <button onClick={() => toggleCartItem(i.id, true)} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">
+                Adicionar ao Carrinho
+              </button>
+            )}
+            <button onClick={() => removeItem(i.id)} className="px-3 py-2 rounded-lg border text-sm">
+              Remover
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+});
 
   /* ===== Finalizar compra ===== */
   const finalizePurchase = () => {
