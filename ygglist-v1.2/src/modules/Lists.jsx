@@ -285,28 +285,25 @@ export default function Lists() {
               placeholder="Qtd"
             />
 
-            {/* Tipo */}
-            <select
-              value={local.unit}
-              onChange={(e) => {
-                setField('unit')(e);
-                commit();
-              }}
-              className="border rounded-lg px-2 py-1"
-            >
-              <option>un</option>
-              <option>kg</option>
-              <option>g</option>
-              <option>L</option>
-              <option>mL</option>
-              <option>pacote</option>
-              <option>caixa</option>
-              <option>saco</option>
-              <option>bandeja</option>
-              <option>garrafa</option>
-              <option>lata</option>
-              <option>outro</option>
-            </select>
+           {/* Tipo */}
+<select
+  value={local.unit}
+  onChange={(e) => {
+    const v = e.target.value;
+    // Atualiza o estado local imediatamente
+    setLocal((p) => ({ ...p, unit: v }));
+    // Persiste no item diretamente
+    updateItem(i.id, { unit: v });
+  }}
+  className="border rounded-lg px-2 py-1"
+>
+  <option>un</option><option>kg</option><option>g</option>
+  <option>L</option><option>mL</option>
+  <option>pacote</option><option>caixa</option><option>saco</option>
+  <option>bandeja</option><option>garrafa</option><option>lata</option>
+  <option>outro</option>
+</select>
+
 
             {/* Preço */}
             <input
