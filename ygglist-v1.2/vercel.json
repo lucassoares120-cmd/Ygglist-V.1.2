@@ -1,14 +1,23 @@
 {
   "headers": [
     {
-      "source": "/(ygglist_banner.svg|favicon-32.png|apple-touch-icon.png)",
+      "source": "/icons/(.*)\\.png",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600" },
+        { "key": "Content-Type", "value": "application/manifest+json; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
     }
-  ],
-  "redirects": [
-    { "source": "/YggSymbol.png", "destination": "/ygglist_banner.svg", "permanent": true },
-    { "source": "/YggSymbol.png(.*)", "destination": "/ygglist_banner.svg", "permanent": true }
   ]
 }
