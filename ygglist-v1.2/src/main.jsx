@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 // Inicia a “respiração” do favicon (suave)
-startFaviconBreath('/YggSymbol.png', 2400)
+startFaviconBreath('/ygglist_banner.svg', 2400)
 
 // Registra o Service Worker para PWA instalável
 if ('serviceWorker' in navigator) {
