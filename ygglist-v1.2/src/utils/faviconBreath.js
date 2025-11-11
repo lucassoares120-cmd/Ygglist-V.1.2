@@ -1,5 +1,5 @@
 // src/utils/faviconBreath.js
-export function startFaviconBreath(src = "/YggSymbol.png", periodMs = 2000) {
+export function startFaviconBreath(src = "/ygglist_banner.svg", periodMs = 2000) {
   const link = (() => {
     let el = document.querySelector('link[rel="icon"]');
     if (!el) {
