@@ -1,11 +1,10 @@
 {
-  "name": "YggList — Raiz que conecta",
+  "name": "YggList",
   "short_name": "YggList",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#146C43",
-  "description": "Gerencie suas listas de compras com leveza e conexão.",
   "icons": [
     {
       "src": "/icons/ygg-192.png",
