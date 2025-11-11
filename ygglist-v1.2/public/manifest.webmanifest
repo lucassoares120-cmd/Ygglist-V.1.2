@@ -1,14 +1,23 @@
 {
   "name": "YggList — Raiz que conecta",
   "short_name": "YggList",
-  "description": "Pequenas escolhas, grande economia.",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "background_color": "#F9FAF9",
-  "theme_color": "#145A32",
+  "background_color": "#ffffff",
+  "theme_color": "#146C43",
+  "description": "Gerencie suas listas de compras com leveza e conexão.",
   "icons": [
-    { "src": "/YggSymbol.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/YggSymbol.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    {
+      "src": "/icons/ygg-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/ygg-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }
