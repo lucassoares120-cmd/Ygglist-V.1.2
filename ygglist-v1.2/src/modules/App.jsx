@@ -34,7 +34,7 @@ export default function App(){
     <div className="z-10 flex-1 flex justify-center">
   <div className="flex items-center gap-5 sm:gap-6">
     <img
-      src="/YggSymbol.png"
+      src="/ygglist_banner.svg"
       alt="Símbolo Yggdrasil"
       className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-xl drop-shadow-md ring-1 ring-emerald-200/70"
     />
