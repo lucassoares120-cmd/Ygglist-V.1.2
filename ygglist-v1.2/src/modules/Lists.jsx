@@ -1,7 +1,6 @@
 diff --git a/ygglist-v1.2/src/modules/Lists.jsx b/ygglist-v1.2/src/modules/Lists.jsx
 index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a4339a89acc1 100644
---- a/ygglist-v1.2/src/modules/Lists.jsx
-+++ b/ygglist-v1.2/src/modules/Lists.jsx
+b/ygglist-v1.2/src/modules/Lists.jsx
 @@ -90,70 +90,70 @@ export default function Lists() {
    const allCartUnfiltered  = day.items.filter(i =>  i.inCart).sort(stableSort);
  
@@ -28,8 +27,7 @@ index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a433
    };
  
    /* ===== CRUD ===== */
--  function addItem() {
-+  function addItem(toCart = false) {
+ function addItem(toCart = false) {
      const nm = (name || '').trim();
      if (!nm) return;
      const cat  = findCatalog(nm)?.category ?? 'Outros';
@@ -48,8 +46,7 @@ index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a433
        kcalPer100: kcal,
        category: cat,
        store: store || '',
--      inCart: false,
-+      inCart: toCart,
+      inCart: toCart,
        createdAt: Date.now(),
      };
  
@@ -101,17 +98,14 @@ index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a433
  
          <div>
            <label className="text-sm invisible">.</label>
--          <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
--            ✓ Adicionar
--          </button>
-+          <div className="flex gap-2 flex-wrap">
-+            <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
-+              ✓ Adicionar
-+            </button>
-+            <button onClick={() => addItem(true)} className="px-4 py-2 rounded-lg border bg-white">
-+              🛒 Adicionar ao carrinho
-+            </button>
-+          </div>
+          <div className="flex gap-2 flex-wrap">
+            <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
+              ✓ Adicionar
+            </button>
+            <button onClick={() => addItem(true)} className="px-4 py-2 rounded-lg border bg-white">
+              🛒 Adicionar ao carrinho
+            </button>
+          </div>
          </div>
        </div>
  
@@ -145,8 +139,7 @@ index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a433
              />
            </div>
  
--          <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(toBuy))}</div>
-+          <div className="mb-2 text-right text-lg font-semibold text-slate-700">Total: {fmtBRL(total(toBuy))}</div>
+          <div className="mb-2 text-right text-lg font-semibold text-slate-700">Total: {fmtBRL(total(toBuy))}</div>
  
            {listOpen && (
              <div className="space-y-2">
@@ -185,8 +178,7 @@ index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a433
              />
            </div>
  
--          <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(cart))}</div>
-+          <div className="mb-2 text-right text-lg font-semibold text-slate-700">Total: {fmtBRL(total(cart))}</div>
+         <div className="mb-2 text-right text-lg font-semibold text-slate-700">Total: {fmtBRL(total(cart))}</div>
  
            {cartOpen && (
              <div className="space-y-2">
