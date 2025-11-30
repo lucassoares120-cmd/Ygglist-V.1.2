@@ -1,4 +1,3 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/ygglist-v1.2/src/modules/Lists.jsx b/ygglist-v1.2/src/modules/Lists.jsx
 index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a4339a89acc1 100644
 --- a/ygglist-v1.2/src/modules/Lists.jsx
@@ -206,6 +205,3 @@ index ef37a832dfa71675dec0b28a6c7b59a0fbbcfa4d..578e4263f7ec0107e66437ad7a14a433
      </section>
    );
  }
- 
-EOF
-)
