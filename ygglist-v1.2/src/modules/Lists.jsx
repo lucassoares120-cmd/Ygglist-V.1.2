@@ -1,30 +1,176 @@
-  const allCartUnfiltered = day.items
-    .filter((i) => i.inCart)
-    .sort(stableSort);
+// ygglist-v1.2/src/modules/Lists.jsx
+import React, { useState, useMemo } from "react";
+
+/* ===== HELPERS ===== */
+
+const uid = () =>
+  (typeof crypto !== "undefined" && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : String(Date.now() + Math.random());
+
+const toLocaleNumber = (value) => {
+  if (value === null || value === undefined) return null;
+  if (typeof value === "number") return value;
+
+  const s = String(value).trim();
+  if (!s) return null;
+
+  // aceita vírgula como separador decimal
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const n = Number(normalized);
+  return Number.isNaN(n) ? null : n;
+};
+
+const fmtBRL = (v) => {
+  const n = Number(v) || 0;
+  return n.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 2,
+  });
+};
+
+const stableSort = (a, b) => {
+  const an = (a.name || "").toLowerCase();
+  const bn = (b.name || "").toLowerCase();
+  if (an < bn) return -1;
+  if (an > bn) return 1;
+  return 0;
+};
+
+// aqui só para manter a API que você já usava
+const withScrollLock = (fn) => fn();
+
+/* ===== ITEM ROW ===== */
+
+function ItemRow({ i, inCartView, updateItem, toggleCartItem, removeItem }) {
+  const handleToggle = () => toggleCartItem(i.id, !i.inCart);
+
+  return (
+    <div className="flex items-center justify-between gap-2 rounded-xl border px-3 py-2 text-sm">
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleToggle}
+            className="text-lg"
+            title={inCartView ? "Devolver para a lista" : "Mover para o carrinho"}
+          >
+            {i.inCart ? "✅" : "⬜"}
+          </button>
+
+          <div className="min-w-0">
+            <div className="font-semibold truncate">
+              {i.name}
+              {i.qty ? (
+                <span className="font-normal text-slate-600">
+                  {" "}
+                  — {i.qty} {i.unit || "un"}
+                </span>
+              ) : null}
+            </div>
+            {i.weight && (
+              <div className="text-xs text-slate-500 truncate">{i.weight}</div>
+            )}
+            {i.note && (
+              <div className="text-xs text-emerald-700 truncate">{i.note}</div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col items-end gap-1">
+        {typeof i.price === "number" && (
+          <div className="text-xs font-semibold text-slate-700">
+            {fmtBRL(i.price)}
+          </div>
+        )}
+
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => removeItem(i.id)}
+            className="rounded-md border px-2 py-1 text-[11px] text-slate-600 hover:bg-red-50 hover:text-red-600"
+            title="Remover"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===== LISTS MAIN COMPONENT ===== */
+
+export default function Lists() {
+  // formulário
+  const [name, setName] = useState("");
+  const [qtyStr, setQtyStr] = useState("1");
+  const [unit, setUnit] = useState("un");
+  const [priceStr, setPriceStr] = useState("");
+  const [obs, setObs] = useState("");
+  const [curiosity, setCuriosity] = useState("");
+  const [store, setStore] = useState("");
+  const [showSuggest, setShowSuggest] = useState(false);
+
+  // dados principais
+  const [items, setItems] = useState([]);
+
+  // filtros e UI
+  const [listQuery, setListQuery] = useState("");
+  const [cartQuery, setCartQuery] = useState("");
+  const [listOpen, setListOpen] = useState(true);
+  const [cartOpen, setCartOpen] = useState(true);
+
+  // adaptador para manter API day / setDay que você usava
+  const day = { items };
+  const setDay = (updater) => {
+    setItems((prev) => {
+      const nextDay = updater({ items: prev });
+      return nextDay.items;
+    });
+  };
+
+  const allToBuyUnfiltered = useMemo(
+    () => day.items.filter((i) => !i.inCart).sort(stableSort),
+    [day.items]
+  );
+
+  const allCartUnfiltered = useMemo(
+    () => day.items.filter((i) => i.inCart).sort(stableSort),
+    [day.items]
+  );
 
   const matches = (q, i) => {
     if (!q) return true;
     const s = q.toLowerCase();
     return (
-      (i.name || '').toLowerCase().includes(s) ||
-      (i.category || '').toLowerCase().includes(s) ||
-      (i.weight || '').toLowerCase().includes(s) ||
-      (i.note || '').toLowerCase().includes(s)
+      (i.name || "").toLowerCase().includes(s) ||
+      (i.category || "").toLowerCase().includes(s) ||
+      (i.weight || "").toLowerCase().includes(s) ||
+      (i.note || "").toLowerCase().includes(s)
     );
   };
 
   const toBuy = allToBuyUnfiltered.filter((i) => matches(listQuery, i));
   const cart = allCartUnfiltered.filter((i) => matches(cartQuery, i));
 
-  /* ===== CRUD ===== */
-  const addItem = (toCart = false) => {
-    const nm = (name || '').trim();
-    if (!nm) return;
+  const total = (arr) =>
+    arr.reduce(
+      (sum, i) =>
+        sum +
+        (typeof i.price === "number"
+          ? i.price * (Number(i.qty) || 1)
+          : 0),
+      0
+    );
 
-    const catalogEntry = findCatalog(nm);
-    const cat = catalogEntry?.category ?? 'Outros';
-    const kcal = catalogEntry?.kcalPer100;
-    const icon = catalogEntry?.icon;
+  /* ===== CRUD ===== */
+
+  const addItem = (toCart = false) => {
+    const nm = (name || "").trim();
+    if (!nm) return;
 
     const item = {
       id: uid(),
@@ -32,12 +178,12 @@
       qty: toLocaleNumber(qtyStr) || 1,
       unit,
       price: toLocaleNumber(priceStr),
-      weight: obs || '',
-      note: curiosity || catalogEntry?.curiosity || '',
-      icon,
-      kcalPer100: kcal,
-      category: cat,
-      store: store || '',
+      weight: obs || "",
+      note: curiosity || "",
+      icon: null,
+      kcalPer100: null,
+      category: "Outros",
+      store: store || "",
       inCart: toCart,
       createdAt: Date.now(),
     };
@@ -45,12 +191,12 @@
     setDay((prev) => ({ ...prev, items: [item, ...prev.items] }));
 
     // reset form
-    setName('');
-    setQtyStr('1');
-    setUnit('un');
-    setPriceStr('');
-    setObs('');
-    setCuriosity('');
+    setName("");
+    setQtyStr("1");
+    setUnit("un");
+    setPriceStr("");
+    setObs("");
+    setCuriosity("");
     setShowSuggest(false);
   };
 
@@ -82,60 +228,154 @@
       }))
     );
 
+  const moveAllToCart = () =>
+    withScrollLock(() =>
+      setDay((prev) => ({
+        ...prev,
+        items: prev.items.map((i) =>
+          i.inCart ? i : { ...i, inCart: true }
+        ),
+      }))
+    );
+
+  const moveAllToList = () =>
+    withScrollLock(() =>
+      setDay((prev) => ({
+        ...prev,
+        items: prev.items.map((i) =>
+          i.inCart ? { ...i, inCart: false } : i
+        ),
+      }))
+    );
+
+  const finalizePurchase = () => {
+    // aqui você pode depois salvar histórico, limpar carrinho, etc.
+    // por enquanto vamos só manter os itens marcados como inCart = false
+    setDay((prev) => ({
+      ...prev,
+      items: prev.items.map((i) =>
+        i.inCart ? { ...i, inCart: false } : i
+      ),
+    }));
+  };
+
   /* ===== RENDER ===== */
 
   return (
     <section className="space-y-4">
-      {/* ... aqui em cima continua o que você já tinha antes do trecho de Observação/Curiosidade ... */}
+      {/* FORMULÁRIO DE NOVO ITEM */}
+      <div className="bg-white rounded-2xl border shadow-sm p-4 space-y-3">
+        <h2 className="text-lg font-semibold text-slate-800">
+          Novo item
+        </h2>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
-        <div className="basis-full md:basis-[48%]">
-          <label className="text-sm">Observação</label>
-          <input
-            type="text"
-            value={obs}
-            onChange={(e) => setObs(e.target.value)}
-            placeholder="Observações (marca, maturação, etc.)"
-            className="w-full border rounded-lg px-3 py-2"
-          />
-        </div>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="basis-full">
+            <label className="text-sm">Item</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setShowSuggest(true);
+              }}
+              placeholder="Ex.: Tomate, Arroz, Frango..."
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
 
-        <div className="basis-full md:basis-[48%]">
-          <label className="text-sm">Curiosidade</label>
-          <input
-            type="text"
-            value={curiosity}
-            onChange={(e) => setCuriosity(e.target.value)}
-            placeholder="Curiosidade do item"
-            className="w-full border rounded-lg px-3 py-2"
-          />
-        </div>
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <label className="text-sm">Quantidade</label>
+              <input
+                type="text"
+                value={qtyStr}
+                onChange={(e) => setQtyStr(e.target.value)}
+                className="w-full border rounded-lg px-3 py-2"
+              />
+            </div>
+            <div className="w-24">
+              <label className="text-sm">Unidade</label>
+              <input
+                type="text"
+                value={unit}
+                onChange={(e) => setUnit(e.target.value)}
+                className="w-full border rounded-lg px-3 py-2"
+              />
+            </div>
+          </div>
 
-        <div>
-          <label className="text-sm invisible">.</label>
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <label className="text-sm">Preço</label>
+              <input
+                type="text"
+                value={priceStr}
+                onChange={(e) => setPriceStr(e.target.value)}
+                placeholder="Ex.: 9,90"
+                className="w-full border rounded-lg px-3 py-2"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="text-sm">Mercado / Loja</label>
+              <input
+                type="text"
+                value={store}
+                onChange={(e) => setStore(e.target.value)}
+                placeholder="Opcional"
+                className="w-full border rounded-lg px-3 py-2"
+              />
+            </div>
+          </div>
 
-          <div className="flex gap-2 flex-wrap">
-            {/* Botão padrão: adiciona à LISTA */}
-            <button
-              type="button"
-              onClick={() => addItem(false)}
-              className="px-4 py-2 rounded-lg bg-ygg-700 text-white hover:bg-ygg-800 transition-colors"
-            >
-              ✓ Adicionar
-            </button>
+          <div className="basis-full md:basis-[48%]">
+            <label className="text-sm">Observação</label>
+            <input
+              type="text"
+              value={obs}
+              onChange={(e) => setObs(e.target.value)}
+              placeholder="Marca, maturação, tipo, etc."
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
 
-            {/* Novo botão: adiciona DIRETO AO CARRINHO */}
-            <button
-              type="button"
-              onClick={() => addItem(true)}
-              className="px-4 py-2 rounded-lg border bg-white text-ygg-700 hover:bg-ygg-50 transition-colors"
-            >
-              🛒 Adicionar ao carrinho
-            </button>
+          <div className="basis-full md:basis-[48%]">
+            <label className="text-sm">Curiosidade</label>
+            <input
+              type="text"
+              value={curiosity}
+              onChange={(e) => setCuriosity(e.target.value)}
+              placeholder="Curiosidade do item"
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm invisible">.</label>
+            <div className="flex gap-2 flex-wrap">
+              {/* Botão padrão: adiciona à LISTA */}
+              <button
+                type="button"
+                onClick={() => addItem(false)}
+                className="px-4 py-2 rounded-lg bg-ygg-700 text-white hover:bg-ygg-800 transition-colors"
+              >
+                ✓ Adicionar
+              </button>
+
+              {/* Novo botão: adiciona DIRETO AO CARRINHO */}
+              <button
+                type="button"
+                onClick={() => addItem(true)}
+                className="px-4 py-2 rounded-lg border bg-white text-ygg-700 hover:bg-ygg-50 transition-colors"
+              >
+                🛒 Adicionar ao carrinho
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* LISTA + CARRINHO */}
       <div className="grid md:grid-cols-2 gap-4">
         {/* LISTA */}
         <div className="bg-white rounded-2xl border shadow-sm p-4">
@@ -147,14 +387,14 @@
             >
               <span>📝</span>
               <h3 className="font-semibold">
-                Lista{' '}
+                Lista{" "}
                 <span className="text-slate-500 font-normal">
                   ({allToBuyUnfiltered.length})
                 </span>
               </h3>
               <span
                 className={`inline-block transition-transform duration-200 ${
-                  listOpen ? 'rotate-90' : ''
+                  listOpen ? "rotate-90" : ""
                 }`}
               >
                 ▶
@@ -166,8 +406,8 @@
               disabled={allToBuyUnfiltered.length === 0}
               className={`px-3 py-1 rounded-lg text-sm border ${
                 allToBuyUnfiltered.length === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-ygg-100'
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-ygg-100"
               }`}
               title="Enviar todos para o carrinho"
             >
@@ -192,7 +432,14 @@
           {listOpen && (
             <div className="space-y-2">
               {toBuy.map((i) => (
-                <ItemRow key={i.id} i={i} inCartView={false} />
+                <ItemRow
+                  key={i.id}
+                  i={i}
+                  inCartView={false}
+                  updateItem={updateItem}
+                  toggleCartItem={toggleCartItem}
+                  removeItem={removeItem}
+                />
               ))}
               {toBuy.length === 0 && (
                 <p className="text-sm text-slate-500">
@@ -213,14 +460,14 @@
             >
               <span>🛒</span>
               <h3 className="font-semibold">
-                Carrinho{' '}
+                Carrinho{" "}
                 <span className="text-slate-500 font-normal">
                   ({allCartUnfiltered.length})
                 </span>
               </h3>
               <span
                 className={`inline-block transition-transform duration-200 ${
-                  cartOpen ? 'rotate-90' : ''
+                  cartOpen ? "rotate-90" : ""
                 }`}
               >
                 ▶
@@ -232,8 +479,8 @@
               disabled={allCartUnfiltered.length === 0}
               className={`px-3 py-1 rounded-lg text-sm border ${
                 allCartUnfiltered.length === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-ygg-100'
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-ygg-100"
               }`}
               title="Devolver todos para a lista"
             >
@@ -258,7 +505,14 @@
           {cartOpen && (
             <div className="space-y-2">
               {cart.map((i) => (
-                <ItemRow key={i.id} i={i} inCartView={true} />
+                <ItemRow
+                  key={i.id}
+                  i={i}
+                  inCartView={true}
+                  updateItem={updateItem}
+                  toggleCartItem={toggleCartItem}
+                  removeItem={removeItem}
+                />
               ))}
               {cart.length === 0 && (
                 <p className="text-sm text-slate-500">
@@ -270,7 +524,7 @@
 
           <div className="mt-3">
             <button
-              onClick={() => finalizePurchase()}
+              onClick={finalizePurchase}
               className="px-4 py-3 rounded-xl bg-emerald-600 text-white w-full"
             >
               ✅ Compra finalizada (salvar)
