@@ -81,12 +81,13 @@ function listInRange(list, fromISO, toISO) {
 }
 
 /**
- * Lê listas salvas localmente (fluxo antigo) + listas importadas de NFC-e
- * (armazenadas em YGG_LISTS_NFCE).
+ * Lê listas salvas localmente:
+ * - estrutura original do app
+ * - listas importadas de notas (texto colado) em YGG_LISTS_IMPORT
+ * - se ainda existir, também YGG_LISTS_NFCE (versão antiga)
  */
 function loadLists() {
   try {
-    // fonte principal (estrutura original do app)
     const base =
       JSON.parse(localStorage.getItem("YGG_LISTS") || "null") ||
       JSON.parse(localStorage.getItem("lists") || "null") ||
@@ -94,7 +95,6 @@ function loadLists() {
 
     let main = Array.isArray(base) ? base : [];
 
-    // fallback: qualquer chave que tenha um array de listas com "items"
     if (!main.length) {
       for (const k in localStorage) {
         if (!Object.prototype.hasOwnProperty.call(localStorage, k)) continue;
@@ -106,12 +106,15 @@ function loadLists() {
       }
     }
 
-    // listas extras vindas de notas fiscais (NFC-e)
     const nfceLists =
       JSON.parse(localStorage.getItem("YGG_LISTS_NFCE") || "[]") || [];
-    const nfceArr = Array.isArray(nfceLists) ? nfceLists : [];
+    const importedLists =
+      JSON.parse(localStorage.getItem("YGG_LISTS_IMPORT") || "[]") || [];
 
-    return [...main, ...nfceArr];
+    const arr1 = Array.isArray(nfceLists) ? nfceLists : [];
+    const arr2 = Array.isArray(importedLists) ? importedLists : [];
+
+    return [...main, ...arr1, ...arr2];
   } catch {
     return [];
   }
@@ -145,7 +148,7 @@ function aggregate(lists, fromISO, toISO) {
 
     const items = list.items || [];
     for (const it of items) {
-      const done = it?.done ?? true; // se sua estrutura tiver "done/inCart"
+      const done = it?.done ?? true;
       if (!done) continue;
 
       const qty = Number(it?.qty || it?.qtd || 1);
@@ -267,9 +270,119 @@ function downloadSvgAsPng(svgEl, filename = "grafico.png", scale = 2) {
   img.src = svg64;
 }
 
+/* ====== PARSER DE TEXTO DA NOTA ====== */
+
+// normaliza número tipo "1.234,56" -> 1234.56
+function normNum(str) {
+  if (!str) return 0;
+  const s = String(str)
+    .replace(/\./g, "")
+    .replace(",", ".")
+    .replace(/[^\d.-]/g, "");
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+}
+
+// tenta achar data dd/mm/aaaa e converte pra ISO
+function detectDateISO(text) {
+  const m = text.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+  if (!m) return iso(new Date());
+  const [, d, mo, y] = m;
+  return `${y}-${mo}-${d}`;
+}
+
+// tenta achar um nome de loja razoável nas primeiras linhas
+function detectStoreFromLines(lines) {
+  for (let i = 0; i < Math.min(lines.length, 15); i++) {
+    const l = lines[i];
+    if (!l) continue;
+    if (/NFC[- ]e|NOTA FISCAL|DANFE/i.test(l)) continue;
+    if (/CNPJ|CPF|INSCRIÇÃO/i.test(l)) continue;
+    if (/^\d{2}\/\d{2}\/\d{4}/.test(l)) continue;
+    if (/^\d{2}:\d{2}/.test(l)) continue;
+    if (/^\d+$/.test(l)) continue;
+    return l.trim();
+  }
+  return "Nota fiscal";
+}
+
+// parser bem tolerante: pega linhas com pelo menos um "9,99" e usa isso como preço total
+function parseItemsFromText(text) {
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  const moneyRe = /\d+,\d{2}/g;
+  const items = [];
+
+  for (const rawLine of lines) {
+    const line = rawLine.replace(/\s+/g, " ");
+    const moneyMatches = [...line.matchAll(moneyRe)].map((m) => m[0]);
+    if (moneyMatches.length === 0) continue;
+
+    const totalStr = moneyMatches[moneyMatches.length - 1];
+    const total = normNum(totalStr);
+    if (!total) continue;
+
+    const idxTotal = line.lastIndexOf(totalStr);
+    let descPart = line.slice(0, idxTotal).trim();
+    if (!descPart) continue;
+
+    // remove índice tipo "001 " no começo
+    descPart = descPart.replace(/^\d+\s+/, "").trim();
+
+    // tenta achar "2 UN" / "0,754 KG" etc.
+    let qty = 1;
+    let unit = "un";
+    const qtyUnitMatch =
+      descPart.match(
+        /(\d+[.,]?\d*)\s*(kg|g|un|und|unid|pc|pct|lt|l|kg|g|cx|caixa|pacote)/i
+      ) || null;
+
+    if (qtyUnitMatch) {
+      qty = normNum(qtyUnitMatch[1]);
+      unit = qtyUnitMatch[2];
+      if (!qty || qty <= 0) qty = 1;
+    }
+
+    const unitPrice = total / qty;
+
+    items.push({
+      name: descPart,
+      qty,
+      unit,
+      price: unitPrice,
+    });
+  }
+
+  // se nada foi claramente parseado, segunda tentativa: linhas com um único valor
+  if (!items.length) {
+    for (const rawLine of lines) {
+      const line = rawLine.replace(/\s+/g, " ");
+      const moneyMatches = [...line.matchAll(moneyRe)].map((m) => m[0]);
+      if (moneyMatches.length !== 1) continue;
+      const totalStr = moneyMatches[0];
+      const total = normNum(totalStr);
+      if (!total) continue;
+      const idxTotal = line.lastIndexOf(totalStr);
+      let descPart = line.slice(0, idxTotal).trim();
+      descPart = descPart.replace(/^\d+\s+/, "").trim();
+      if (!descPart) continue;
+      items.push({
+        name: descPart,
+        qty: 1,
+        unit: "un",
+        price: total,
+      });
+    }
+  }
+
+  return items;
+}
+
 /* ====== UI ====== */
 export default function Reports() {
-  // para recarregar listas quando uma NFC-e nova é salva
   const [listsVersion, setListsVersion] = useState(0);
   const allLists = useMemo(loadLists, [listsVersion]);
   const months = useMemo(() => extractMonths(allLists), [allLists]);
@@ -287,9 +400,9 @@ export default function Reports() {
   );
   const [comparePrevMonth, setComparePrevMonth] = useState(true);
 
-  // estado da importação de NFC-e
+  // estado da importação por TEXTO
   const [showImportModal, setShowImportModal] = useState(false);
-  const [nfceText, setNfceText] = useState("");
+  const [nfText, setNfText] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState("");
   const [importSummary, setImportSummary] = useState(null);
@@ -301,7 +414,6 @@ export default function Reports() {
   const setPrevMonth = () => setPreset("lastMonth");
   const setFree = () => setPreset("free");
 
-  // classe dos chips
   const chip = (k) =>
     `px-3 py-2 rounded-lg border text-sm ${
       preset === k
@@ -334,7 +446,6 @@ export default function Reports() {
       setFrom(startOfMonth(base));
       setTo(endOfMonth(base));
     }
-    // 'free' não altera from/to
   }, [preset, monthSel]);
 
   const { grand, catRows, storeRows, series } = useMemo(
@@ -342,7 +453,6 @@ export default function Reports() {
     [allLists, from, to]
   );
 
-  // comparação com mês anterior (só em presets de mês)
   const prevAgg = useMemo(() => {
     if (!comparePrevMonth) return null;
     if (
@@ -365,18 +475,15 @@ export default function Reports() {
 
   const svgRef = useRef(null);
 
-  // Exportar PNG
   const handleExportPNG = () =>
     downloadSvgAsPng(svgRef.current, `YggList_${from}_a_${to}.png`, 3);
 
-  // Exportar CSV (compras finalizadas em PURCHASES_KEY)
   const handleExportCSV = () => {
     const allPurchases = load(PURCHASES_KEY, []);
     const purchasesInRange = allPurchases.filter(
       (p) => p.dateISO >= from && p.dateISO <= to
     );
 
-    // resumo por categoria a partir das compras
     const catMap = {};
     purchasesInRange.forEach((p) => {
       (p.items || []).forEach((it) => {
@@ -416,71 +523,58 @@ export default function Reports() {
     URL.revokeObjectURL(url);
   };
 
-  /* === Importar NFC-e via QR/URL === */
-  const handleImportNfce = async () => {
+  /* === Importar nota via TEXTO colado === */
+  const handleImportFromText = () => {
     setImportError("");
     setImportSummary(null);
 
-    const raw = nfceText.trim();
+    const raw = nfText.trim();
     if (!raw) {
-      setImportError("Cole o link ou conteúdo do QR code da NFC-e.");
+      setImportError("Cole o texto da nota fiscal aqui antes de importar.");
       return;
     }
 
-    // Se o usuário colar o texto inteiro do QR, tentamos extrair a parte do "http"
-    const httpIdx = raw.indexOf("http");
-    const url = httpIdx >= 0 ? raw.slice(httpIdx).trim() : raw;
-
+    setIsImporting(true);
     try {
-      setIsImporting(true);
-      const res = await fetch("/api/nfce-parser", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
-      });
+      const lines = raw
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter(Boolean);
 
-      if (!res.ok) {
-        const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.error || "Falha ao consultar a nota fiscal.");
-      }
-
-      const data = await res.json();
-
-      const store = (data.store || data.emitter || "Nota fiscal").trim();
-      const dateISO =
-        data.dateISO ||
-        data.date ||
-        new Date().toISOString().slice(0, 10);
-
-      const items = Array.isArray(data.items) ? data.items : [];
+      const items = parseItemsFromText(raw);
       if (!items.length) {
-        throw new Error("Nenhum item foi encontrado na página da NFC-e.");
+        throw new Error(
+          "Não consegui identificar itens na nota. Tente copiar a nota inteira (texto completo)."
+        );
       }
 
-      const listKey = "YGG_LISTS_NFCE";
-      const prev =
-        JSON.parse(localStorage.getItem(listKey) || "[]") || [];
+      const dateISO = detectDateISO(raw);
+      const store = detectStoreFromLines(lines);
 
       const now = Date.now();
       const list = {
-        id: data.id || `nfce-${now}`,
+        id: `import-${now}`,
         store,
         date: dateISO,
         items: items.map((it, idx) => ({
-          id: it.id || `nfce-${now}-${idx}`,
-          name: it.name || "Item",
-          qty: Number(it.qty ?? 1),
-          unit: it.unit || "un",
-          price: Number(it.price ?? 0),
-          category: it.category || "Outros",
-          note: it.note || "",
+          id: `import-${now}-${idx}`,
+          name: it.name,
+          qty: it.qty,
+          unit: it.unit,
+          price: it.price,
+          category: "Outros",
+          note: "",
           store,
           done: true,
         })),
       };
 
-      const merged = [...prev, list];
-      localStorage.setItem(listKey, JSON.stringify(merged));
+      const key = "YGG_LISTS_IMPORT";
+      const prev =
+        JSON.parse(localStorage.getItem(key) || "[]") || [];
+      const arr = Array.isArray(prev) ? prev : [];
+      const merged = [...arr, list];
+      localStorage.setItem(key, JSON.stringify(merged));
 
       const totalValue = list.items.reduce(
         (s, it) => s + (Number(it.qty || 1) * Number(it.price || 0)),
@@ -494,11 +588,13 @@ export default function Reports() {
         totalValue,
       });
 
-      // força recálculo dos relatórios
       setListsVersion((v) => v + 1);
     } catch (err) {
       console.error(err);
-      setImportError(err.message || "Erro ao importar NFC-e.");
+      setImportError(
+        err.message ||
+          "Erro ao interpretar o texto da nota. Tente colar o conteúdo completo."
+      );
     } finally {
       setIsImporting(false);
     }
@@ -506,7 +602,7 @@ export default function Reports() {
 
   const handleCloseModal = () => {
     setShowImportModal(false);
-    setNfceText("");
+    setNfText("");
     setImportError("");
     setImportSummary(null);
   };
@@ -536,7 +632,6 @@ export default function Reports() {
 
         {/* 2ª linha: mês, de, até */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          {/* Mês */}
           <div>
             <label className="text-sm">Mês</label>
             <select
@@ -555,7 +650,6 @@ export default function Reports() {
             </select>
           </div>
 
-          {/* De */}
           <div>
             <label className="text-sm">De</label>
             <input
@@ -569,7 +663,6 @@ export default function Reports() {
             />
           </div>
 
-          {/* Até */}
           <div>
             <label className="text-sm">Até</label>
             <input
@@ -584,7 +677,7 @@ export default function Reports() {
           </div>
         </div>
 
-        {/* 3ª linha: Exportações + Importar NFC-e */}
+        {/* 3ª linha: Exportações + Importar nota (texto) */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap gap-2">
             <button
@@ -606,7 +699,7 @@ export default function Reports() {
             onClick={() => setShowImportModal(true)}
             className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm hover:bg-emerald-700"
           >
-            📷 Importar nota fiscal (QR)
+            📄 Importar nota (texto)
           </button>
         </div>
       </div>
@@ -754,13 +847,13 @@ export default function Reports() {
         )}
       </div>
 
-      {/* MODAL DE IMPORTAÇÃO DE NFC-e */}
+      {/* MODAL DE IMPORTAÇÃO (TEXTO) */}
       {showImportModal && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-lg max-w-lg w-full p-4 space-y-3">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold">
-                Importar nota fiscal (NFC-e)
+                Importar nota fiscal (texto)
               </h3>
               <button
                 type="button"
@@ -772,18 +865,18 @@ export default function Reports() {
             </div>
 
             <p className="text-sm text-slate-600">
-              Escaneie o QR code da nota fiscal e{" "}
-              <strong>cole aqui o link</strong> que aparece
-              (ou o conteúdo completo do QR). O YggList vai
-              buscar os itens e somar aos relatórios.
+              Abra a nota fiscal (site da NFC-e, PDF em texto, etc),{" "}
+              <strong>selecione todo o texto</strong>, copie e cole
+              aqui. O YggList vai tentar identificar os itens e os
+              valores automaticamente.
             </p>
 
             <textarea
-              rows={4}
+              rows={6}
               className="w-full border rounded-lg px-3 py-2 text-sm"
-              placeholder="Cole aqui o link da NFC-e..."
-              value={nfceText}
-              onChange={(e) => setNfceText(e.target.value)}
+              placeholder="Cole aqui o texto completo da nota..."
+              value={nfText}
+              onChange={(e) => setNfText(e.target.value)}
             />
 
             {importError && (
@@ -809,8 +902,8 @@ export default function Reports() {
                   })}
                 </div>
                 <div className="mt-1 text-emerald-700">
-                  Nota importada com sucesso. Os dados já entram
-                  nos relatórios deste período.
+                  Nota importada com sucesso. Esses dados já entram
+                  nos relatórios do período selecionado.
                 </div>
               </div>
             )}
@@ -825,13 +918,11 @@ export default function Reports() {
               </button>
               <button
                 type="button"
-                onClick={handleImportNfce}
+                onClick={handleImportFromText}
                 disabled={isImporting}
                 className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm disabled:opacity-60"
               >
-                {isImporting
-                  ? "Importando…"
-                  : "Importar e salvar"}
+                {isImporting ? "Interpretando…" : "Importar e salvar"}
               </button>
             </div>
           </div>
