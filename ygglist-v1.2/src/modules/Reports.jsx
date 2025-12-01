@@ -182,6 +182,7 @@ function listInRange(list, fromISO, toISO) {
  * - se ainda existir, também YGG_LISTS_NFCE (versão antiga)
  */
 function loadLists() {
+  function loadLists() {
   try {
     const base =
       JSON.parse(localStorage.getItem("YGG_LISTS") || "null") ||
@@ -190,9 +191,12 @@ function loadLists() {
 
     let main = Array.isArray(base) ? base : [];
 
+    // ⚠️ Não deixar o fallback pegar YGG_LISTS_IMPORT / YGG_LISTS_NFCE
     if (!main.length) {
       for (const k in localStorage) {
         if (!Object.prototype.hasOwnProperty.call(localStorage, k)) continue;
+        if (k === "YGG_LISTS_IMPORT" || k === "YGG_LISTS_NFCE") continue; // <-- linha chave
+
         const v = JSON.parse(localStorage.getItem(k) || "null");
         if (Array.isArray(v) && v.length && v[0]?.items) {
           main = v;
@@ -209,11 +213,13 @@ function loadLists() {
     const arr1 = Array.isArray(nfceLists) ? nfceLists : [];
     const arr2 = Array.isArray(importedLists) ? importedLists : [];
 
+    // Agora cada lista aparece só uma vez
     return [...main, ...arr1, ...arr2];
   } catch {
     return [];
   }
 }
+
 
 function extractMonths(lists) {
   const set = new Set();
