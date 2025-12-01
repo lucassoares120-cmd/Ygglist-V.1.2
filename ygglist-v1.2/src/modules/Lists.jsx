@@ -106,18 +106,30 @@ function addItem(toCart = false) {
            />
          </div>
  
-         <div>
-           <label className="text-sm invisible">.</label>
-          <div className="flex gap-2 flex-wrap">
-            <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
-              ✓ Adicionar
-            </button>
-            <button onClick={() => addItem(true)} className="px-4 py-2 rounded-lg border bg-white">
-              🛒 Adicionar ao carrinho
-            </button>
-          </div>
-         </div>
-       </div>
+   <div>
+  <label className="text-sm invisible">.</label>
+
+  <div className="flex gap-2 flex-wrap">
+    {/* Botão padrão: adiciona à LISTA */}
+    <button
+      type="button"
+      onClick={() => addItem(false)}
+      className="px-4 py-2 rounded-lg bg-ygg-700 text-white hover:bg-ygg-800 transition-colors"
+    >
+      ✓ Adicionar
+    </button>
+
+    {/* Novo botão: adiciona DIRETO AO CARRINHO */}
+    <button
+      type="button"
+      onClick={() => addItem(true)}
+      className="px-4 py-2 rounded-lg border bg-white text-ygg-700 hover:bg-ygg-50 transition-colors"
+    >
+      🛒 Adicionar ao carrinho
+    </button>
+  </div>
+</div>
+
  
        <div className="grid md:grid-cols-2 gap-4">
          {/* LISTA */}
