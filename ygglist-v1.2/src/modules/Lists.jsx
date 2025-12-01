@@ -60,13 +60,22 @@
       })),
     );
 
-   const updateItem = (id, patch) =>
-     withScrollLock(() =>
-       setDay(prev => ({
-         ...prev,
-         items: prev.items.map(i => i.id === id ? { ...i, ...patch } : i)
-       }))
-     );
+  const toggleCartItem = (id, val) =>
+    withScrollLock(() =>
+      setDay(prev => ({
+        ...prev,
+        items: prev.items.map(i => (i.id === id ? { ...i, inCart: val } : i)),
+      })),
+    );
+
+  const removeItem = (id) =>
+    withScrollLock(() =>
+      setDay(prev => ({
+        ...prev,
+        items: prev.items.filter(i => i.id !== id),
+      })),
+    );
+
  
    const toggleCartItem = (id, val) =>
      withScrollLock(() =>
