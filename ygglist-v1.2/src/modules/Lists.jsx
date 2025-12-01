@@ -112,7 +112,7 @@ export default function Lists() {
   };
 
   /* ===== CRUD ===== */
-  function addItem() {
+  function addItem(toCart = false) {
     const nm = (name || '').trim();
     if (!nm) return;
     const cat  = findCatalog(nm)?.category ?? 'Outros';
@@ -131,7 +131,7 @@ export default function Lists() {
       kcalPer100: kcal,
       category: cat,
       store: store || '',
-      inCart: false,
+      inCart: toCart,
       createdAt: Date.now(),
     };
 
@@ -285,24 +285,24 @@ export default function Lists() {
               placeholder="Qtd"
             />
 
-           {/* Tipo */}
-<select
-  value={local.unit}
-  onChange={(e) => {
-    const v = e.target.value;
-    // Atualiza o estado local imediatamente
-    setLocal((p) => ({ ...p, unit: v }));
-    // Persiste no item diretamente
-    updateItem(i.id, { unit: v });
-  }}
-  className="border rounded-lg px-2 py-1"
->
-  <option>un</option><option>kg</option><option>g</option>
-  <option>L</option><option>mL</option>
-  <option>pacote</option><option>caixa</option><option>saco</option>
-  <option>bandeja</option><option>garrafa</option><option>lata</option>
-  <option>outro</option>
-</select>
+            {/* Tipo */}
+            <select
+              value={local.unit}
+              onChange={(e) => {
+                const v = e.target.value;
+                // Atualiza o estado local imediatamente
+                setLocal((p) => ({ ...p, unit: v }));
+                // Persiste no item diretamente
+                updateItem(i.id, { unit: v });
+              }}
+              className="border rounded-lg px-2 py-1"
+            >
+              <option>un</option><option>kg</option><option>g</option>
+              <option>L</option><option>mL</option>
+              <option>pacote</option><option>caixa</option><option>saco</option>
+              <option>bandeja</option><option>garrafa</option><option>lata</option>
+              <option>outro</option>
+            </select>
 
 
             {/* Preço */}
@@ -511,9 +511,14 @@ export default function Lists() {
 
         <div>
           <label className="text-sm invisible">.</label>
-          <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
-            ✓ Adicionar
-          </button>
+          <div className="flex gap-2 flex-wrap">
+            <button onClick={() => addItem()} className="px-4 py-2 rounded-lg bg-ygg-700 text-white">
+              ✓ Adicionar
+            </button>
+            <button onClick={() => addItem(true)} className="px-4 py-2 rounded-lg border bg-white">
+              🛒 Adicionar ao carrinho
+            </button>
+          </div>
         </div>
       </div>
 
@@ -547,7 +552,7 @@ export default function Lists() {
             />
           </div>
 
-          <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(toBuy))}</div>
+          <div className="mb-2 text-right text-lg font-semibold text-slate-700">Total: {fmtBRL(total(toBuy))}</div>
 
           {listOpen && (
             <div className="space-y-2">
@@ -586,7 +591,7 @@ export default function Lists() {
             />
           </div>
 
-          <div className="text-sm text-slate-600 mb-2">Total: {fmtBRL(total(cart))}</div>
+          <div className="mb-2 text-right text-lg font-semibold text-slate-700">Total: {fmtBRL(total(cart))}</div>
 
           {cartOpen && (
             <div className="space-y-2">
