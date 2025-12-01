@@ -26,34 +26,44 @@ b/ygglist-v1.2/src/modules/Lists.jsx
      return s?.price;
    };
  
-   /* ===== CRUD ===== */
- function addItem(toCart = false) {
-     const nm = (name || '').trim();
-     if (!nm) return;
-     const cat  = findCatalog(nm)?.category ?? 'Outros';
-     const kcal = findCatalog(nm)?.kcalPer100;
-     const icon = findCatalog(nm)?.icon;
- 
-     const item = {
-       id: uid(),
-       name: nm,
-       qty: toLocaleNumber(qtyStr) || 1,
-       unit,
-       price: toLocaleNumber(priceStr),
-       weight: obs || '',
-       note: curiosity || findCatalog(nm)?.curiosity || '',
-       icon,
-       kcalPer100: kcal,
-       category: cat,
-       store: store || '',
-      inCart: toCart,
-       createdAt: Date.now(),
-     };
- 
-     setDay(prev => ({ ...prev, items: [item, ...prev.items] }));
-     // reset form
-     setName(''); setQtyStr('1'); setUnit('un'); setPriceStr(''); setObs(''); setCuriosity(''); setShowSuggest(false);
-   }
+/* ===== CRUD ===== */
+function addItem(toCart = false) {
+  const nm = (name || '').trim();
+  if (!nm) return;
+
+  const catalogEntry = findCatalog(nm);
+  const cat  = catalogEntry?.category ?? 'Outros';
+  const kcal = catalogEntry?.kcalPer100;
+  const icon = catalogEntry?.icon;
+
+  const item = {
+    id: uid(),
+    name: nm,
+    qty: toLocaleNumber(qtyStr) || 1,
+    unit,
+    price: toLocaleNumber(priceStr),
+    weight: obs || '',
+    note: curiosity || catalogEntry?.curiosity || '',
+    icon,
+    kcalPer100: kcal,
+    category: cat,
+    store: store || '',
+    inCart: toCart,           // 🔹 <– aqui é o pulo do gato
+    createdAt: Date.now(),
+  };
+
+  setDay(prev => ({ ...prev, items: [item, ...prev.items] }));
+
+  // reset form
+  setName('');
+  setQtyStr('1');
+  setUnit('un');
+  setPriceStr('');
+  setObs('');
+  setCuriosity('');
+  setShowSuggest(false);
+}
+
  
    const updateItem = (id, patch) =>
      withScrollLock(() =>
