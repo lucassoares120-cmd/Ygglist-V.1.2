@@ -1,5 +1,6 @@
 // ygglist-v1.2/src/modules/Lists.jsx
 import React, { useState, useMemo } from "react";
+import yggItems from "../data/ygg_items.json";
 
 /* ===== HELPERS ===== */
 
@@ -41,9 +42,23 @@ const stableSort = (a, b) => {
 // aqui só para manter a API que você já usava
 const withScrollLock = (fn) => fn();
 
+/* ===== CATÁLOGO YGG (ygg_items.json) ===== */
+
+const normalize = (s) =>
+  (s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+const findCatalog = (nm) => {
+  const key = normalize(nm);
+  return yggItems.find((it) => normalize(it.name) === key);
+};
+
 /* ===== ITEM ROW ===== */
 
-function ItemRow({ i, inCartView, updateItem, toggleCartItem, removeItem }) {
+function ItemRow({ i, inCartView, toggleCartItem, removeItem }) {
   const handleToggle = () => toggleCartItem(i.id, !i.inCart);
 
   return (
@@ -61,6 +76,7 @@ function ItemRow({ i, inCartView, updateItem, toggleCartItem, removeItem }) {
 
           <div className="min-w-0">
             <div className="font-semibold truncate">
+              {i.icon && <span className="mr-1">{i.icon}</span>}
               {i.name}
               {i.qty ? (
                 <span className="font-normal text-slate-600">
@@ -123,7 +139,7 @@ export default function Lists() {
   const [listOpen, setListOpen] = useState(true);
   const [cartOpen, setCartOpen] = useState(true);
 
-  // adaptador para manter API day / setDay que você usava
+  // adaptador para manter API day / setDay
   const day = { items };
   const setDay = (updater) => {
     setItems((prev) => {
@@ -172,6 +188,8 @@ export default function Lists() {
     const nm = (name || "").trim();
     if (!nm) return;
 
+    const catalogEntry = findCatalog(nm);
+
     const item = {
       id: uid(),
       name: nm,
@@ -179,10 +197,10 @@ export default function Lists() {
       unit,
       price: toLocaleNumber(priceStr),
       weight: obs || "",
-      note: curiosity || "",
-      icon: null,
-      kcalPer100: null,
-      category: "Outros",
+      note: curiosity || catalogEntry?.curiosity || "",
+      icon: catalogEntry?.icon ?? null,
+      kcalPer100: catalogEntry?.kcalPer100 ?? null,
+      category: catalogEntry?.category ?? "Outros",
       store: store || "",
       inCart: toCart,
       createdAt: Date.now(),
@@ -199,16 +217,6 @@ export default function Lists() {
     setCuriosity("");
     setShowSuggest(false);
   };
-
-  const updateItem = (id, patch) =>
-    withScrollLock(() =>
-      setDay((prev) => ({
-        ...prev,
-        items: prev.items.map((i) =>
-          i.id === id ? { ...i, ...patch } : i
-        ),
-      }))
-    );
 
   const toggleCartItem = (id, val) =>
     withScrollLock(() =>
@@ -250,7 +258,6 @@ export default function Lists() {
 
   const finalizePurchase = () => {
     // aqui você pode depois salvar histórico, limpar carrinho, etc.
-    // por enquanto vamos só manter os itens marcados como inCart = false
     setDay((prev) => ({
       ...prev,
       items: prev.items.map((i) =>
@@ -359,7 +366,7 @@ export default function Lists() {
                 onClick={() => addItem(false)}
                 className="px-4 py-2 rounded-lg bg-ygg-700 text-white hover:bg-ygg-800 transition-colors"
               >
-                ✓ Adicionar a Lista
+                ✓ Adicionar
               </button>
 
               {/* Novo botão: adiciona DIRETO AO CARRINHO */}
@@ -436,7 +443,6 @@ export default function Lists() {
                   key={i.id}
                   i={i}
                   inCartView={false}
-                  updateItem={updateItem}
                   toggleCartItem={toggleCartItem}
                   removeItem={removeItem}
                 />
@@ -509,7 +515,6 @@ export default function Lists() {
                   key={i.id}
                   i={i}
                   inCartView={true}
-                  updateItem={updateItem}
                   toggleCartItem={toggleCartItem}
                   removeItem={removeItem}
                 />
