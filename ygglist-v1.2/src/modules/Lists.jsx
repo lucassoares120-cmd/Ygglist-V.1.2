@@ -4,16 +4,18 @@ import yggItems from "../data/ygg_items.json";
 
 /* ===== CONSTANTES ===== */
 
-const UNIT_OPTIONS = [
-  "un",
-  "kg",
-  "g",
-  "L",
-  "mL",
-  "caixa",
-  "pacote",
-  "bandeja",
-];
+const UNIT_OPTIONS = ["un", "kg", "g", "L", "mL", "caixa", "pacote", "bandeja"];
+
+// ordem de categorias vinda do próprio catálogo
+const CATEGORY_ORDER = Array.from(
+  new Set(yggItems.map((it) => it.category).filter(Boolean))
+);
+
+const categoryRank = (cat) => {
+  if (!cat) return CATEGORY_ORDER.length + 1;
+  const idx = CATEGORY_ORDER.indexOf(cat);
+  return idx === -1 ? CATEGORY_ORDER.length + 1 : idx;
+};
 
 /* ===== HELPERS ===== */
 
@@ -60,18 +62,18 @@ const normalize = (s) =>
     .toLowerCase()
     .trim();
 
+const locationKey = (s) => normalize(s) || "__default__";
+
 // ordena por categoria (grupo) e depois por nome
 const stableSort = (a, b) => {
-  const ac = (a.category || "zzz").toLowerCase();
-  const bc = (b.category || "zzz").toLowerCase();
-  if (ac < bc) return -1;
-  if (ac > bc) return 1;
+  const ra = categoryRank(a.category);
+  const rb = categoryRank(b.category);
+  if (ra !== rb) return ra - rb;
 
   const an = (a.name || "").toLowerCase();
   const bn = (b.name || "").toLowerCase();
   if (an < bn) return -1;
   if (an > bn) return 1;
-
   return 0;
 };
 
@@ -129,6 +131,11 @@ function ItemRow({
                 </span>
               ) : null}
             </div>
+            {i.category && (
+              <div className="text-[11px] text-emerald-700">
+                {i.category}
+              </div>
+            )}
             {i.weight && (
               <div className="text-xs text-slate-500 truncate">{i.weight}</div>
             )}
@@ -258,6 +265,7 @@ function ItemRow({
 
 export default function Lists() {
   // formulário
+  const [location, setLocation] = useState(""); // novo campo Local
   const [name, setName] = useState("");
   const [qtyStr, setQtyStr] = useState("1");
   const [unit, setUnit] = useState("un");
@@ -277,6 +285,8 @@ export default function Lists() {
   const [cartOpen, setCartOpen] = useState(true);
   const [openItemId, setOpenItemId] = useState(null); // item expandido
 
+  const currentLocKey = locationKey(location);
+
   // adaptador para manter API day / setDay
   const day = { items };
   const setDay = (updater) => {
@@ -287,13 +297,23 @@ export default function Lists() {
   };
 
   const allToBuyUnfiltered = useMemo(
-    () => day.items.filter((i) => !i.inCart).sort(stableSort),
-    [day.items]
+    () =>
+      day.items
+        .filter(
+          (i) => locationKey(i.location) === currentLocKey && !i.inCart
+        )
+        .sort(stableSort),
+    [day.items, currentLocKey]
   );
 
   const allCartUnfiltered = useMemo(
-    () => day.items.filter((i) => i.inCart).sort(stableSort),
-    [day.items]
+    () =>
+      day.items
+        .filter(
+          (i) => locationKey(i.location) === currentLocKey && i.inCart
+        )
+        .sort(stableSort),
+    [day.items, currentLocKey]
   );
 
   const matches = (q, i) => {
@@ -329,7 +349,8 @@ export default function Lists() {
         (it) =>
           normalize(it.name) === key && typeof it.price === "number"
       )
-      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+      .reverse();
     return history[0]?.price ?? null;
   };
 
@@ -386,6 +407,7 @@ export default function Lists() {
       kcalPer100: catalogEntry?.kcalPer100 ?? null,
       category: catalogEntry?.category ?? "Outros",
       store: store || "",
+      location: location || "",
       inCart: toCart,
       createdAt: Date.now(),
     };
@@ -404,52 +426,56 @@ export default function Lists() {
   };
 
   const updateItem = (id, patch) =>
-    withScrollLock(() =>
+    withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
         items: prev.items.map((i) =>
           i.id === id ? { ...i, ...patch } : i
         ),
-      }))
-    );
+      }));
+    });
 
   const toggleCartItem = (id, val) =>
-    withScrollLock(() =>
+    withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
         items: prev.items.map((i) =>
           i.id === id ? { ...i, inCart: val } : i
         ),
-      }))
-    );
+      }));
+      setOpenItemId(null); // sempre recolhe ao mover
+    });
 
   const removeItem = (id) =>
-    withScrollLock(() =>
+    withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
         items: prev.items.filter((i) => i.id !== id),
-      }))
-    );
+      }));
+      setOpenItemId(null);
+    });
 
   const moveAllToCart = () =>
-    withScrollLock(() =>
+    withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
         items: prev.items.map((i) =>
           i.inCart ? i : { ...i, inCart: true }
         ),
-      }))
-    );
+      }));
+      setOpenItemId(null);
+    });
 
   const moveAllToList = () =>
-    withScrollLock(() =>
+    withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
         items: prev.items.map((i) =>
           i.inCart ? { ...i, inCart: false } : i
         ),
-      }))
-    );
+      }));
+      setOpenItemId(null);
+    });
 
   const finalizePurchase = () => {
     setDay((prev) => ({
@@ -472,6 +498,19 @@ export default function Lists() {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-4">
+          {/* Local */}
+          <div className="basis-full">
+            <label className="text-sm">Local</label>
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Ex.: Casa, Trabalho, Chácara..."
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
+
+          {/* Item */}
           <div className="basis-full">
             <label className="text-sm">Item</label>
             <div className="relative">
@@ -520,6 +559,7 @@ export default function Lists() {
             </div>
           </div>
 
+          {/* Quantidade + Unidade */}
           <div className="flex gap-2">
             <div className="flex-1">
               <label className="text-sm">Quantidade</label>
@@ -546,6 +586,7 @@ export default function Lists() {
             </div>
           </div>
 
+          {/* Preço + Mercado */}
           <div className="flex gap-2">
             <div className="flex-1">
               <label className="text-sm">Preço</label>
@@ -569,6 +610,7 @@ export default function Lists() {
             </div>
           </div>
 
+          {/* Observação */}
           <div className="basis-full md:basis-[48%]">
             <label className="text-sm">Observação</label>
             <input
@@ -580,6 +622,7 @@ export default function Lists() {
             />
           </div>
 
+          {/* Curiosidade */}
           <div className="basis-full md:basis-[48%]">
             <label className="text-sm">Curiosidade</label>
             <input
@@ -591,6 +634,7 @@ export default function Lists() {
             />
           </div>
 
+          {/* Botões */}
           <div>
             <label className="text-sm invisible">.</label>
             <div className="flex gap-2 flex-wrap">
