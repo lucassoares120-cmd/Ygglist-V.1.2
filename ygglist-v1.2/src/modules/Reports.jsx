@@ -678,12 +678,22 @@ export default function Reports() {
 };
 
 
-      const key = "YGG_LISTS_IMPORT";
-      const prev =
-        JSON.parse(localStorage.getItem(key) || "[]") || [];
+        const key = "YGG_LISTS_IMPORT";
+      const prev = JSON.parse(localStorage.getItem(key) || "[]") || [];
       const arr = Array.isArray(prev) ? prev : [];
-      const merged = [...arr, list];
+
+      // assinatura da nota: loja + data + nº de itens
+      const signature = `${store}__${dateISO}__${items.length}`;
+
+      // remove qualquer nota antiga com a mesma assinatura
+      const filtered = arr.filter((l) => {
+        const s = `${l.store}__${l.date}__${(l.items || []).length}`;
+        return s !== signature;
+      });
+
+      const merged = [...filtered, list];
       localStorage.setItem(key, JSON.stringify(merged));
+
 
       const totalValue = list.items.reduce(
         (s, it) => s + (Number(it.qty || 1) * Number(it.price || 0)),
