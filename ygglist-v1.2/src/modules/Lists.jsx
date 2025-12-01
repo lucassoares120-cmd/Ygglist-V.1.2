@@ -1,4 +1,3 @@
-export default function Lists() {
    const allCartUnfiltered  = day.items.filter(i =>  i.inCart).sort(stableSort);
  
    const matches = (q, i) => {
@@ -78,7 +77,6 @@ export default function Lists() {
      );
  
    const removeItem = (id) =>
-export default function Lists() {
  
          <div className="basis-full md:basis-[48%]">
            <label className="text-sm">Observação</label>
