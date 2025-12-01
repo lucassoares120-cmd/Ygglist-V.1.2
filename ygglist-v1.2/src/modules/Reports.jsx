@@ -182,7 +182,6 @@ function listInRange(list, fromISO, toISO) {
  * - se ainda existir, também YGG_LISTS_NFCE (versão antiga)
  */
 function loadLists() {
-  function loadLists() {
   try {
     const base =
       JSON.parse(localStorage.getItem("YGG_LISTS") || "null") ||
@@ -219,6 +218,7 @@ function loadLists() {
     return [];
   }
 }
+
 
 
 function extractMonths(lists) {
