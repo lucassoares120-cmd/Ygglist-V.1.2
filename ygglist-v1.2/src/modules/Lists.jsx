@@ -132,9 +132,7 @@ function ItemRow({
               ) : null}
             </div>
             {i.category && (
-              <div className="text-[11px] text-emerald-700">
-                {i.category}
-              </div>
+              <div className="text-[11px] text-emerald-700">{i.category}</div>
             )}
             {i.weight && (
               <div className="text-xs text-slate-500 truncate">{i.weight}</div>
@@ -213,9 +211,7 @@ function ItemRow({
             <label className="text-[11px] text-slate-500">Preço</label>
             <input
               type="text"
-              value={
-                typeof i.price === "number" ? numberToField(i.price) : ""
-              }
+              value={typeof i.price === "number" ? numberToField(i.price) : ""}
               onChange={(e) =>
                 updateItem(i.id, {
                   price: toLocaleNumber(e.target.value),
@@ -265,7 +261,10 @@ function ItemRow({
 
 export default function Lists() {
   // formulário
-  const [location, setLocation] = useState(""); // novo campo Local
+  const [location, setLocation] = useState("");
+  const [date, setDate] = useState(() =>
+    new Date().toISOString().slice(0, 10)
+  );
   const [name, setName] = useState("");
   const [qtyStr, setQtyStr] = useState("1");
   const [unit, setUnit] = useState("un");
@@ -286,6 +285,7 @@ export default function Lists() {
   const [openItemId, setOpenItemId] = useState(null); // item expandido
 
   const currentLocKey = locationKey(location);
+  const currentDateKey = date || "";
 
   // adaptador para manter API day / setDay
   const day = { items };
@@ -300,20 +300,26 @@ export default function Lists() {
     () =>
       day.items
         .filter(
-          (i) => locationKey(i.location) === currentLocKey && !i.inCart
+          (i) =>
+            locationKey(i.location) === currentLocKey &&
+            (i.date || "") === currentDateKey &&
+            !i.inCart
         )
         .sort(stableSort),
-    [day.items, currentLocKey]
+    [day.items, currentLocKey, currentDateKey]
   );
 
   const allCartUnfiltered = useMemo(
     () =>
       day.items
         .filter(
-          (i) => locationKey(i.location) === currentLocKey && i.inCart
+          (i) =>
+            locationKey(i.location) === currentLocKey &&
+            (i.date || "") === currentDateKey &&
+            i.inCart
         )
         .sort(stableSort),
-    [day.items, currentLocKey]
+    [day.items, currentLocKey, currentDateKey]
   );
 
   const matches = (q, i) => {
@@ -349,9 +355,8 @@ export default function Lists() {
         (it) =>
           normalize(it.name) === key && typeof it.price === "number"
       )
-      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
-      .reverse();
-    return history[0]?.price ?? null;
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return history[history.length - 1]?.price ?? null;
   };
 
   /* ===== SUGESTÕES DO CATÁLOGO ===== */
@@ -408,6 +413,7 @@ export default function Lists() {
       category: catalogEntry?.category ?? "Outros",
       store: store || "",
       location: location || "",
+      date: date || new Date().toISOString().slice(0, 10),
       inCart: toCart,
       createdAt: Date.now(),
     };
@@ -459,9 +465,16 @@ export default function Lists() {
     withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
-        items: prev.items.map((i) =>
-          i.inCart ? i : { ...i, inCart: true }
-        ),
+        items: prev.items.map((i) => {
+          if (
+            !i.inCart &&
+            locationKey(i.location) === currentLocKey &&
+            (i.date || "") === currentDateKey
+          ) {
+            return { ...i, inCart: true };
+          }
+          return i;
+        }),
       }));
       setOpenItemId(null);
     });
@@ -470,22 +483,37 @@ export default function Lists() {
     withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
-        items: prev.items.map((i) =>
-          i.inCart ? { ...i, inCart: false } : i
-        ),
+        items: prev.items.map((i) => {
+          if (
+            i.inCart &&
+            locationKey(i.location) === currentLocKey &&
+            (i.date || "") === currentDateKey
+          ) {
+            return { ...i, inCart: false };
+          }
+          return i;
+        }),
       }));
       setOpenItemId(null);
     });
 
-  const finalizePurchase = () => {
-    setDay((prev) => ({
-      ...prev,
-      items: prev.items.map((i) =>
-        i.inCart ? { ...i, inCart: false } : i
-      ),
-    }));
-    setOpenItemId(null);
-  };
+  const finalizePurchase = () =>
+    withScrollLock(() => {
+      setDay((prev) => ({
+        ...prev,
+        items: prev.items.map((i) => {
+          if (
+            i.inCart &&
+            locationKey(i.location) === currentLocKey &&
+            (i.date || "") === currentDateKey
+          ) {
+            return { ...i, inCart: false };
+          }
+          return i;
+        }),
+      }));
+      setOpenItemId(null);
+    });
 
   /* ===== RENDER ===== */
 
@@ -499,7 +527,7 @@ export default function Lists() {
 
         <div className="grid md:grid-cols-2 gap-4">
           {/* Local */}
-          <div className="basis-full">
+          <div className="basis-full md:basis-[48%]">
             <label className="text-sm">Local</label>
             <input
               type="text"
@@ -510,8 +538,19 @@ export default function Lists() {
             />
           </div>
 
+          {/* Data */}
+          <div className="basis-full md:basis-[48%]">
+            <label className="text-sm">Data</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
+
           {/* Item */}
-          <div className="basis-full">
+          <div className="basis-full md:col-span-2">
             <label className="text-sm">Item</label>
             <div className="relative">
               <input
