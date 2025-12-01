@@ -284,7 +284,99 @@ function downloadSvgAsPng(svgEl, filename = "grafico.png", scale = 2) {
 
 /* ====== PARSER DE TEXTO DA NOTA ====== */
 
+// normaliza número tipo "1.234,56" -> 1234.56
+function normNum(str) {
+  if (!str) return 0;
+  const s = String(str)
+    .replace(/\./g, "")       // remove separador de milhar
+    .replace(",", ".")        // vírgula vira ponto
+    .replace(/[^\d.-]/g, ""); // tira qualquer coisa que não seja número, - ou .
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+}
+
 // normaliza string para comparação (sem acento, minúscula, sem espaços múltiplos)
+function normalizeName(str) {
+  if (!str) return "";
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // remove acentos
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// tenta achar categoria no catálogo + heurísticas
+function findCatalogCategory(name) {
+  const norm = normalizeName(name);
+  if (!norm) return "Outros";
+
+  // 1) tenta bater com o catálogo (ygg_items.json)
+  if (Array.isArray(yggCatalog)) {
+    for (const entry of yggCatalog) {
+      const entryName = normalizeName(entry.name || entry.item || "");
+      if (!entryName) continue;
+
+      if (
+        norm === entryName ||
+        norm.includes(entryName) ||
+        entryName.includes(norm)
+      ) {
+        return entry.category || entry.categoria || "Outros";
+      }
+    }
+  }
+
+  // 2) heurísticas simples por palavras-chave
+  if (
+    /(maca|mamao|melao|banana|uva|caju|abacaxi|hortifruti|kg)/.test(norm) ||
+    /(cebola|alho|salsa|cebolinha|tomate|alface|verdura)/.test(norm)
+  ) {
+    return "Hortifruti";
+  }
+
+  if (
+    /(detergente|lava roupa|amaciante|sabao|limp ceramica|agua sanit|cloro|desinfetante|saco lixo|esponja|flanela|vassoura|pedra sanit)/.test(
+      norm
+    )
+  ) {
+    return "Limpeza";
+  }
+
+  if (
+    /(leite|arroz|feijao|cafe|massa|macarr|biscoito|gelat|acucar|ovo)/.test(
+      norm
+    )
+  ) {
+    return "Alimentos";
+  }
+
+  return "Outros";
+}
+
+// tenta achar data dd/mm/aaaa no texto e converte pra ISO (aaaa-mm-dd)
+function detectDateISO(text) {
+  const m = text.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+  if (!m) return iso(new Date());
+  const [, d, mo, y] = m;
+  return `${y}-${mo}-${d}`;
+}
+
+// tenta achar nome da loja nas primeiras linhas
+function detectStoreFromLines(lines) {
+  for (let i = 0; i < Math.min(lines.length, 15); i++) {
+    const l = lines[i];
+    if (!l) continue;
+    if (/NFC[- ]e|NOTA FISCAL|DANFE/i.test(l)) continue;
+    if (/CNPJ|CPF|INSCRIÇÃO|INSCRICAO/i.test(l)) continue;
+    if (/^\d{2}\/\d{2}\/\d{4}/.test(l)) continue;
+    if (/^\d{2}:\d{2}/.test(l)) continue;
+    if (/^\d+$/.test(l)) continue;
+    return l.trim();
+  }
+  return "Nota fiscal";
+}
+
 // parser de itens a partir do TEXTO da nota
 function parseItemsFromText(text) {
   const rawLines = text
@@ -294,17 +386,15 @@ function parseItemsFromText(text) {
 
   const items = [];
 
-  // Padrão específico desse layout de nota:
+  // Padrão específico desse layout de MG:
   // DESCRIÇÃO ... Qtde total de ítens: 3.0000 UN: KG Valor total R$: R$ 12,34
   const mgPattern =
     /^(.+?)\s+Qtde total de ítens:\s*([\d.,]+)\s+UN:\s*([A-Z]+)\s+Valor total R\$:\s*R\$\s*([\d.,]+)/i;
 
   for (const raw of rawLines) {
-    // colchetes, tabs, etc. viram espaços simples
     const line = raw.replace(/\s+/g, " ").trim();
     if (!line) continue;
 
-    // tenta primeiro o padrão "MG supermercado"
     const m = line.match(mgPattern);
     if (m) {
       const [, namePart, qtyStr, unitRaw, totalStr] = m;
@@ -312,7 +402,6 @@ function parseItemsFromText(text) {
       const total = normNum(totalStr);
       if (!total) continue;
 
-      // Preço unitário é o total dividido pela quantidade
       const unitPrice = total / qty;
 
       items.push({
@@ -321,21 +410,19 @@ function parseItemsFromText(text) {
         unit: unitRaw.toLowerCase(), // un, kg, bd, pc, etc.
         price: unitPrice,
       });
-      continue; // linha já tratada, pula para a próxima
     }
   }
 
-  // Se deu certo com o padrão acima, já retornamos
+  // Se conseguiu extrair via padrão MG, retorna
   if (items.length) return items;
 
-  // ===== Fallback genérico (para outros tipos de layout) =====
+  // ===== Fallback genérico para outras notas =====
   const moneyRe = /\d+,\d{2}/g;
   const genericItems = [];
 
   for (const raw of rawLines) {
     const line = raw.replace(/\s+/g, " ");
 
-    // ignora linhas de resumo/total da nota
     if (/TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)) {
       continue;
     }
@@ -376,7 +463,6 @@ function parseItemsFromText(text) {
     });
   }
 
-  // outro fallback bem simples: linhas com um único valor
   if (!genericItems.length) {
     for (const raw of rawLines) {
       const line = raw.replace(/\s+/g, " ");
