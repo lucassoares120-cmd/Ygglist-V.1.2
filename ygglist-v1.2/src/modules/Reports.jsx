@@ -336,23 +336,55 @@ function detectStoreFromLines(lines) {
   return "Nota fiscal";
 }
 
-// parser bem tolerante: pega linhas com pelo menos um "9,99" e usa isso como preço total
+// parser de itens a partir do TEXTO da nota
 function parseItemsFromText(text) {
-  const lines = text
+  const rawLines = text
     .split(/\r?\n/)
     .map((l) => l.trim())
     .filter(Boolean);
 
-  const moneyRe = /\d+,\d{2}/g;
   const items = [];
 
-  for (const rawLine of lines) {
-    const line = rawLine.replace(/\s+/g, " ");
+  // Padrão específico desse layout de nota:
+  // DESCRIÇÃO ... Qtde total de ítens: 3.0000 UN: KG Valor total R$: R$ 12,34
+  const mgPattern =
+    /^(.+?)\s+Qtde total de ítens:\s*([\d.,]+)\s+UN:\s*([A-Z]+)\s+Valor total R\$:\s*R\$\s*([\d.,]+)/i;
+
+  for (const raw of rawLines) {
+    // colchetes, tabs, etc. viram espaços simples
+    const line = raw.replace(/\s+/g, " ").trim();
+    if (!line) continue;
+
+    // tenta primeiro o padrão "MG supermercado"
+    const m = line.match(mgPattern);
+    if (m) {
+      const [, namePart, qtyStr, unitRaw, totalStr] = m;
+      const qty = normNum(qtyStr) || 1;
+      const total = normNum(totalStr);
+      if (!total) continue;
+
+      items.push({
+        name: namePart.trim(),
+        qty,
+        unit: unitRaw.toLowerCase(), // un, kg, bd, pc, etc.
+        price: total / qty,
+      });
+      continue; // linha já tratada, pula para a próxima
+    }
+  }
+
+  // Se deu certo com o padrão acima, já retornamos
+  if (items.length) return items;
+
+  // ===== Fallback genérico (para outros tipos de layout) =====
+  const moneyRe = /\d+,\d{2}/g;
+  const genericItems = [];
+
+  for (const raw of rawLines) {
+    const line = raw.replace(/\s+/g, " ");
 
     // ignora linhas de resumo/total da nota
-    if (
-      /TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)
-    ) {
+    if (/TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)) {
       continue;
     }
 
@@ -367,10 +399,8 @@ function parseItemsFromText(text) {
     let descPart = line.slice(0, idxTotal).trim();
     if (!descPart) continue;
 
-    // remove índice tipo "001 " no começo
     descPart = descPart.replace(/^\d+\s+/, "").trim();
 
-    // tenta achar "2 UN" / "0,754 KG" etc.
     let qty = 1;
     let unit = "un";
     const qtyUnitMatch =
@@ -386,7 +416,7 @@ function parseItemsFromText(text) {
 
     const unitPrice = total / qty;
 
-    items.push({
+    genericItems.push({
       name: descPart,
       qty,
       unit,
@@ -394,14 +424,12 @@ function parseItemsFromText(text) {
     });
   }
 
-  // fallback bem simples se nada for identificado como item
-  if (!items.length) {
-    for (const rawLine of lines) {
-      const line = rawLine.replace(/\s+/g, " ");
+  // outro fallback bem simples: linhas com um único valor
+  if (!genericItems.length) {
+    for (const raw of rawLines) {
+      const line = raw.replace(/\s+/g, " ");
 
-      if (
-        /TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)
-      ) {
+      if (/TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)) {
         continue;
       }
 
@@ -417,7 +445,7 @@ function parseItemsFromText(text) {
       descPart = descPart.replace(/^\d+\s+/, "").trim();
       if (!descPart) continue;
 
-      items.push({
+      genericItems.push({
         name: descPart,
         qty: 1,
         unit: "un",
@@ -426,8 +454,9 @@ function parseItemsFromText(text) {
     }
   }
 
-  return items;
+  return genericItems;
 }
+
 
 
 /* ====== UI ====== */
