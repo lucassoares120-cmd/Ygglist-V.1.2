@@ -359,7 +359,7 @@ export default function Lists() {
                 onClick={() => addItem(false)}
                 className="px-4 py-2 rounded-lg bg-ygg-700 text-white hover:bg-ygg-800 transition-colors"
               >
-                ✓ Adicionar
+                ✓ Adicionar a Lista
               </button>
 
               {/* Novo botão: adiciona DIRETO AO CARRINHO */}
