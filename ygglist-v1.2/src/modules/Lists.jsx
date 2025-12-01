@@ -18,53 +18,52 @@ b/ygglist-v1.2/src/modules/Lists.jsx
    const toBuy = allToBuyUnfiltered.filter(i => matches(listQuery, i));
    const cart  = allCartUnfiltered.filter(i => matches(cartQuery, i));
  
-   const lastPriceFor = (n) => {
-     const all = Object.values(data)
-       .flatMap(d => d.items)
-       .filter(i => i.name.toLowerCase() === n.toLowerCase() && typeof i.price === 'number');
-     const s = all.sort((a, b) => b.createdAt - a.createdAt)[0];
-     return s?.price;
-   };
- 
-/* ===== CRUD ===== */
-function addItem(toCart = false) {
-  const nm = (name || '').trim();
-  if (!nm) return;
+     /* ===== CRUD ===== */
+  const addItem = (toCart = false) => {
+    const nm = (name || '').trim();
+    if (!nm) return;
 
-  const catalogEntry = findCatalog(nm);
-  const cat  = catalogEntry?.category ?? 'Outros';
-  const kcal = catalogEntry?.kcalPer100;
-  const icon = catalogEntry?.icon;
+    const catalogEntry = findCatalog(nm);
+    const cat  = catalogEntry?.category ?? 'Outros';
+    const kcal = catalogEntry?.kcalPer100;
+    const icon = catalogEntry?.icon;
 
-  const item = {
-    id: uid(),
-    name: nm,
-    qty: toLocaleNumber(qtyStr) || 1,
-    unit,
-    price: toLocaleNumber(priceStr),
-    weight: obs || '',
-    note: curiosity || catalogEntry?.curiosity || '',
-    icon,
-    kcalPer100: kcal,
-    category: cat,
-    store: store || '',
-    inCart: toCart,           // 🔹 <– aqui é o pulo do gato
-    createdAt: Date.now(),
+    const item = {
+      id: uid(),
+      name: nm,
+      qty: toLocaleNumber(qtyStr) || 1,
+      unit,
+      price: toLocaleNumber(priceStr),
+      weight: obs || '',
+      note: curiosity || catalogEntry?.curiosity || '',
+      icon,
+      kcalPer100: kcal,
+      category: cat,
+      store: store || '',
+      inCart: toCart,
+      createdAt: Date.now(),
+    };
+
+    setDay(prev => ({ ...prev, items: [item, ...prev.items] }));
+
+    // reset form
+    setName('');
+    setQtyStr('1');
+    setUnit('un');
+    setPriceStr('');
+    setObs('');
+    setCuriosity('');
+    setShowSuggest(false);
   };
 
-  setDay(prev => ({ ...prev, items: [item, ...prev.items] }));
+  const updateItem = (id, patch) =>
+    withScrollLock(() =>
+      setDay(prev => ({
+        ...prev,
+        items: prev.items.map(i => (i.id === id ? { ...i, ...patch } : i)),
+      })),
+    );
 
-  // reset form
-  setName('');
-  setQtyStr('1');
-  setUnit('un');
-  setPriceStr('');
-  setObs('');
-  setCuriosity('');
-  setShowSuggest(false);
-}
-
- 
    const updateItem = (id, patch) =>
      withScrollLock(() =>
        setDay(prev => ({
@@ -106,32 +105,33 @@ function addItem(toCart = false) {
            />
          </div>
  
-   <div>
-  <label className="text-sm invisible">.</label>
+          <div>
+          <label className="text-sm invisible">.</label>
 
-  <div className="flex gap-2 flex-wrap">
-    {/* Botão padrão: adiciona à LISTA */}
-    <button
-      type="button"
-      onClick={() => addItem(false)}
-      className="px-4 py-2 rounded-lg bg-ygg-700 text-white hover:bg-ygg-800 transition-colors"
-    >
-      ✓ Adicionar
-    </button>
+          <div className="flex gap-2 flex-wrap">
+            {/* Botão padrão: adiciona à LISTA */}
+            <button
+              type="button"
+              onClick={() => addItem(false)}
+              className="px-4 py-2 rounded-lg bg-ygg-700 text-white hover:bg-ygg-800 transition-colors"
+            >
+              ✓ Adicionar
+            </button>
 
-    {/* Novo botão: adiciona DIRETO AO CARRINHO */}
-    <button
-      type="button"
-      onClick={() => addItem(true)}
-      className="px-4 py-2 rounded-lg border bg-white text-ygg-700 hover:bg-ygg-50 transition-colors"
-    >
-      🛒 Adicionar ao carrinho
-    </button>
-  </div>
-</div>
+            {/* Novo botão: adiciona DIRETO AO CARRINHO */}
+            <button
+              type="button"
+              onClick={() => addItem(true)}
+              className="px-4 py-2 rounded-lg border bg-white text-ygg-700 hover:bg-ygg-50 transition-colors"
+            >
+              🛒 Adicionar ao carrinho
+            </button>
+          </div>
+        </div>
+      </div>
 
- 
-       <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4">
+
          {/* LISTA */}
          <div className="bg-white rounded-2xl border shadow-sm p-4">
            <div className="flex items-center justify-between gap-2 mb-2">
