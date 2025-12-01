@@ -348,6 +348,14 @@ function parseItemsFromText(text) {
 
   for (const rawLine of lines) {
     const line = rawLine.replace(/\s+/g, " ");
+
+    // ignora linhas de resumo/total da nota
+    if (
+      /TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)
+    ) {
+      continue;
+    }
+
     const moneyMatches = [...line.matchAll(moneyRe)].map((m) => m[0]);
     if (moneyMatches.length === 0) continue;
 
@@ -367,7 +375,7 @@ function parseItemsFromText(text) {
     let unit = "un";
     const qtyUnitMatch =
       descPart.match(
-        /(\d+[.,]?\d*)\s*(kg|g|un|und|unid|pc|pct|lt|l|kg|g|cx|caixa|pacote)/i
+        /(\d+[.,]?\d*)\s*(kg|g|un|und|unid|pc|pct|lt|l|cx|caixa|pacote)/i
       ) || null;
 
     if (qtyUnitMatch) {
@@ -386,19 +394,29 @@ function parseItemsFromText(text) {
     });
   }
 
-  // se nada foi claramente parseado, segunda tentativa: linhas com um único valor
+  // fallback bem simples se nada for identificado como item
   if (!items.length) {
     for (const rawLine of lines) {
       const line = rawLine.replace(/\s+/g, " ");
+
+      if (
+        /TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)
+      ) {
+        continue;
+      }
+
       const moneyMatches = [...line.matchAll(moneyRe)].map((m) => m[0]);
       if (moneyMatches.length !== 1) continue;
+
       const totalStr = moneyMatches[0];
       const total = normNum(totalStr);
       if (!total) continue;
+
       const idxTotal = line.lastIndexOf(totalStr);
       let descPart = line.slice(0, idxTotal).trim();
       descPart = descPart.replace(/^\d+\s+/, "").trim();
       if (!descPart) continue;
+
       items.push({
         name: descPart,
         qty: 1,
@@ -410,6 +428,7 @@ function parseItemsFromText(text) {
 
   return items;
 }
+
 
 /* ====== UI ====== */
 export default function Reports() {
