@@ -2,6 +2,17 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PURCHASES_KEY, load } from "../lib.js";
 import yggCatalog from "../data/ygg_items.json";
 
+// normaliza número tipo "1.234,56" -> 1234.56
+function normNum(str) {
+  if (!str) return 0;
+  const s = String(str)
+    .replace(/\./g, "") // remove ponto para tratar milhares
+    .replace(",", ".")  // substitui a vírgula por ponto decimal
+    .replace(/[^\d.-]/g, ""); // remove qualquer outro caractere
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+}
+
 /* ====== helpers de data ====== */
 const iso = (d) => new Date(d).toISOString().slice(0, 10);
 const startOfMonth = (d) => iso(new Date(d.getFullYear(), d.getMonth(), 1));
