@@ -274,68 +274,6 @@ function downloadSvgAsPng(svgEl, filename = "grafico.png", scale = 2) {
 /* ====== PARSER DE TEXTO DA NOTA ====== */
 
 // normaliza string para comparação (sem acento, minúscula, sem espaços múltiplos)
-function normalizeName(str) {
-  if (!str) return "";
-  return str
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // remove acentos
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-// encontra categoria no catálogo a partir do nome do item
-function findCatalogCategory(name) {
-  const norm = normalizeName(name);
-  if (!norm) return "Outros";
-
-  // yggCatalog: ajuste se a estrutura for diferente
-  for (const entry of yggCatalog) {
-    const entryName = normalizeName(entry.name || entry.item || "");
-    if (!entryName) continue;
-
-    // comparação tolerante: igual ou contém
-    if (norm === entryName || norm.includes(entryName) || entryName.includes(norm)) {
-      return entry.category || entry.categoria || "Outros";
-    }
-  }
-  return "Outros";
-}
-
-// normaliza número tipo "1.234,56" -> 1234.56
-function normNum(str) {
-  if (!str) return 0;
-  const s = String(str)
-    .replace(/\./g, "")
-    .replace(",", ".")
-    .replace(/[^\d.-]/g, "");
-  const n = parseFloat(s);
-  return Number.isFinite(n) ? n : 0;
-}
-
-// tenta achar data dd/mm/aaaa e converte pra ISO
-function detectDateISO(text) {
-  const m = text.match(/(\d{2})\/(\d{2})\/(\d{4})/);
-  if (!m) return iso(new Date());
-  const [, d, mo, y] = m;
-  return `${y}-${mo}-${d}`;
-}
-
-// tenta achar um nome de loja razoável nas primeiras linhas
-function detectStoreFromLines(lines) {
-  for (let i = 0; i < Math.min(lines.length, 15); i++) {
-    const l = lines[i];
-    if (!l) continue;
-    if (/NFC[- ]e|NOTA FISCAL|DANFE/i.test(l)) continue;
-    if (/CNPJ|CPF|INSCRIÇÃO/i.test(l)) continue;
-    if (/^\d{2}\/\d{2}\/\d{4}/.test(l)) continue;
-    if (/^\d{2}:\d{2}/.test(l)) continue;
-    if (/^\d+$/.test(l)) continue;
-    return l.trim();
-  }
-  return "Nota fiscal";
-}
-
 // parser de itens a partir do TEXTO da nota
 function parseItemsFromText(text) {
   const rawLines = text
@@ -363,11 +301,14 @@ function parseItemsFromText(text) {
       const total = normNum(totalStr);
       if (!total) continue;
 
+      // Preço unitário é o total dividido pela quantidade
+      const unitPrice = total / qty;
+
       items.push({
         name: namePart.trim(),
         qty,
         unit: unitRaw.toLowerCase(), // un, kg, bd, pc, etc.
-        price: total / qty,
+        price: unitPrice,
       });
       continue; // linha já tratada, pula para a próxima
     }
@@ -456,8 +397,7 @@ function parseItemsFromText(text) {
 
   return genericItems;
 }
-
-
+// Fim parser
 
 /* ====== UI ====== */
 export default function Reports() {
