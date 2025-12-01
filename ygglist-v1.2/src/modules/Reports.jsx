@@ -601,22 +601,26 @@ export default function Reports() {
       const store = detectStoreFromLines(lines);
 
       const now = Date.now();
-      const list = {
-        id: `import-${now}`,
-        store,
-        date: dateISO,
-        items: items.map((it, idx) => ({
-          id: `import-${now}-${idx}`,
-          name: it.name,
-          qty: it.qty,
-          unit: it.unit,
-          price: it.price,
-          category: "Outros",
-          note: "",
-          store,
-          done: true,
-        })),
-      };
+   const list = {
+  id: `import-${now}`,
+  store,
+  date: dateISO,
+  items: items.map((it, idx) => {
+    const cat = findCatalogCategory(it.name);
+    return {
+      id: `import-${now}-${idx}`,
+      name: it.name,
+      qty: it.qty,
+      unit: it.unit,
+      price: it.price,
+      category: cat,
+      note: "",
+      store,
+      done: true,
+    };
+  }),
+};
+
 
       const key = "YGG_LISTS_IMPORT";
       const prev =
