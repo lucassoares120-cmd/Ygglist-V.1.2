@@ -508,4 +508,335 @@ export default function Reports() {
     setShowImportModal(false);
     setNfceText("");
     setImportError("");
-    setImport
+    setImportSummary(null);
+  };
+
+  return (
+    <section className="space-y-4">
+      {/* === FILTROS / PERÍODO (3 linhas) === */}
+      <div className="bg-white rounded-2xl border shadow-sm p-4 space-y-3">
+        {/* 1ª linha: botões de período rápido */}
+        <div className="flex flex-wrap items-center gap-2">
+          <button onClick={setLast7} className={chip("7d")}>
+            Últimos 7 dias
+          </button>
+          <button onClick={setWeek} className={chip("week")}>
+            Semana atual
+          </button>
+          <button onClick={setThisMonth} className={chip("month")}>
+            Este mês
+          </button>
+          <button onClick={setPrevMonth} className={chip("lastMonth")}>
+            Mês passado
+          </button>
+          <button onClick={setFree} className={chip("free")}>
+            Período livre
+          </button>
+        </div>
+
+        {/* 2ª linha: mês, de, até */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {/* Mês */}
+          <div>
+            <label className="text-sm">Mês</label>
+            <select
+              value={monthSel}
+              onChange={(e) => {
+                setMonthSel(e.target.value);
+                setPreset("monthSelect");
+              }}
+              className="w-full border rounded-lg px-3 py-2"
+            >
+              {(months.length ? months : [monthSel]).map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* De */}
+          <div>
+            <label className="text-sm">De</label>
+            <input
+              type="date"
+              value={from}
+              onChange={(e) => {
+                setFrom(e.target.value);
+                setPreset("free");
+              }}
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
+
+          {/* Até */}
+          <div>
+            <label className="text-sm">Até</label>
+            <input
+              type="date"
+              value={to}
+              onChange={(e) => {
+                setTo(e.target.value);
+                setPreset("free");
+              }}
+              className="w-full border rounded-lg px-3 py-2"
+            />
+          </div>
+        </div>
+
+        {/* 3ª linha: Exportações + Importar NFC-e */}
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={handleExportCSV}
+              className="px-3 py-2 rounded-lg border text-sm"
+            >
+              Exportar CSV
+            </button>
+            <button
+              onClick={handleExportPNG}
+              className="px-3 py-2 rounded-lg border text-sm"
+            >
+              Baixar PNG
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setShowImportModal(true)}
+            className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm hover:bg-emerald-700"
+          >
+            📷 Importar nota fiscal (QR)
+          </button>
+        </div>
+      </div>
+
+      {/* RESUMO + MINI-GRÁFICO + COMPARAÇÃO */}
+      <div className="bg-white rounded-2xl border p-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="min-w-[260px]">
+            <h3 className="text-lg font-semibold">Resumo</h3>
+            <p className="text-slate-600">
+              Período: <span className="font-medium">{from}</span> a{" "}
+              <span className="font-medium">{to}</span>
+            </p>
+            <div className="mt-3 text-2xl font-semibold">
+              Total:{" "}
+              <span className="text-emerald-800">
+                {grand.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </span>
+            </div>
+
+            {prevAgg && prevAgg.grand >= 0 && (
+              <div className="mt-3 text-sm">
+                <label className="inline-flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={comparePrevMonth}
+                    onChange={(e) =>
+                      setComparePrevMonth(e.target.checked)
+                    }
+                  />
+                  Comparar com mês anterior
+                </label>
+                {comparePrevMonth && (
+                  <div className="mt-2">
+                    <div className="text-slate-600">
+                      Mês anterior:{" "}
+                      <span className="font-medium">
+                        {prevAgg.grand.toLocaleString("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        })}
+                      </span>
+                    </div>
+                    <div className="font-medium">
+                      Variação:{" "}
+                      <span
+                        className={
+                          grand - prevAgg.grand >= 0
+                            ? "text-emerald-700"
+                            : "text-red-600"
+                        }
+                      >
+                        {(
+                          ((grand - prevAgg.grand) /
+                            (prevAgg.grand || 1)) *
+                          100
+                        ).toFixed(1)}
+                        %
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="w-full md:w-[60%]">
+            <MiniChart series={series} svgRef={svgRef} />
+          </div>
+        </div>
+      </div>
+
+      {/* POR CATEGORIA */}
+      <div className="bg-white rounded-2xl border p-4">
+        <h3 className="text-lg font-semibold mb-3">Por categoria</h3>
+        {catRows.length === 0 ? (
+          <p className="text-slate-600">
+            Sem compras concluídas no período.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {catRows.map((r) => (
+              <div key={r.cat}>
+                <div className="flex justify-between text-sm">
+                  <span className="font-medium">{r.cat}</span>
+                  <span className="tabular-nums">
+                    {r.pct.toFixed(1)}% •{" "}
+                    {r.val.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </span>
+                </div>
+                <div className="h-2 rounded-full bg-emerald-100 overflow-hidden">
+                  <div
+                    className="h-full bg-emerald-600"
+                    style={{
+                      width: `${Math.min(100, r.pct).toFixed(2)}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* POR LOJA / MERCADO */}
+      <div className="bg-white rounded-2xl border p-4">
+        <h3 className="text-lg font-semibold mb-3">
+          Por loja / mercado
+        </h3>
+        {storeRows.length === 0 ? (
+          <p className="text-slate-600">
+            Sem dados de loja para o período.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {storeRows.map((r) => (
+              <div key={r.store}>
+                <div className="flex justify-between text-sm">
+                  <span className="font-medium">{r.store}</span>
+                  <span className="tabular-nums">
+                    {r.pct.toFixed(1)}% •{" "}
+                    {r.val.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </span>
+                </div>
+                <div className="h-2 rounded-full bg-emerald-100 overflow-hidden">
+                  <div
+                    className="h-full bg-emerald-700"
+                    style={{
+                      width: `${Math.min(100, r.pct).toFixed(2)}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* MODAL DE IMPORTAÇÃO DE NFC-e */}
+      {showImportModal && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-lg max-w-lg w-full p-4 space-y-3">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold">
+                Importar nota fiscal (NFC-e)
+              </h3>
+              <button
+                type="button"
+                onClick={handleCloseModal}
+                className="text-slate-500 hover:text-slate-800 text-xl leading-none"
+              >
+                ×
+              </button>
+            </div>
+
+            <p className="text-sm text-slate-600">
+              Escaneie o QR code da nota fiscal e{" "}
+              <strong>cole aqui o link</strong> que aparece
+              (ou o conteúdo completo do QR). O YggList vai
+              buscar os itens e somar aos relatórios.
+            </p>
+
+            <textarea
+              rows={4}
+              className="w-full border rounded-lg px-3 py-2 text-sm"
+              placeholder="Cole aqui o link da NFC-e..."
+              value={nfceText}
+              onChange={(e) => setNfceText(e.target.value)}
+            />
+
+            {importError && (
+              <p className="text-sm text-red-600">{importError}</p>
+            )}
+
+            {importSummary && (
+              <div className="text-sm bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                <div>
+                  <strong>Loja:</strong> {importSummary.store}
+                </div>
+                <div>
+                  <strong>Data:</strong> {importSummary.dateISO}
+                </div>
+                <div>
+                  <strong>Itens:</strong> {importSummary.totalItems}
+                </div>
+                <div>
+                  <strong>Total importado:</strong>{" "}
+                  {importSummary.totalValue.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </div>
+                <div className="mt-1 text-emerald-700">
+                  Nota importada com sucesso. Os dados já entram
+                  nos relatórios deste período.
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={handleCloseModal}
+                className="px-3 py-2 rounded-lg border text-sm"
+              >
+                Fechar
+              </button>
+              <button
+                type="button"
+                onClick={handleImportNfce}
+                disabled={isImporting}
+                className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm disabled:opacity-60"
+              >
+                {isImporting
+                  ? "Importando…"
+                  : "Importar e salvar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
