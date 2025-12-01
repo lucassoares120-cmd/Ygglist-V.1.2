@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PURCHASES_KEY, load } from "../lib.js";
+import yggCatalog from "../data/ygg_items.json";
 
 /* ====== helpers de data ====== */
 const iso = (d) => new Date(d).toISOString().slice(0, 10);
@@ -271,6 +272,35 @@ function downloadSvgAsPng(svgEl, filename = "grafico.png", scale = 2) {
 }
 
 /* ====== PARSER DE TEXTO DA NOTA ====== */
+
+// normaliza string para comparação (sem acento, minúscula, sem espaços múltiplos)
+function normalizeName(str) {
+  if (!str) return "";
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // remove acentos
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// encontra categoria no catálogo a partir do nome do item
+function findCatalogCategory(name) {
+  const norm = normalizeName(name);
+  if (!norm) return "Outros";
+
+  // yggCatalog: ajuste se a estrutura for diferente
+  for (const entry of yggCatalog) {
+    const entryName = normalizeName(entry.name || entry.item || "");
+    if (!entryName) continue;
+
+    // comparação tolerante: igual ou contém
+    if (norm === entryName || norm.includes(entryName) || entryName.includes(norm)) {
+      return entry.category || entry.categoria || "Outros";
+    }
+  }
+  return "Outros";
+}
 
 // normaliza número tipo "1.234,56" -> 1234.56
 function normNum(str) {
