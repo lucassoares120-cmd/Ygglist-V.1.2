@@ -78,7 +78,7 @@ export default function Lists() {
      );
  
    const removeItem = (id) =>
-@@ -489,119 +489,124 @@ export default function Lists() {
+export default function Lists() {
  
          <div className="basis-full md:basis-[48%]">
            <label className="text-sm">Observação</label>
