@@ -16,6 +16,14 @@ export default function App(){
   const fakeLogin = ()=> setUser({name:'Lucas'});
   const logout = ()=> setUser(null);
 
+  // 👉 NOVO helper de navegação
+  const changeTab = (nextTab) => {
+    setTab(nextTab);
+    // rola pro topo sempre que trocar de tela
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+
   const drawerItemClass = (active) =>
     "w-full text-left p-2 rounded-lg text-sm transition-colors " +
     (active
