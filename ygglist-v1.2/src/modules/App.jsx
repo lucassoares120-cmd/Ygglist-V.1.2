@@ -132,30 +132,52 @@ export default function App(){
   <h3 className="font-semibold mb-3 text-emerald-900">Menu</h3>
 
   {/* Navegação principal */}
-  <ul className="space-y-1 text-sm">
-    <li>
-      <button
-  className={drawerItemClass(tab === 'home')}
-  onClick={() => { changeTab('home'); setDrawer(false); }}
->
-  Tela Inicial
-</button>
+  <ul className="space-y-2 text-sm">
 
-<button
-  className={drawerItemClass(tab === 'lists')}
-  onClick={() => { changeTab('lists'); setDrawer(false); }}
->
-  Minhas Listas
-</button>
+  <li>
+    <button
+      className={
+        "w-full text-left p-2 rounded transition " +
+        (tab === 'home'
+          ? "bg-emerald-50 text-emerald-900 font-semibold"
+          : "hover:bg-ygg-100")
+      }
+      onClick={() => changeTab('home')}
+    >
+      Tela Inicial
+    </button>
+  </li>
 
-<button
-  className={drawerItemClass(tab === 'reports')}
-  onClick={() => { changeTab('reports'); setDrawer(false); }}
->
-  Relatórios
-</button>
-    </li>
-  </ul>
+  <li>
+    <button
+      className={
+        "w-full text-left p-2 rounded transition " +
+        (tab === 'lists'
+          ? "bg-emerald-50 text-emerald-900 font-semibold"
+          : "hover:bg-ygg-100")
+      }
+      onClick={() => changeTab('lists')}
+    >
+      Minhas Listas
+    </button>
+  </li>
+
+  <li>
+    <button
+      className={
+        "w-full text-left p-2 rounded transition " +
+        (tab === 'reports'
+          ? "bg-emerald-50 text-emerald-900 font-semibold"
+          : "hover:bg-ygg-100")
+      }
+      onClick={() => changeTab('reports')}
+    >
+      Relatórios
+    </button>
+  </li>
+
+</ul>
+
 
   {/* Seção de configurações / info */}
   <div className="mt-4 pt-3 border-t border-slate-200">
