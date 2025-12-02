@@ -16,6 +16,12 @@ export default function App(){
   const fakeLogin = ()=> setUser({name:'Lucas'});
   const logout = ()=> setUser(null);
 
+  const drawerItemClass = (active) =>
+    "w-full text-left p-2 rounded-lg text-sm transition-colors " +
+    (active
+      ? "bg-ygg-100 text-emerald-900 font-semibold"
+      : "hover:bg-ygg-50 text-slate-700");
+  
   return (
     <div className="min-h-screen bg-ygg-50">
    <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b">
