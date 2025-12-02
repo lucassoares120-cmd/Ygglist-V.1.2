@@ -103,46 +103,57 @@ export default function App(){
           >
             <div className="absolute inset-0 bg-black/30"></div>
             <motion.aside
-              initial={{x:-320}}
-              animate={{x:0}}
-              exit={{x:-320}}
-              transition={{type:'spring', stiffness:260, damping:26}}
-              className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-2xl p-4"
-            >
-              <h3 className="font-semibold mb-3">Menu</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-  <button
-    className={drawerItemClass(tab === 'home')}
-    onClick={() => { setTab('home'); setDrawer(false); }}
-  >
-    Tela Inicial
-  </button>
-</li>
+  initial={{ x: -320 }}
+  animate={{ x: 0 }}
+  exit={{ x: -320 }}
+  transition={{ type: 'spring', stiffness: 260, damping: 26 }}
+  className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-2xl p-4 flex flex-col"
+>
+  <h3 className="font-semibold mb-3 text-emerald-900">Menu</h3>
 
-<li>
-  <button
-    className={drawerItemClass(tab === 'lists')}
-    onClick={() => { setTab('lists'); setDrawer(false); }}
-  >
-    Minhas Listas
-  </button>
-</li>
+  {/* Navegação principal */}
+  <ul className="space-y-1 text-sm">
+    <li>
+      <button
+        className={drawerItemClass(tab === 'home')}
+        onClick={() => { setTab('home'); setDrawer(false); }}
+      >
+        Tela Inicial
+      </button>
+    </li>
 
-<li>
-  <button
-    className={drawerItemClass(tab === 'reports')}
-    onClick={() => { setTab('reports'); setDrawer(false); }}
-  >
-    Relatórios
-  </button>
-</li>
-                <li className="pt-2 border-t text-slate-500">Configurações</li>
-                <li className="text-xs text-slate-500">Tema: Verde (padrão)</li>
-                <li className="text-xs text-slate-500">Fonte: Sistema</li>
-                <li className="text-xs text-slate-500">Listas passadas: ver aba Listas</li>
-              </ul>
-            </motion.aside>
+    <li>
+      <button
+        className={drawerItemClass(tab === 'lists')}
+        onClick={() => { setTab('lists'); setDrawer(false); }}
+      >
+        Minhas Listas
+      </button>
+    </li>
+
+    <li>
+      <button
+        className={drawerItemClass(tab === 'reports')}
+        onClick={() => { setTab('reports'); setDrawer(false); }}
+      >
+        Relatórios
+      </button>
+    </li>
+  </ul>
+
+  {/* Seção de configurações / info */}
+  <div className="mt-4 pt-3 border-t border-slate-200">
+    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+      Configurações
+    </div>
+    <ul className="space-y-1 text-xs text-slate-500">
+      <li>Tema: Verde (padrão)</li>
+      <li>Fonte: Sistema</li>
+      <li>Listas passadas: ver aba Listas</li>
+    </ul>
+  </div>
+</motion.aside>
+
           </motion.div>
         )}
       </AnimatePresence>
