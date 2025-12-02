@@ -111,9 +111,32 @@ export default function App(){
             >
               <h3 className="font-semibold mb-3">Menu</h3>
               <ul className="space-y-2 text-sm">
-                <li><button className="w-full text-left p-2 rounded hover:bg-ygg-100" onClick={()=>{setTab('home'); setDrawer(false);}}>Tela Inicial</button></li>
-                <li><button className="w-full text-left p-2 rounded hover:bg-ygg-100" onClick={()=>{setTab('lists'); setDrawer(false);}}>Minhas Listas</button></li>
-                <li><button className="w-full text-left p-2 rounded hover:bg-ygg-100" onClick={()=>{setTab('reports'); setDrawer(false);}}>Relatórios</button></li>
+                <li>
+  <button
+    className={drawerItemClass(tab === 'home')}
+    onClick={() => { setTab('home'); setDrawer(false); }}
+  >
+    Tela Inicial
+  </button>
+</li>
+
+<li>
+  <button
+    className={drawerItemClass(tab === 'lists')}
+    onClick={() => { setTab('lists'); setDrawer(false); }}
+  >
+    Minhas Listas
+  </button>
+</li>
+
+<li>
+  <button
+    className={drawerItemClass(tab === 'reports')}
+    onClick={() => { setTab('reports'); setDrawer(false); }}
+  >
+    Relatórios
+  </button>
+</li>
                 <li className="pt-2 border-t text-slate-500">Configurações</li>
                 <li className="text-xs text-slate-500">Tema: Verde (padrão)</li>
                 <li className="text-xs text-slate-500">Fonte: Sistema</li>
