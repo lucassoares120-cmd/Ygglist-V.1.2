@@ -121,12 +121,12 @@ export default function App(){
   );
 }
 
-function Tab({active, children, onClick}) {
+function Tab({active, children, onClick}){ 
   return (
     <button
       onClick={onClick}
       className={
-        "py-2 rounded-xl text-sm border " +
+        "hidden sm:block py-2 rounded-xl text-sm border " +
         (active ? "bg-ygg-700 text-white border-ygg-700" : "bg-white")
       }
     >
@@ -134,3 +134,4 @@ function Tab({active, children, onClick}) {
     </button>
   );
 }
+
