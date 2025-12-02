@@ -123,29 +123,25 @@ export default function App(){
   <ul className="space-y-1 text-sm">
     <li>
       <button
-        className={drawerItemClass(tab === 'home')}
-        onClick={() => { setTab('home'); setDrawer(false); }}
-      >
-        Tela Inicial
-      </button>
-    </li>
+  className={drawerItemClass(tab === 'home')}
+  onClick={() => { changeTab('home'); setDrawer(false); }}
+>
+  Tela Inicial
+</button>
 
-    <li>
-      <button
-        className={drawerItemClass(tab === 'lists')}
-        onClick={() => { setTab('lists'); setDrawer(false); }}
-      >
-        Minhas Listas
-      </button>
-    </li>
+<button
+  className={drawerItemClass(tab === 'lists')}
+  onClick={() => { changeTab('lists'); setDrawer(false); }}
+>
+  Minhas Listas
+</button>
 
-    <li>
-      <button
-        className={drawerItemClass(tab === 'reports')}
-        onClick={() => { setTab('reports'); setDrawer(false); }}
-      >
-        Relatórios
-      </button>
+<button
+  className={drawerItemClass(tab === 'reports')}
+  onClick={() => { changeTab('reports'); setDrawer(false); }}
+>
+  Relatórios
+</button>
     </li>
   </ul>
 
