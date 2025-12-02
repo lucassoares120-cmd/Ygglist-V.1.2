@@ -5,13 +5,19 @@ import Lists from './Lists.jsx';
 import Reports from './Reports.jsx';
 import { USER_KEY, load, save } from '../lib.js';
 
+const TAB_KEY = 'YGG_LAST_TAB';   // ✅ nova constante
+
 export default function App(){
-  const [tab, setTab] = useState('home');
+  const [tab, setTab] = useState(() => load(TAB_KEY, 'home'));
   const [drawer, setDrawer] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(()=>{ setUser(load(USER_KEY,null)); },[]);
   useEffect(()=>{ save(USER_KEY,user); },[user]);
+  useEffect(() => {
+  if (!tab) return;
+  save(TAB_KEY, tab);
+}, [tab]);
 
   const fakeLogin = ()=> setUser({name:'Lucas'});
   const logout = ()=> setUser(null);
