@@ -18,64 +18,68 @@ export default function App(){
 
   return (
     <div className="min-h-screen bg-ygg-50">
-      <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b">
-        <div className="relative max-w-6xl mx-auto px-3 py-3 flex items-center justify-between">
+   <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b">
+  <div className="relative max-w-6xl mx-auto px-3 py-2 flex items-center justify-between">
 
-          {/* FAIXA por trás */}
-          <div className="brand-band absolute left-16 right-44 sm:left-24 sm:right-40 top-1.5 h-14 sm:h-16 rounded-2xl z-0" />
+    {/* MENU — reduzido no mobile */}
+    <button
+      onClick={()=>setDrawer(true)}
+      aria-label="Abrir menu"
+      className="z-10 group p-1.5 sm:p-2 rounded-lg border bg-white hover:bg-emerald-50"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-900"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
 
-          {/* Menu (fica por cima da faixa) */}
-          <button
-            onClick={()=>setDrawer(true)}
-            aria-label="Abrir menu"
-            className="z-10 group p-2 rounded-lg border bg-white hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+    {/* BRAND */}
+    <div className="z-10 flex-1 flex justify-center">
+      <div className="flex items-center gap-3 sm:gap-5">
 
-          {/* Brand central (logo + textos) */}
-          <div className="z-10 flex-1 flex justify-center">
-            <div className="flex items-center gap-5 sm:gap-6">
-              <img
-                src="/icons/ygg-192.png"
-                srcSet="/icons/ygg-192.png 192w, /icons/ygg-512.png 512w"
-                sizes="(min-width: 1024px) 6rem, (min-width: 640px) 5rem, 4rem"
-                alt="Logo YggList"
-                loading="lazy"
-                decoding="async"
-                className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-xl drop-shadow-md ring-1 ring-emerald-200/70 object-cover"
-              />
-              <div className="font-brand leading-none">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-emerald-950">
-                  YggList
-                </div>
-                <div className="text-lg sm:text-xl md:text-2xl text-emerald-800/90 mt-1 tracking-tight">
-                  Raiz que conecta
-                </div>
-              </div>
-            </div>
+        {/* Logo reduzida no mobile */}
+        <img
+          src="/icons/ygg-192.png"
+          alt="YggList logo"
+          className="h-12 w-12 sm:h-16 sm:w-16 rounded-xl ring-1 ring-emerald-200/70"
+        />
+
+        <div className="font-brand leading-none">
+          <div className="text-2xl sm:text-4xl font-semibold tracking-tight text-emerald-950">
+            YggList
           </div>
-
-          {/* Login (por cima da faixa) */}
-          <div className="z-10">
-            {user
-              ? <button onClick={logout} className="px-3 py-2 rounded-lg border text-sm">Sair</button>
-              : <button onClick={fakeLogin} className="px-3 py-2 rounded-lg bg-ygg-700 text-white text-sm">Entrar com Google</button>
-            }
+          <div className="text-sm sm:text-xl text-emerald-800/90 mt-0.5 sm:mt-1 tracking-tight">
+            Raiz que conecta
           </div>
         </div>
 
-        <nav className="max-w-6xl mx-auto px-3 pb-2">
-          <div className="grid grid-cols-3 gap-2">
-            <Tab onClick={()=>setTab('home')}   active={tab==='home'}>Início</Tab>
-            <Tab onClick={()=>setTab('lists')}  active={tab==='lists'}>Listas</Tab>
-            <Tab onClick={()=>setTab('reports')}active={tab==='reports'}>Relatórios</Tab>
-          </div>
-        </nav>
-      </header>
+      </div>
+    </div>
 
+    {/* LOGIN — compacto no mobile */}
+    <div className="z-10">
+      {user ? (
+        <button className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm rounded-lg border">
+          Sair
+        </button>
+      ) : (
+        <button className="px-2 py-1 sm:px-3 sm:py-2 text-xs sm:text-sm rounded-lg bg-ygg-700 text-white">
+          Entrar
+        </button>
+      )}
+    </div>
+
+  </div>
+</header>
+    
+      {/*FIM Botões*/}
+      
       <main className="max-w-6xl mx-auto p-4 md:p-6">
         {tab==='home' && <Home onNewList={()=>setTab('lists')} />}
         {tab==='lists' && <Lists />}
