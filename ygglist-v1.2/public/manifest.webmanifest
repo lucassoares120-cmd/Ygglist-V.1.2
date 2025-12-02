@@ -1,10 +1,10 @@
 {
-  "short_name": "YggList",
   "name": "YggList",
-  "start_url": ".",
+  "short_name": "YggList",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#f1f5f9",
-  "theme_color": "#059669",
+  "background_color": "#ffffff",
+  "theme_color": "#146C43",
   "icons": [
     {
       "src": "/icons/ygg-192.png",
