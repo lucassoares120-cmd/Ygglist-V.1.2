@@ -19,7 +19,7 @@ export default function App(){
   return (
     <div className="min-h-screen bg-ygg-50">
    <header className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b">
-  <div className="relative max-w-6xl mx-auto px-3 py-2 flex items-center justify-between">
+  <div className="relative max-w-6xl mx-auto px-3 py-2 sm:py-3 flex items-center justify-between">
 
     {/* MENU — reduzido no mobile */}
     <button
