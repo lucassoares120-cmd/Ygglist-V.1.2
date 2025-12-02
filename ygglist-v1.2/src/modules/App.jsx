@@ -95,10 +95,22 @@ export default function App(){
       {/*FIM Botões*/}
       
       <main className="max-w-6xl mx-auto p-4 md:p-6">
-        {tab==='home' && <Home onNewList={()=>changeTab('lists')} />}
-        {tab==='lists' && <Lists />}
-        {tab==='reports' && <Reports />}
-      </main>
+  {/* HOME */}
+  <section className={tab === 'home' ? 'block' : 'hidden'}>
+    <Home onNewList={() => changeTab('lists')} />
+  </section>
+
+  {/* LISTAS */}
+  <section className={tab === 'lists' ? 'block' : 'hidden'}>
+    <Lists />
+  </section>
+
+  {/* RELATÓRIOS */}
+  <section className={tab === 'reports' ? 'block' : 'hidden'}>
+    <Reports />
+  </section>
+</main>
+
 
       <AnimatePresence>
         {drawer && (
