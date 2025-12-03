@@ -144,16 +144,11 @@ function ItemRow({
 
   // quantidade usa texto bruto enquanto edita
   const qtyField =
-    i.qtyInput != null
-      ? i.qtyInput
-      : i.qty != null
-      ? String(i.qty)
-      : "";
+    i.qtyInput != null ? i.qtyInput : i.qty != null ? String(i.qty) : "";
 
   // preço idem
   const priceField =
-    i.priceInput ??
-    (typeof i.price === "number" ? numberToField(i.price) : "");
+    i.priceInput ?? (typeof i.price === "number" ? numberToField(i.price) : "");
 
   const displayQty = () => {
     if (i.qty == null || i.qty === "") return "";
@@ -164,9 +159,16 @@ function ItemRow({
   };
 
   const thisItemTotal = itemTotal(i);
+  const isInCartStyle = inCartView || i.inCart;
+
+  const cardClasses = `rounded-xl border px-3 py-2 text-sm transition-colors transition-shadow duration-150 ${
+    isInCartStyle
+      ? "border-emerald-300 bg-emerald-50/80 hover:bg-emerald-100 hover:shadow-sm"
+      : "border-slate-200 bg-white hover:bg-emerald-50/40 hover:shadow-sm"
+  }`;
 
   return (
-    <div className="rounded-xl border px-3 py-2 text-sm bg-white">
+    <div className={cardClasses}>
       {/* Linha principal */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex-1 min-w-0 flex items-center gap-2">
@@ -184,15 +186,16 @@ function ItemRow({
             onClick={onToggleOpen}
             title="Clique para ver detalhes"
           >
-            <div className="font-semibold truncate">
-              {i.icon && <span className="mr-1">{i.icon}</span>}
-              {i.name}
-              {i.qty ? (
-                <span className="font-normal text-slate-600">
-                  {" "}
-                  — {displayQty()} {i.unit || "un"}
+            <div className="font-semibold truncate flex items-center justify-between gap-2">
+              <div className="truncate">
+                {i.icon && <span className="mr-1">{i.icon}</span>}
+                {i.name}
+              </div>
+              {i.qty && (
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 shrink-0">
+                  {displayQty()} {i.unit || "un"}
                 </span>
-              ) : null}
+              )}
             </div>
             {i.weight && (
               <div className="text-xs text-slate-500 truncate">{i.weight}</div>
@@ -510,8 +513,7 @@ export default function Lists() {
   const toBuy = allToBuyUnfiltered.filter((i) => matches(listQuery, i));
   const cart = allCartUnfiltered.filter((i) => matches(cartQuery, i));
 
-  const total = (arr) =>
-    arr.reduce((sum, i) => sum + itemTotal(i), 0);
+  const total = (arr) => arr.reduce((sum, i) => sum + itemTotal(i), 0);
 
   /* ===== AGRUPAR POR CATEGORIA (para Lista e Carrinho) ===== */
   const groupByCategory = (arr) => {
@@ -538,6 +540,14 @@ export default function Lists() {
 
   const groupedToBuy = groupByCategory(toBuy);
   const groupedCart = groupByCategory(cart);
+
+  /* ===== RESUMOS (para barra-dashboard) ===== */
+
+  const listTotalValue = total(toBuy);
+  const cartTotalValue = total(cart);
+
+  const listTicketAvg = toBuy.length ? listTotalValue / toBuy.length : 0;
+  const cartTicketAvg = cart.length ? cartTotalValue / cart.length : 0;
 
   /* ===== HISTÓRICO DE PREÇOS ===== */
 
@@ -757,9 +767,7 @@ export default function Lists() {
     <section className="space-y-4">
       {/* FORMULÁRIO DE NOVO ITEM */}
       <div className="bg-white rounded-2xl border shadow-sm p-4 space-y-3">
-        <h2 className="text-lg font-semibold text-slate-800">
-          Novo item
-        </h2>
+        <h2 className="text-lg font-semibold text-slate-800">Novo item</h2>
 
         <div className="grid md:grid-cols-2 gap-4">
           {/* Local */}
@@ -994,24 +1002,43 @@ export default function Lists() {
             />
           </div>
 
-          <div className="mb-2 text-right text-lg font-semibold text-slate-700">
-            Total: {fmtBRL(total(toBuy))}
+          {/* Barra-resumo estilo dashboard */}
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex gap-2 text-[11px] text-slate-500">
+              <span className="px-2 py-0.5 rounded-full bg-emerald-50">
+                🧺 {toBuy.length} item
+                {toBuy.length === 1 ? "" : "s"}
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-slate-50">
+                📦 {groupedToBuy.length} categoria
+                {groupedToBuy.length === 1 ? "" : "s"}
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-slate-50">
+                💰 Ticket médio: {fmtBRL(listTicketAvg)}
+              </span>
+            </div>
+            <div className="text-right text-lg font-semibold text-slate-700">
+              Total: {fmtBRL(listTotalValue)}
+            </div>
           </div>
 
           {listOpen && (
             <div className="space-y-4">
               {groupedToBuy.map((group) => (
                 <div key={group.key}>
-                  <div className="flex items-baseline justify-between mb-1">
-                    <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
-                      {group.label}{" "}
-                      <span className="text-[10px] text-slate-500">
+                  <div className="flex items-center justify-between mb-1 mt-3">
+                    <div className="flex items-center gap-2">
+                      <span className="h-px w-5 bg-emerald-200" />
+                      <span className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
+                        {group.label}
+                      </span>
+                      <span className="text-[10px] text-slate-400">
                         ({group.items.length} item
                         {group.items.length === 1 ? "" : "s"})
                       </span>
                     </div>
                     {total(group.items) > 0 && (
-                      <div className="text-[11px] text-slate-500">
+                      <div className="text-[11px] text-slate-500 font-medium">
                         {fmtBRL(total(group.items))}
                       </div>
                     )}
@@ -1093,24 +1120,43 @@ export default function Lists() {
             />
           </div>
 
-          <div className="mb-2 text-right text-lg font-semibold text-slate-700">
-            Total: {fmtBRL(total(cart))}
+          {/* Barra-resumo estilo dashboard */}
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex gap-2 text-[11px] text-slate-500">
+              <span className="px-2 py-0.5 rounded-full bg-emerald-50">
+                🧺 {cart.length} item
+                {cart.length === 1 ? "" : "s"}
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-slate-50">
+                📦 {groupedCart.length} categoria
+                {groupedCart.length === 1 ? "" : "s"}
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-slate-50">
+                💰 Ticket médio: {fmtBRL(cartTicketAvg)}
+              </span>
+            </div>
+            <div className="text-right text-lg font-semibold text-slate-700">
+              Total: {fmtBRL(cartTotalValue)}
+            </div>
           </div>
 
           {cartOpen && (
             <div className="space-y-4">
               {groupedCart.map((group) => (
                 <div key={group.key}>
-                  <div className="flex items-baseline justify-between mb-1">
-                    <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
-                      {group.label}{" "}
-                      <span className="text-[10px] text-slate-500">
+                  <div className="flex items-center justify-between mb-1 mt-3">
+                    <div className="flex items-center gap-2">
+                      <span className="h-px w-5 bg-emerald-200" />
+                      <span className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
+                        {group.label}
+                      </span>
+                      <span className="text-[10px] text-slate-400">
                         ({group.items.length} item
                         {group.items.length === 1 ? "" : "s"})
                       </span>
                     </div>
                     {total(group.items) > 0 && (
-                      <div className="text-[11px] text-slate-500">
+                      <div className="text-[11px] text-slate-500 font-medium">
                         {fmtBRL(total(group.items))}
                       </div>
                     )}
