@@ -116,6 +116,19 @@ const findCatalog = (nm) => {
   return yggItems.find((it) => normalize(it.name) === key);
 };
 
+/* ===== TOTAL POR ITEM ===== */
+
+const itemTotal = (i) => {
+  const price = typeof i.price === "number" ? i.price : 0;
+  const qty =
+    typeof i.qty === "number"
+      ? i.qty
+      : i.qty == null
+      ? 1
+      : toLocaleNumber(i.qty) || 1;
+  return price * qty;
+};
+
 /* ===== ITEM ROW ===== */
 
 function ItemRow({
@@ -149,6 +162,8 @@ function ItemRow({
     // mostra com vírgula pra ficar mais BR
     return String(n).replace(".", ",");
   };
+
+  const thisItemTotal = itemTotal(i);
 
   return (
     <div className="rounded-xl border px-3 py-2 text-sm bg-white">
@@ -184,6 +199,11 @@ function ItemRow({
             )}
             {i.note && (
               <div className="text-xs text-emerald-700 truncate">{i.note}</div>
+            )}
+            {i.kcalPer100 && (
+              <div className="text-[10px] text-slate-400">
+                ~{i.kcalPer100} kcal / 100g
+              </div>
             )}
           </div>
         </div>
@@ -262,7 +282,12 @@ function ItemRow({
           </div>
 
           <div>
-            <label className="text-[11px] text-slate-500">Preço</label>
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] text-slate-500">Preço</label>
+              <span className="text-[11px] text-slate-500">
+                Total: {thisItemTotal > 0 ? fmtBRL(thisItemTotal) : "—"}
+              </span>
+            </div>
             <input
               type="text"
               value={priceField}
@@ -357,6 +382,17 @@ export default function Lists() {
         typeof updater === "function" ? updater({ items: prev }) : updater;
       return nextDay.items;
     });
+  };
+
+  const resetItemForm = () => {
+    setName("");
+    setQtyStr("1");
+    setUnit("un");
+    setPriceStr("");
+    setObs("");
+    setCuriosity("");
+    setShowSuggest(false);
+    setOpenItemId(null);
   };
 
   /* ===== RASCUNHO: CARREGAR AO MONTAR ===== */
@@ -475,16 +511,7 @@ export default function Lists() {
   const cart = allCartUnfiltered.filter((i) => matches(cartQuery, i));
 
   const total = (arr) =>
-    arr.reduce((sum, i) => {
-      const price = typeof i.price === "number" ? i.price : 0;
-      const qty =
-        typeof i.qty === "number"
-          ? i.qty
-          : i.qty == null
-          ? 1
-          : toLocaleNumber(i.qty) || 1;
-      return sum + price * qty;
-    }, 0);
+    arr.reduce((sum, i) => sum + itemTotal(i), 0);
 
   /* ===== AGRUPAR POR CATEGORIA (para Lista e Carrinho) ===== */
   const groupByCategory = (arr) => {
@@ -591,14 +618,7 @@ export default function Lists() {
     setDay((prev) => ({ ...prev, items: [item, ...prev.items] }));
 
     // reset form do item
-    setName("");
-    setQtyStr("1");
-    setUnit("un");
-    setPriceStr("");
-    setObs("");
-    setCuriosity("");
-    setShowSuggest(false);
-    setOpenItemId(null);
+    resetItemForm();
   };
 
   const updateItem = (id, patch) =>
@@ -728,13 +748,7 @@ export default function Lists() {
       });
 
       // 3) limpa o formulário do item (mantém Local/Data/Loja)
-      setName("");
-      setQtyStr("1");
-      setUnit("un");
-      setPriceStr("");
-      setObs("");
-      setCuriosity("");
-      setOpenItemId(null);
+      resetItemForm();
     });
 
   /* ===== RENDER ===== */
@@ -908,13 +922,22 @@ export default function Lists() {
                 ✓ Adicionar
               </button>
 
-              {/* Novo botão: adiciona DIRETO AO CARRINHO */}
+              {/* Botão: adiciona DIRETO AO CARRINHO */}
               <button
                 type="button"
                 onClick={() => addItem(true)}
                 className="px-4 py-2 rounded-lg border bg-white text-ygg-700 hover:bg-ygg-50 transition-colors"
               >
                 🛒 Adicionar ao carrinho
+              </button>
+
+              {/* Novo: limpar formulário do item */}
+              <button
+                type="button"
+                onClick={resetItemForm}
+                className="px-3 py-2 rounded-lg border bg-white text-slate-600 text-sm hover:bg-slate-50"
+              >
+                Limpar campos
               </button>
             </div>
           </div>
@@ -981,7 +1004,11 @@ export default function Lists() {
                 <div key={group.key}>
                   <div className="flex items-baseline justify-between mb-1">
                     <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
-                      {group.label}
+                      {group.label}{" "}
+                      <span className="text-[10px] text-slate-500">
+                        ({group.items.length} item
+                        {group.items.length === 1 ? "" : "s"})
+                      </span>
                     </div>
                     {total(group.items) > 0 && (
                       <div className="text-[11px] text-slate-500">
@@ -1076,7 +1103,11 @@ export default function Lists() {
                 <div key={group.key}>
                   <div className="flex items-baseline justify-between mb-1">
                     <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
-                      {group.label}
+                      {group.label}{" "}
+                      <span className="text-[10px] text-slate-500">
+                        ({group.items.length} item
+                        {group.items.length === 1 ? "" : "s"})
+                      </span>
                     </div>
                     {total(group.items) > 0 && (
                       <div className="text-[11px] text-slate-500">
