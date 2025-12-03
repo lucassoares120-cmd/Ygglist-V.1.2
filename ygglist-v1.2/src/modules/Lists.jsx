@@ -1,10 +1,12 @@
-// ygglist-v1.2/src/modules/Lists.jsx
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import yggItems from "../data/ygg_items.json";
 
 /* ===== CONSTANTES ===== */
 
 const UNIT_OPTIONS = ["un", "kg", "g", "L", "mL", "caixa", "pacote", "bandeja"];
+
+// chave de rascunho no localStorage
+const DRAFT_KEY = "YGG_LIST_DRAFT";
 
 // ordem de categorias vinda do próprio catálogo
 const CATEGORY_ORDER = Array.from(
@@ -296,6 +298,81 @@ export default function Lists() {
     });
   };
 
+  /* ===== RASCUNHO: CARREGAR AO MONTAR ===== */
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+
+      if (typeof draft.location === "string") setLocation(draft.location);
+      if (typeof draft.date === "string") setDate(draft.date);
+      if (typeof draft.store === "string") setStore(draft.store);
+
+      if (typeof draft.name === "string") setName(draft.name);
+      if (typeof draft.qtyStr === "string") setQtyStr(draft.qtyStr);
+      if (typeof draft.unit === "string") setUnit(draft.unit);
+      if (typeof draft.priceStr === "string") setPriceStr(draft.priceStr);
+      if (typeof draft.obs === "string") setObs(draft.obs);
+      if (typeof draft.curiosity === "string") setCuriosity(draft.curiosity);
+
+      if (Array.isArray(draft.items)) setItems(draft.items);
+    } catch (e) {
+      console.error("Erro ao ler rascunho da lista:", e);
+    }
+  }, []);
+
+  /* ===== RASCUNHO: SALVAR AUTOMATICAMENTE ===== */
+
+  useEffect(() => {
+    const hasItems = items && items.length > 0;
+    const hasFormFields =
+      location ||
+      store ||
+      name ||
+      priceStr ||
+      obs ||
+      curiosity ||
+      (qtyStr && qtyStr !== "1");
+
+    if (!hasItems && !hasFormFields) {
+      // nada relevante -> apaga rascunho
+      localStorage.removeItem(DRAFT_KEY);
+      return;
+    }
+
+    const draft = {
+      location,
+      date,
+      store,
+      name,
+      qtyStr,
+      unit,
+      priceStr,
+      obs,
+      curiosity,
+      items,
+    };
+
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch (e) {
+      console.error("Erro ao salvar rascunho da lista:", e);
+    }
+  }, [
+    location,
+    date,
+    store,
+    name,
+    qtyStr,
+    unit,
+    priceStr,
+    obs,
+    curiosity,
+    items,
+  ]);
+
   const allToBuyUnfiltered = useMemo(
     () =>
       day.items
@@ -420,7 +497,7 @@ export default function Lists() {
 
     setDay((prev) => ({ ...prev, items: [item, ...prev.items] }));
 
-    // reset form
+    // reset form do item
     setName("");
     setQtyStr("1");
     setUnit("un");
@@ -497,21 +574,69 @@ export default function Lists() {
       setOpenItemId(null);
     });
 
+  // >>> NOVA VERSÃO: salvar nos Reports + limpar a lista atual
   const finalizePurchase = () =>
     withScrollLock(() => {
-      setDay((prev) => ({
-        ...prev,
-        items: prev.items.map((i) => {
-          if (
-            i.inCart &&
+      setDay((prev) => {
+        const allItems = prev.items;
+
+        // itens da lista atual (mesmo local + mesma data)
+        const currentItems = allItems.filter(
+          (i) =>
             locationKey(i.location) === currentLocKey &&
             (i.date || "") === currentDateKey
-          ) {
-            return { ...i, inCart: false };
+        );
+
+        // 1) joga essa lista para a base de relatórios
+        if (currentItems.length > 0) {
+          const completedList = {
+            id: uid(),
+            createdAt: Date.now(),
+            date: currentDateKey,
+            location: location || "",
+            store: store || "",
+            items: currentItems,
+          };
+
+          try {
+            const key = "YGG_LISTS_IMPORT";
+            const raw = localStorage.getItem(key) || "[]";
+            let prevLists;
+            try {
+              const parsed = JSON.parse(raw);
+              prevLists = Array.isArray(parsed) ? parsed : [];
+            } catch {
+              prevLists = [];
+            }
+            const merged = [...prevLists, completedList];
+            localStorage.setItem(key, JSON.stringify(merged));
+          } catch (e) {
+            console.error(
+              "Erro ao salvar lista concluída nos relatórios:",
+              e
+            );
           }
-          return i;
-        }),
-      }));
+        }
+
+        // 2) remove todos os itens dessa lista da área de listas
+        const remaining = allItems.filter(
+          (i) =>
+            !(
+              locationKey(i.location) === currentLocKey &&
+              (i.date || "") === currentDateKey
+            )
+        );
+
+        return { ...prev, items: remaining };
+      });
+
+      // 3) limpa o formulário do item (mantém Local/Data/Loja)
+      setName("");
+      setQtyStr("1");
+      setUnit("un");
+      setPriceStr("");
+      setObs("");
+      setCuriosity("");
       setOpenItemId(null);
     });
 
