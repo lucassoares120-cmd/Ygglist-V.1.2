@@ -32,6 +32,28 @@ const TIPS = [
   "Finalize as compras para construir seu histórico financeiro."
 ];
 
+/* Mapa simples de códigos de clima do Open-Meteo */
+const WEATHER_MAP = {
+  0: { label: "Céu limpo", icon: "☀️" },
+  1: { label: "Predomínio de sol", icon: "🌤" },
+  2: { label: "Parcialmente nublado", icon: "⛅" },
+  3: { label: "Tempo nublado", icon: "☁️" },
+  45: { label: "Nevoeiro", icon: "🌫" },
+  48: { label: "Nevoeiro com gelo", icon: "🌫" },
+  51: { label: "Chuvisco fraco", icon: "🌦" },
+  53: { label: "Chuvisco", icon: "🌦" },
+  55: { label: "Chuvisco forte", icon: "🌧" },
+  61: { label: "Chuva fraca", icon: "🌧" },
+  63: { label: "Chuva", icon: "🌧" },
+  65: { label: "Chuva forte", icon: "🌧" },
+  71: { label: "Neve fraca", icon: "🌨" },
+  73: { label: "Neve", icon: "🌨" },
+  75: { label: "Neve intensa", icon: "🌨" },
+  80: { label: "Pancadas isoladas", icon: "🌦" },
+  81: { label: "Pancadas de chuva", icon: "🌧" },
+  82: { label: "Temporal", icon: "⛈" }
+};
+
 /* ===== HELPERS ===== */
 
 const safeParseJSON = (value, fallback) => {
@@ -123,6 +145,7 @@ export default function Home({ onNewList }) {
   const [greeting, setGreeting] = useState("Bem-vindo!");
   const [loc, setLoc] = useState(null);
   const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState(null); // previsão 3 dias
   const [holidays, setHolidays] = useState([]);
   const [date, setDate] = useState(todayISO());
 
@@ -149,7 +172,7 @@ export default function Home({ onNewList }) {
     setSelectedTips(shuffled.slice(0, 3));
   }, []);
 
-  /* ===== GEO / CLIMA / FERIADOS (mesma lógica de antes) ===== */
+  /* ===== GEO / CLIMA / FERIADOS ===== */
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -157,14 +180,24 @@ export default function Home({ onNewList }) {
         (pos) => {
           const { latitude, longitude } = pos.coords;
           setLoc({ lat: latitude, lon: longitude });
-          fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code`
-          )
+
+          const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3`;
+
+          fetch(url)
             .then((r) => r.json())
-            .then((j) => setWeather(j.current))
-            .catch(() => {});
+            .then((j) => {
+              setWeather(j.current || null);
+              setForecast(j.daily || null);
+            })
+            .catch(() => {
+              setWeather(null);
+              setForecast(null);
+            });
         },
-        () => {}
+        () => {
+          // usuário negou localização
+          setLoc(null);
+        }
       );
     }
 
@@ -270,7 +303,7 @@ export default function Home({ onNewList }) {
     if (!list?.date) return;
     setDate((prev) => (prev === list.date ? prev : list.date.slice(0, 10)));
     if (typeof onNewList === "function") {
-      onNewList(); // mantém API atual: usa a data selecionada
+      onNewList(); // mantém API atual
     }
   };
 
@@ -331,7 +364,6 @@ export default function Home({ onNewList }) {
       }
     }
 
-    // streak atual termina no último dia com lista
     const lastDay = uniqueDates[uniqueDates.length - 1];
     const currentStreak =
       daysBetween(lastDay, today) === 0 || daysBetween(lastDay, today) === 1
@@ -370,7 +402,7 @@ export default function Home({ onNewList }) {
 
   return (
     <section className="space-y-4">
-      {/* HERO / RESUMO DO DIA (Ideias 1, 8) */}
+      {/* HERO / RESUMO DO DIA */}
       <div className="rounded-3xl border shadow-sm p-4 md:p-6 bg-gradient-to-r from-emerald-50 via-emerald-100 to-emerald-50">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
@@ -388,24 +420,83 @@ export default function Home({ onNewList }) {
           </div>
 
           <div className="flex flex-col items-end gap-2 text-sm">
-            {/* Clima simples */}
-            <div className="bg-white/70 rounded-xl px-3 py-2 border text-right">
-              <div className="flex items-center gap-2 justify-end">
-                <span>🌡️</span>
-                <span className="font-medium">
-                  {weather
-                    ? `${weather.temperature_2m}°C`
-                    : "Temperatura —"}
-                </span>
-              </div>
-              <div className="text-[11px] text-slate-600">
-                {loc
-                  ? `Lat ${loc.lat.toFixed(2)}, Lon ${loc.lon.toFixed(2)}`
-                  : "Localização não definida"}
-              </div>
+            {/* Widget de clima */}
+            <div className="bg-white/70 rounded-xl px-3 py-2 border text-right min-w-[210px]">
+              {weather ? (
+                <>
+                  <div className="flex items-center gap-2 justify-end">
+                    <span className="text-[11px] uppercase tracking-wide text-slate-500">
+                      Temperatura perto de você
+                    </span>
+                  </div>
+                  <div className="mt-1 flex items-baseline gap-1 justify-end">
+                    {(() => {
+                      const info =
+                        WEATHER_MAP[weather.weather_code] || {
+                          label: "Condição desconhecida",
+                          icon: "🌡️"
+                        };
+                      return (
+                        <>
+                          <span className="text-lg">{info.icon}</span>
+                          <span className="font-semibold">
+                            {weather.temperature_2m.toFixed(0)}°C
+                          </span>
+                          <span className="text-xs text-slate-500">
+                            · {info.label}
+                          </span>
+                        </>
+                      );
+                    })()}
+                  </div>
+
+                  {/* Mini previsão: hoje + 2 dias */}
+                  {forecast && forecast.time && (
+                    <div className="mt-2 flex flex-col items-end gap-0.5 text-[11px] text-slate-500">
+                      {[0, 1, 2].map((idx) => {
+                        const dateStr = forecast.time[idx];
+                        if (!dateStr) return null;
+                        const code = forecast.weather_code[idx];
+                        const info = WEATHER_MAP[code] || { icon: "🌡️" };
+                        const max = forecast.temperature_2m_max[idx];
+                        const min = forecast.temperature_2m_min[idx];
+
+                        const label =
+                          idx === 0
+                            ? "Hoje"
+                            : idx === 1
+                            ? "Amanhã"
+                            : "Depois de amanhã";
+
+                        return (
+                          <div
+                            key={dateStr}
+                            className="flex items-center gap-1"
+                          >
+                            <span>{info.icon}</span>
+                            <span>{label}:</span>
+                            <span className="font-medium">
+                              {Math.round(max)}° / {Math.round(min)}°
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="text-sm">Temperatura indisponível</div>
+                  <div className="text-xs text-slate-500">
+                    {loc === null
+                      ? "Localização não definida"
+                      : "Aguardando dados de clima."}
+                  </div>
+                </>
+              )}
             </div>
 
-            {/* Resumo do dia (Ideia 1) */}
+            {/* Resumo do dia */}
             <div className="bg-white/80 rounded-xl px-3 py-2 border text-right min-w-[190px]">
               <div className="text-[11px] uppercase tracking-wide text-emerald-700 font-semibold">
                 Resumo do dia
@@ -448,7 +539,7 @@ export default function Home({ onNewList }) {
         </div>
       </div>
 
-      {/* CALENDÁRIO & FERIADOS + MICRO TIMELINE (Ideia 9) */}
+      {/* CALENDÁRIO & FERIADOS */}
       <div className="bg-white rounded-2xl border shadow-sm p-4 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 mb-1">
@@ -456,7 +547,6 @@ export default function Home({ onNewList }) {
             <h3 className="font-semibold">Calendário & Feriados</h3>
           </div>
 
-          {/* Próximos feriados (micro timeline) */}
           {nextHolidays.length > 0 && (
             <div className="hidden md:flex items-center gap-1 text-[11px] text-slate-600">
               <span className="font-semibold text-emerald-700">
@@ -507,14 +597,14 @@ export default function Home({ onNewList }) {
         </div>
       </div>
 
-      {/* VISÃO FINANCEIRA MENSAL (Ideia 3) */}
+      {/* VISÃO FINANCEIRA MENSAL */}
       <div className="bg-white rounded-2xl border shadow-sm p-4">
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
             <span>📊</span>
             <h3 className="font-semibold">Visão financeira do mês</h3>
           </div>
-          <span className="text-[11px] text-slate-500">
+        <span className="text-[11px] text-slate-500">
             Referência: {monthKey}
           </span>
         </div>
@@ -547,7 +637,7 @@ export default function Home({ onNewList }) {
         </div>
       </div>
 
-      {/* LISTAS RECENTES & FAVORITAS (Ideia 2) */}
+      {/* LISTAS RECENTES & FAVORITAS */}
       <div className="bg-white rounded-2xl border shadow-sm p-4 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -621,7 +711,7 @@ export default function Home({ onNewList }) {
         )}
       </div>
 
-      {/* TOP ITENS & CATEGORIAS (Ideia 4) */}
+      {/* TOP ITENS & CATEGORIAS */}
       <div className="bg-white rounded-2xl border shadow-sm p-4">
         <div className="flex items-center gap-2 mb-2">
           <span>🥦</span>
@@ -674,7 +764,7 @@ export default function Home({ onNewList }) {
         )}
       </div>
 
-      {/* GAMIFICAÇÃO / STREAKS (Ideia 5) */}
+      {/* GAMIFICAÇÃO / STREAKS */}
       <div className="bg-white rounded-2xl border shadow-sm p-4">
         <div className="flex items-center gap-2 mb-2">
           <span>🔥</span>
@@ -714,7 +804,7 @@ export default function Home({ onNewList }) {
         </p>
       </div>
 
-      {/* DICAS DE USO (Ideia 6) + ESTAÇÃO (Ideia 7) */}
+      {/* DICAS + ESTAÇÃO */}
       <div className="grid md:grid-cols-2 gap-4">
         {/* Dicas */}
         <div className="bg-white rounded-2xl border shadow-sm p-4">
