@@ -26,15 +26,42 @@ const uid = () =>
     ? crypto.randomUUID()
     : String(Date.now() + Math.random());
 
+/**
+ * Converte string para número aceitando:
+ *  - "1,5"  -> 1.5
+ *  - "1.5"  -> 1.5
+ *  - "1.234,56" -> 1234.56
+ *  - "1,234.56" -> 1234.56
+ */
 const toLocaleNumber = (value) => {
   if (value === null || value === undefined) return null;
   if (typeof value === "number") return value;
 
-  const s = String(value).trim();
-  if (!s) return null;
+  const raw = String(value).trim();
+  if (!raw) return null;
 
-  // aceita vírgula como separador decimal
-  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const s = raw.replace(/\s/g, "");
+
+  const hasComma = s.includes(",");
+  const hasDot = s.includes(".");
+
+  let normalized = s;
+
+  if (hasComma && hasDot) {
+    // considera o ÚLTIMO separador como decimal
+    if (s.lastIndexOf(",") > s.lastIndexOf(".")) {
+      // vírgula decimal: remove pontos (milhar) e troca última vírgula por ponto
+      normalized = s.replace(/\./g, "").replace(",", ".");
+    } else {
+      // ponto decimal: remove vírgulas (milhar)
+      normalized = s.replace(/,/g, "");
+    }
+  } else if (hasComma) {
+    normalized = s.replace(",", ".");
+  } else {
+    normalized = s;
+  }
+
   const n = Number(normalized);
   return Number.isNaN(n) ? null : n;
 };
@@ -104,6 +131,11 @@ function ItemRow({
 
   const qtyField = i.qty != null ? String(i.qty).replace(".", ",") : "";
 
+  // Campo de preço: usa texto bruto enquanto edita
+  const priceField =
+    i.priceInput ??
+    (typeof i.price === "number" ? numberToField(i.price) : "");
+
   return (
     <div className="rounded-xl border px-3 py-2 text-sm bg-white">
       {/* Linha principal */}
@@ -133,9 +165,6 @@ function ItemRow({
                 </span>
               ) : null}
             </div>
-            {i.category && (
-              <div className="text-[11px] text-emerald-700">{i.category}</div>
-            )}
             {i.weight && (
               <div className="text-xs text-slate-500 truncate">{i.weight}</div>
             )}
@@ -146,7 +175,7 @@ function ItemRow({
         </div>
 
         <div className="flex items-center gap-2">
-          {typeof i.price === "number" && (
+          {typeof i.price === "number" && !isOpen && (
             <div className="text-xs font-semibold text-slate-700">
               {fmtBRL(i.price)}
             </div>
@@ -213,9 +242,10 @@ function ItemRow({
             <label className="text-[11px] text-slate-500">Preço</label>
             <input
               type="text"
-              value={typeof i.price === "number" ? numberToField(i.price) : ""}
+              value={priceField}
               onChange={(e) =>
                 updateItem(i.id, {
+                  priceInput: e.target.value,
                   price: toLocaleNumber(e.target.value),
                 })
               }
@@ -423,6 +453,32 @@ export default function Lists() {
       0
     );
 
+  /* ===== AGRUPAR POR CATEGORIA (para Lista e Carrinho) ===== */
+  const groupByCategory = (arr) => {
+    const groups = [];
+    let currentCat = null;
+    let currentGroup = null;
+
+    arr.forEach((item) => {
+      const cat = item.category || "Outros";
+      if (cat !== currentCat) {
+        currentCat = cat;
+        currentGroup = {
+          key: cat || "Outros",
+          label: cat || "Outros",
+          items: [],
+        };
+        groups.push(currentGroup);
+      }
+      currentGroup.items.push(item);
+    });
+
+    return groups;
+  };
+
+  const groupedToBuy = groupByCategory(toBuy);
+  const groupedCart = groupByCategory(cart);
+
   /* ===== HISTÓRICO DE PREÇOS ===== */
 
   const lastPriceFor = (nm) => {
@@ -574,7 +630,7 @@ export default function Lists() {
       setOpenItemId(null);
     });
 
-  // >>> NOVA VERSÃO: salvar nos Reports + limpar a lista atual
+  // >>> salvar nos Reports + limpar a lista atual
   const finalizePurchase = () =>
     withScrollLock(() => {
       setDay((prev) => {
@@ -879,20 +935,38 @@ export default function Lists() {
           </div>
 
           {listOpen && (
-            <div className="space-y-2">
-              {toBuy.map((i) => (
-                <ItemRow
-                  key={i.id}
-                  i={i}
-                  inCartView={false}
-                  isOpen={openItemId === i.id}
-                  onToggleOpen={() =>
-                    setOpenItemId((cur) => (cur === i.id ? null : i.id))
-                  }
-                  toggleCartItem={toggleCartItem}
-                  removeItem={removeItem}
-                  updateItem={updateItem}
-                />
+            <div className="space-y-4">
+              {groupedToBuy.map((group) => (
+                <div key={group.key}>
+                  <div className="flex items-baseline justify-between mb-1">
+                    <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
+                      {group.label}
+                    </div>
+                    {total(group.items) > 0 && (
+                      <div className="text-[11px] text-slate-500">
+                        {fmtBRL(total(group.items))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    {group.items.map((i) => (
+                      <ItemRow
+                        key={i.id}
+                        i={i}
+                        inCartView={false}
+                        isOpen={openItemId === i.id}
+                        onToggleOpen={() =>
+                          setOpenItemId((cur) =>
+                            cur === i.id ? null : i.id
+                          )
+                        }
+                        toggleCartItem={toggleCartItem}
+                        removeItem={removeItem}
+                        updateItem={updateItem}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))}
               {toBuy.length === 0 && (
                 <p className="text-sm text-slate-500">
@@ -956,20 +1030,38 @@ export default function Lists() {
           </div>
 
           {cartOpen && (
-            <div className="space-y-2">
-              {cart.map((i) => (
-                <ItemRow
-                  key={i.id}
-                  i={i}
-                  inCartView={true}
-                  isOpen={openItemId === i.id}
-                  onToggleOpen={() =>
-                    setOpenItemId((cur) => (cur === i.id ? null : i.id))
-                  }
-                  toggleCartItem={toggleCartItem}
-                  removeItem={removeItem}
-                  updateItem={updateItem}
-                />
+            <div className="space-y-4">
+              {groupedCart.map((group) => (
+                <div key={group.key}>
+                  <div className="flex items-baseline justify-between mb-1">
+                    <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
+                      {group.label}
+                    </div>
+                    {total(group.items) > 0 && (
+                      <div className="text-[11px] text-slate-500">
+                        {fmtBRL(total(group.items))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    {group.items.map((i) => (
+                      <ItemRow
+                        key={i.id}
+                        i={i}
+                        inCartView={true}
+                        isOpen={openItemId === i.id}
+                        onToggleOpen={() =>
+                          setOpenItemId((cur) =>
+                            cur === i.id ? null : i.id
+                          )
+                        }
+                        toggleCartItem={toggleCartItem}
+                        removeItem={removeItem}
+                        updateItem={updateItem}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))}
               {cart.length === 0 && (
                 <p className="text-sm text-slate-500">
