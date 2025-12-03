@@ -28,8 +28,8 @@ const uid = () =>
 
 /**
  * Converte string para número aceitando:
- *  - "1,5"  -> 1.5
- *  - "1.5"  -> 1.5
+ *  - "1,5"      -> 1.5
+ *  - "1.5"      -> 1.5
  *  - "1.234,56" -> 1234.56
  *  - "1,234.56" -> 1234.56
  */
@@ -50,7 +50,7 @@ const toLocaleNumber = (value) => {
   if (hasComma && hasDot) {
     // considera o ÚLTIMO separador como decimal
     if (s.lastIndexOf(",") > s.lastIndexOf(".")) {
-      // vírgula decimal: remove pontos (milhar) e troca última vírgula por ponto
+      // vírgula decimal: remove pontos (milhar) e troca vírgula por ponto
       normalized = s.replace(/\./g, "").replace(",", ".");
     } else {
       // ponto decimal: remove vírgulas (milhar)
@@ -129,12 +129,26 @@ function ItemRow({
 }) {
   const handleToggleCart = () => toggleCartItem(i.id, !i.inCart);
 
-  const qtyField = i.qty != null ? String(i.qty).replace(".", ",") : "";
+  // quantidade usa texto bruto enquanto edita
+  const qtyField =
+    i.qtyInput != null
+      ? i.qtyInput
+      : i.qty != null
+      ? String(i.qty)
+      : "";
 
-  // Campo de preço: usa texto bruto enquanto edita
+  // preço idem
   const priceField =
     i.priceInput ??
     (typeof i.price === "number" ? numberToField(i.price) : "");
+
+  const displayQty = () => {
+    if (i.qty == null || i.qty === "") return "";
+    const n = Number(i.qty);
+    if (Number.isNaN(n)) return String(i.qty);
+    // mostra com vírgula pra ficar mais BR
+    return String(n).replace(".", ",");
+  };
 
   return (
     <div className="rounded-xl border px-3 py-2 text-sm bg-white">
@@ -161,7 +175,7 @@ function ItemRow({
               {i.qty ? (
                 <span className="font-normal text-slate-600">
                   {" "}
-                  — {i.qty} {i.unit || "un"}
+                  — {displayQty()} {i.unit || "un"}
                 </span>
               ) : null}
             </div>
@@ -175,9 +189,9 @@ function ItemRow({
         </div>
 
         <div className="flex items-center gap-2">
-          {typeof i.price === "number" && !isOpen && (
-            <div className="text-xs font-semibold text-slate-700">
-              {fmtBRL(i.price)}
+          {!isOpen && (
+            <div className="text-xs font-semibold text-slate-700 min-w-[60px] text-right">
+              {typeof i.price === "number" ? fmtBRL(i.price) : "—"}
             </div>
           )}
 
@@ -210,11 +224,20 @@ function ItemRow({
               <input
                 type="text"
                 value={qtyField}
-                onChange={(e) =>
-                  updateItem(i.id, {
-                    qty: toLocaleNumber(e.target.value) || 0,
-                  })
-                }
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  updateItem(i.id, (cur) => {
+                    if (!raw.trim()) {
+                      // vazio: zera quantidade
+                      return { qtyInput: "", qty: null };
+                    }
+                    const parsed = toLocaleNumber(raw);
+                    return {
+                      qtyInput: raw,
+                      qty: parsed == null ? cur.qty : parsed,
+                    };
+                  });
+                }}
                 className="w-full border rounded-lg px-2 py-1 text-sm"
               />
             </div>
@@ -243,12 +266,19 @@ function ItemRow({
             <input
               type="text"
               value={priceField}
-              onChange={(e) =>
-                updateItem(i.id, {
-                  priceInput: e.target.value,
-                  price: toLocaleNumber(e.target.value),
-                })
-              }
+              onChange={(e) => {
+                const raw = e.target.value;
+                updateItem(i.id, (cur) => {
+                  if (!raw.trim()) {
+                    return { priceInput: "", price: null };
+                  }
+                  const parsed = toLocaleNumber(raw);
+                  return {
+                    priceInput: raw,
+                    price: parsed == null ? cur.price : parsed,
+                  };
+                });
+              }}
               placeholder="Ex.: 9,90"
               className="w-full border rounded-lg px-2 py-1 text-sm"
             />
@@ -323,7 +353,8 @@ export default function Lists() {
   const day = { items };
   const setDay = (updater) => {
     setItems((prev) => {
-      const nextDay = updater({ items: prev });
+      const nextDay =
+        typeof updater === "function" ? updater({ items: prev }) : updater;
       return nextDay.items;
     });
   };
@@ -444,14 +475,16 @@ export default function Lists() {
   const cart = allCartUnfiltered.filter((i) => matches(cartQuery, i));
 
   const total = (arr) =>
-    arr.reduce(
-      (sum, i) =>
-        sum +
-        (typeof i.price === "number"
-          ? i.price * (Number(i.qty) || 1)
-          : 0),
-      0
-    );
+    arr.reduce((sum, i) => {
+      const price = typeof i.price === "number" ? i.price : 0;
+      const qty =
+        typeof i.qty === "number"
+          ? i.qty
+          : i.qty == null
+          ? 1
+          : toLocaleNumber(i.qty) || 1;
+      return sum + price * qty;
+    }, 0);
 
   /* ===== AGRUPAR POR CATEGORIA (para Lista e Carrinho) ===== */
   const groupByCategory = (arr) => {
@@ -485,8 +518,7 @@ export default function Lists() {
     const key = normalize(nm);
     const history = items
       .filter(
-        (it) =>
-          normalize(it.name) === key && typeof it.price === "number"
+        (it) => normalize(it.name) === key && typeof it.price === "number"
       )
       .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     return history[history.length - 1]?.price ?? null;
@@ -533,12 +565,17 @@ export default function Lists() {
       if (fromHistory != null) price = fromHistory;
     }
 
+    const qtyParsed = toLocaleNumber(qtyStr);
+    const qtyFinal = qtyParsed == null ? 1 : qtyParsed;
+
     const item = {
       id: uid(),
       name: nm,
-      qty: toLocaleNumber(qtyStr) || 1,
+      qty: qtyFinal,
+      qtyInput: qtyStr,
       unit,
       price,
+      priceInput: priceStr,
       weight: obs || "",
       note: curiosity || catalogEntry?.curiosity || "",
       icon: catalogEntry?.icon ?? null,
@@ -568,9 +605,13 @@ export default function Lists() {
     withScrollLock(() => {
       setDay((prev) => ({
         ...prev,
-        items: prev.items.map((i) =>
-          i.id === id ? { ...i, ...patch } : i
-        ),
+        items: prev.items.map((i) => {
+          if (i.id !== id) return i;
+          if (typeof patch === "function") {
+            return { ...i, ...patch(i) };
+          }
+          return { ...i, ...patch };
+        }),
       }));
     });
 
@@ -630,7 +671,7 @@ export default function Lists() {
       setOpenItemId(null);
     });
 
-  // >>> salvar nos Reports + limpar a lista atual
+  // salvar nos Reports + limpar a lista atual
   const finalizePurchase = () =>
     withScrollLock(() => {
       setDay((prev) => {
