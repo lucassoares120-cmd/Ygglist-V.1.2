@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { PURCHASES_KEY, load } from "../lib.js";
+import { PURCHASES_KEY, load } from "../lib.js"; // ainda importado caso use em outro lugar
 import yggCatalog from "../data/ygg_items.json";
 
 // normaliza número tipo "1.234,56" -> 1234.56
@@ -7,7 +7,7 @@ function normNum(str) {
   if (!str) return 0;
   const s = String(str)
     .replace(/\./g, "") // remove ponto para tratar milhares
-    .replace(",", ".")  // substitui a vírgula por ponto decimal
+    .replace(",", ".") // substitui a vírgula por ponto decimal
     .replace(/[^\d.-]/g, ""); // remove qualquer outro caractere
   const n = parseFloat(s);
   return Number.isFinite(n) ? n : 0;
@@ -94,7 +94,6 @@ function detectStoreFromLines(lines) {
   }
   return "Nota fiscal";
 }
-
 
 /* ====== helpers de data ====== */
 const iso = (d) => new Date(d).toISOString().slice(0, 10);
@@ -194,7 +193,7 @@ function loadLists() {
     if (!main.length) {
       for (const k in localStorage) {
         if (!Object.prototype.hasOwnProperty.call(localStorage, k)) continue;
-        if (k === "YGG_LISTS_IMPORT" || k === "YGG_LISTS_NFCE") continue; // <-- linha chave
+        if (k === "YGG_LISTS_IMPORT" || k === "YGG_LISTS_NFCE") continue;
 
         const v = JSON.parse(localStorage.getItem(k) || "null");
         if (Array.isArray(v) && v.length && v[0]?.items) {
@@ -212,14 +211,11 @@ function loadLists() {
     const arr1 = Array.isArray(nfceLists) ? nfceLists : [];
     const arr2 = Array.isArray(importedLists) ? importedLists : [];
 
-    // Agora cada lista aparece só uma vez
     return [...main, ...arr1, ...arr2];
   } catch {
     return [];
   }
 }
-
-
 
 function extractMonths(lists) {
   const set = new Set();
@@ -245,7 +241,10 @@ function aggregate(lists, fromISO, toISO) {
 
     const day = iso(parseListDate(list));
     let listDayTotal = 0;
-    const listStore = (list?.store || "").trim();
+
+    // 🔧 pega loja tanto de store quanto de location/place
+    const listStoreBase =
+      (list?.store || list?.location || list?.place || "").trim();
 
     const items = list.items || [];
     for (const it of items) {
@@ -257,15 +256,23 @@ function aggregate(lists, fromISO, toISO) {
         String(it?.price ?? it?.preco ?? 0).replace(",", ".")
       );
       const cat = (it?.category || it?.categoria || "Outros").trim();
-      const store = (it?.store || listStore || "—").trim();
+
+      const storeFromItem =
+        (it?.store ||
+          it?.location ||
+          listStoreBase ||
+          list?.location ||
+          list?.place ||
+          "—") // evita "—" quando temos localidade
+          .trim();
 
       const total = qty * price;
       if (!isFinite(total) || total <= 0) continue;
 
       rows.push({ cat, total });
-      listDayTotal += total;
 
-      perStore[store] = (perStore[store] || 0) + total;
+      listDayTotal += total;
+      perStore[storeFromItem] = (perStore[storeFromItem] || 0) + total;
     }
 
     if (listDayTotal > 0) perDay[day] = (perDay[day] || 0) + listDayTotal;
@@ -383,7 +390,6 @@ function parseItemsFromText(text) {
   const items = [];
 
   // Padrão específico desse layout de MG:
-  // DESCRIÇÃO ... Qtde total de ítens: 3.0000 UN: KG Valor total R$: R$ 12,34
   const mgPattern =
     /^(.+?)\s+Qtde total de ítens:\s*([\d.,]+)\s+UN:\s*([A-Z]+)\s+Valor total R\$:\s*R\$\s*([\d.,]+)/i;
 
@@ -403,16 +409,15 @@ function parseItemsFromText(text) {
       items.push({
         name: namePart.trim(),
         qty,
-        unit: unitRaw.toLowerCase(), // un, kg, bd, pc, etc.
+        unit: unitRaw.toLowerCase(),
         price: unitPrice,
       });
     }
   }
 
-  // Se conseguiu extrair via padrão MG, retorna
   if (items.length) return items;
 
-  // ===== Fallback genérico para outras notas =====
+  // Fallback genérico
   const moneyRe = /\d+,\d{2}/g;
   const genericItems = [];
 
@@ -463,7 +468,9 @@ function parseItemsFromText(text) {
     for (const raw of rawLines) {
       const line = raw.replace(/\s+/g, " ");
 
-      if (/TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)) {
+      if (
+        /TOTAL\s|VALOR A PAGAR|VALOR A PAGAMENTO|SUBTOTAL|TROCO/i.test(line)
+      ) {
         continue;
       }
 
@@ -526,10 +533,10 @@ export default function Reports() {
   const setFree = () => setPreset("free");
 
   const chip = (k) =>
-    `px-3 py-2 rounded-lg border text-sm ${
+    `px-3 py-2 rounded-full border text-sm transition-colors ${
       preset === k
-        ? "bg-emerald-600 text-white border-emerald-600"
-        : "hover:bg-emerald-50"
+        ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
+        : "bg-white hover:bg-emerald-50"
     }`;
 
   // aplica preset -> from/to
@@ -589,24 +596,46 @@ export default function Reports() {
   const handleExportPNG = () =>
     downloadSvgAsPng(svgRef.current, `YggList_${from}_a_${to}.png`, 3);
 
+  // 🔧 CSV agora baseado nas mesmas listas usadas nos gráficos (allLists)
   const handleExportCSV = () => {
-    const allPurchases = load(PURCHASES_KEY, []);
-    const purchasesInRange = allPurchases.filter(
-      (p) => p.dateISO >= from && p.dateISO <= to
-    );
+    const listsInRange = allLists.filter((l) => listInRange(l, from, to));
+
+    const purchasesInRange = listsInRange
+      .map((list) => {
+        const dateISO = iso(parseListDate(list));
+        const store =
+          (list.store || list.location || list.place || "—").trim();
+
+        const items = (list.items || []).map((it) => {
+          const qty = Number(it?.qty || it?.qtd || 1);
+          const price = Number(
+            String(it?.price ?? it?.preco ?? 0).replace(",", ".")
+          );
+          return {
+            name: it.name || it.item || "",
+            qty,
+            unit: it.unit || "un",
+            price,
+            category: it.category || it.categoria || "Outros",
+            note: it.note || "",
+          };
+        });
+
+        return { dateISO, store, items };
+      })
+      .filter((p) => (p.items || []).length > 0);
 
     const catMap = {};
     purchasesInRange.forEach((p) => {
       (p.items || []).forEach((it) => {
-        const qty = Number(it?.qty ?? 1);
-        const price = Number(it?.price ?? 0);
-        const cat = (it?.category || "Outros").trim();
-        const subtotal = qty * price;
+        const subtotal = (Number(it.qty) || 1) * (Number(it.price) || 0);
+        const cat = (it.category || "Outros").trim();
         if (subtotal > 0) {
           catMap[cat] = (catMap[cat] || 0) + subtotal;
         }
       });
     });
+
     const total = Object.values(catMap).reduce((a, b) => a + b, 0);
     const summaryByCat = Object.entries(catMap)
       .sort((a, b) => b[1] - a[1])
@@ -663,35 +692,32 @@ export default function Reports() {
       const store = detectStoreFromLines(lines);
 
       const now = Date.now();
-   const list = {
-  id: `import-${now}`,
-  store,
-  date: dateISO,
-  items: items.map((it, idx) => {
-    const cat = findCatalogCategory(it.name);
-    return {
-      id: `import-${now}-${idx}`,
-      name: it.name,
-      qty: it.qty,
-      unit: it.unit,
-      price: it.price,
-      category: cat,
-      note: "",
-      store,
-      done: true,
-    };
-  }),
-};
+      const list = {
+        id: `import-${now}`,
+        store,
+        date: dateISO,
+        items: items.map((it, idx) => {
+          const cat = findCatalogCategory(it.name);
+          return {
+            id: `import-${now}-${idx}`,
+            name: it.name,
+            qty: it.qty,
+            unit: it.unit,
+            price: it.price,
+            category: cat,
+            note: "",
+            store,
+            done: true,
+          };
+        }),
+      };
 
-
-        const key = "YGG_LISTS_IMPORT";
+      const key = "YGG_LISTS_IMPORT";
       const prev = JSON.parse(localStorage.getItem(key) || "[]") || [];
       const arr = Array.isArray(prev) ? prev : [];
 
-      // assinatura da nota: loja + data + nº de itens
       const signature = `${store}__${dateISO}__${items.length}`;
 
-      // remove qualquer nota antiga com a mesma assinatura
       const filtered = arr.filter((l) => {
         const s = `${l.store}__${l.date}__${(l.items || []).length}`;
         return s !== signature;
@@ -699,7 +725,6 @@ export default function Reports() {
 
       const merged = [...filtered, list];
       localStorage.setItem(key, JSON.stringify(merged));
-
 
       const totalValue = list.items.reduce(
         (s, it) => s + (Number(it.qty || 1) * Number(it.price || 0)),
@@ -732,10 +757,14 @@ export default function Reports() {
     setImportSummary(null);
   };
 
+  const daysInPeriod =
+    (new Date(to).getTime() - new Date(from).getTime()) / 86400000 + 1 || 0;
+  const avgPerDay = daysInPeriod > 0 ? grand / daysInPeriod : 0;
+
   return (
     <section className="space-y-4">
       {/* === FILTROS / PERÍODO (3 linhas) === */}
-      <div className="bg-white rounded-2xl border shadow-sm p-4 space-y-3">
+      <div className="bg-gradient-to-r from-emerald-50 via-emerald-50 to-emerald-100 rounded-2xl border shadow-sm p-4 space-y-3">
         {/* 1ª linha: botões de período rápido */}
         <div className="flex flex-wrap items-center gap-2">
           <button onClick={setLast7} className={chip("7d")}>
@@ -758,14 +787,16 @@ export default function Reports() {
         {/* 2ª linha: mês, de, até */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <div>
-            <label className="text-sm">Mês</label>
+            <label className="text-xs font-medium text-slate-600">
+              Mês
+            </label>
             <select
               value={monthSel}
               onChange={(e) => {
                 setMonthSel(e.target.value);
                 setPreset("monthSelect");
               }}
-              className="w-full border rounded-lg px-3 py-2"
+              className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
             >
               {(months.length ? months : [monthSel]).map((m) => (
                 <option key={m} value={m}>
@@ -776,7 +807,9 @@ export default function Reports() {
           </div>
 
           <div>
-            <label className="text-sm">De</label>
+            <label className="text-xs font-medium text-slate-600">
+              De
+            </label>
             <input
               type="date"
               value={from}
@@ -784,12 +817,14 @@ export default function Reports() {
                 setFrom(e.target.value);
                 setPreset("free");
               }}
-              className="w-full border rounded-lg px-3 py-2"
+              className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
             />
           </div>
 
           <div>
-            <label className="text-sm">Até</label>
+            <label className="text-xs font-medium text-slate-600">
+              Até
+            </label>
             <input
               type="date"
               value={to}
@@ -797,48 +832,57 @@ export default function Reports() {
                 setTo(e.target.value);
                 setPreset("free");
               }}
-              className="w-full border rounded-lg px-3 py-2"
+              className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
             />
           </div>
         </div>
 
         {/* 3ª linha: Exportações + Importar nota (texto) */}
-        <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-emerald-100">
           <div className="flex flex-wrap gap-2">
             <button
               onClick={handleExportCSV}
-              className="px-3 py-2 rounded-lg border text-sm"
+              className="px-3 py-2 rounded-lg border text-sm bg-white hover:bg-emerald-50 flex items-center gap-1"
             >
-              Exportar CSV
+              ⬇️ <span>Exportar CSV</span>
             </button>
             <button
               onClick={handleExportPNG}
-              className="px-3 py-2 rounded-lg border text-sm"
+              className="px-3 py-2 rounded-lg border text-sm bg-white hover:bg-emerald-50 flex items-center gap-1"
             >
-              Baixar PNG
+              📈 <span>Baixar PNG</span>
             </button>
           </div>
 
           <button
             type="button"
             onClick={() => setShowImportModal(true)}
-            className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm hover:bg-emerald-700"
+            className="px-3 py-2 rounded-lg bg-emerald-700 text-white text-sm hover:bg-emerald-800 shadow-sm flex items-center gap-1"
           >
-            📄 Importar nota (texto)
+            📄 <span>Importar nota (texto)</span>
           </button>
         </div>
       </div>
 
       {/* RESUMO + MINI-GRÁFICO + COMPARAÇÃO */}
-      <div className="bg-white rounded-2xl border p-4">
+      <div className="bg-white rounded-2xl border shadow-sm p-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="min-w-[260px]">
-            <h3 className="text-lg font-semibold">Resumo</h3>
-            <p className="text-slate-600">
-              Período: <span className="font-medium">{from}</span> a{" "}
-              <span className="font-medium">{to}</span>
-            </p>
-            <div className="mt-3 text-2xl font-semibold">
+          <div className="min-w-[260px] space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                💰
+              </span>
+              <div>
+                <h3 className="text-lg font-semibold">Resumo</h3>
+                <p className="text-xs text-slate-500">
+                  Período{" "}
+                  <span className="font-medium">{from}</span> a{" "}
+                  <span className="font-medium">{to}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-1 text-2xl font-semibold">
               Total:{" "}
               <span className="text-emerald-800">
                 {grand.toLocaleString("pt-BR", {
@@ -848,20 +892,32 @@ export default function Reports() {
               </span>
             </div>
 
+            <div className="flex flex-wrap gap-2 text-xs text-slate-600">
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 border border-emerald-100">
+                📆 {daysInPeriod.toFixed(0)} dia(s)
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-2 py-1 border border-slate-100">
+                💸{" "}
+                {avgPerDay.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}{" "}
+                / dia
+              </span>
+            </div>
+
             {prevAgg && prevAgg.grand >= 0 && (
-              <div className="mt-3 text-sm">
-                <label className="inline-flex items-center gap-2">
+              <div className="mt-1 text-sm">
+                <label className="inline-flex items-center gap-2 text-xs text-slate-600">
                   <input
                     type="checkbox"
                     checked={comparePrevMonth}
-                    onChange={(e) =>
-                      setComparePrevMonth(e.target.checked)
-                    }
+                    onChange={(e) => setComparePrevMonth(e.target.checked)}
                   />
                   Comparar com mês anterior
                 </label>
                 {comparePrevMonth && (
-                  <div className="mt-2">
+                  <div className="mt-1 text-xs space-y-0.5">
                     <div className="text-slate-600">
                       Mês anterior:{" "}
                       <span className="font-medium">
@@ -881,8 +937,7 @@ export default function Reports() {
                         }
                       >
                         {(
-                          ((grand - prevAgg.grand) /
-                            (prevAgg.grand || 1)) *
+                          ((grand - prevAgg.grand) / (prevAgg.grand || 1)) *
                           100
                         ).toFixed(1)}
                         %
@@ -901,8 +956,13 @@ export default function Reports() {
       </div>
 
       {/* POR CATEGORIA */}
-      <div className="bg-white rounded-2xl border p-4">
-        <h3 className="text-lg font-semibold mb-3">Por categoria</h3>
+      <div className="bg-white rounded-2xl border shadow-sm p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span>📂</span>
+            <h3 className="text-lg font-semibold">Por categoria</h3>
+          </div>
+        </div>
         {catRows.length === 0 ? (
           <p className="text-slate-600">
             Sem compras concluídas no período.
@@ -910,7 +970,10 @@ export default function Reports() {
         ) : (
           <div className="space-y-2">
             {catRows.map((r) => (
-              <div key={r.cat}>
+              <div
+                key={r.cat}
+                className="rounded-xl px-2 py-1 transition-colors hover:bg-emerald-50/60"
+              >
                 <div className="flex justify-between text-sm">
                   <span className="font-medium">{r.cat}</span>
                   <span className="tabular-nums">
@@ -921,9 +984,9 @@ export default function Reports() {
                     })}
                   </span>
                 </div>
-                <div className="h-2 rounded-full bg-emerald-100 overflow-hidden">
+                <div className="mt-1 h-2.5 rounded-full bg-emerald-100 overflow-hidden">
                   <div
-                    className="h-full bg-emerald-600"
+                    className="h-full bg-emerald-600 transition-all"
                     style={{
                       width: `${Math.min(100, r.pct).toFixed(2)}%`,
                     }}
@@ -936,10 +999,18 @@ export default function Reports() {
       </div>
 
       {/* POR LOJA / MERCADO */}
-      <div className="bg-white rounded-2xl border p-4">
-        <h3 className="text-lg font-semibold mb-3">
-          Por loja / mercado
-        </h3>
+      <div className="bg-white rounded-2xl border shadow-sm p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span>🏬</span>
+            <h3 className="text-lg font-semibold">Por loja / mercado</h3>
+          </div>
+          {storeRows.length > 0 && (
+            <span className="text-[11px] text-slate-500">
+              {storeRows.length} local(is) com compras no período
+            </span>
+          )}
+        </div>
         {storeRows.length === 0 ? (
           <p className="text-slate-600">
             Sem dados de loja para o período.
@@ -947,9 +1018,14 @@ export default function Reports() {
         ) : (
           <div className="space-y-2">
             {storeRows.map((r) => (
-              <div key={r.store}>
+              <div
+                key={r.store}
+                className="rounded-xl px-2 py-1 transition-colors hover:bg-emerald-50/60"
+              >
                 <div className="flex justify-between text-sm">
-                  <span className="font-medium">{r.store}</span>
+                  <span className="font-medium">
+                    {r.store && r.store !== "—" ? r.store : "Sem loja definida"}
+                  </span>
                   <span className="tabular-nums">
                     {r.pct.toFixed(1)}% •{" "}
                     {r.val.toLocaleString("pt-BR", {
@@ -958,9 +1034,9 @@ export default function Reports() {
                     })}
                   </span>
                 </div>
-                <div className="h-2 rounded-full bg-emerald-100 overflow-hidden">
+                <div className="mt-1 h-2.5 rounded-full bg-emerald-100 overflow-hidden">
                   <div
-                    className="h-full bg-emerald-700"
+                    className="h-full bg-emerald-700 transition-all"
                     style={{
                       width: `${Math.min(100, r.pct).toFixed(2)}%`,
                     }}
@@ -991,9 +1067,9 @@ export default function Reports() {
 
             <p className="text-sm text-slate-600">
               Abra a nota fiscal (site da NFC-e, PDF em texto, etc),{" "}
-              <strong>selecione todo o texto</strong>, copie e cole
-              aqui. O YggList vai tentar identificar os itens e os
-              valores automaticamente.
+              <strong>selecione todo o texto</strong>, copie e cole aqui.
+              O YggList vai tentar identificar os itens e os valores
+              automaticamente.
             </p>
 
             <textarea
@@ -1027,8 +1103,8 @@ export default function Reports() {
                   })}
                 </div>
                 <div className="mt-1 text-emerald-700">
-                  Nota importada com sucesso. Esses dados já entram
-                  nos relatórios do período selecionado.
+                  Nota importada com sucesso. Esses dados já entram nos
+                  relatórios do período selecionado.
                 </div>
               </div>
             )}
