@@ -113,6 +113,8 @@ const csvEscape = (v) => {
 function buildCSV({ summaryByCat, purchasesInRange, fromISO, toISO }) {
   const lines = [];
 
+  // dica para o Excel usar ";" como separador
+  lines.push("sep=;");
   // Cabeçalho
   lines.push(`Relatório YggList;Período;${fromISO};${toISO}`);
   lines.push("");
@@ -242,7 +244,7 @@ function aggregate(lists, fromISO, toISO) {
     const day = iso(parseListDate(list));
     let listDayTotal = 0;
 
-    // 🔧 pega loja tanto de store quanto de location/place
+    // pega loja tanto de store quanto de location/place
     const listStoreBase =
       (list?.store || list?.location || list?.place || "").trim();
 
@@ -263,8 +265,7 @@ function aggregate(lists, fromISO, toISO) {
           listStoreBase ||
           list?.location ||
           list?.place ||
-          "—") // evita "—" quando temos localidade
-          .trim();
+          "—").trim();
 
       const total = qty * price;
       if (!isFinite(total) || total <= 0) continue;
@@ -518,12 +519,14 @@ export default function Reports() {
   );
   const [comparePrevMonth, setComparePrevMonth] = useState(true);
 
-  // estado da importação por TEXTO
+  // estado da importação
   const [showImportModal, setShowImportModal] = useState(false);
+  const [importMode, setImportMode] = useState("text"); // "text" | "image"
   const [nfText, setNfText] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState("");
   const [importSummary, setImportSummary] = useState(null);
+  const [imageFileName, setImageFileName] = useState("");
 
   // presets
   const setLast7 = () => setPreset("7d");
@@ -596,7 +599,7 @@ export default function Reports() {
   const handleExportPNG = () =>
     downloadSvgAsPng(svgRef.current, `YggList_${from}_a_${to}.png`, 3);
 
-  // 🔧 CSV agora baseado nas mesmas listas usadas nos gráficos (allLists)
+  // CSV baseado nas listas usadas nos gráficos (allLists) + BOM UTF-8
   const handleExportCSV = () => {
     const listsInRange = allLists.filter((l) => listInRange(l, from, to));
 
@@ -645,12 +648,15 @@ export default function Reports() {
         percent: total ? (amount / total) * 100 : 0,
       }));
 
-    const csvText = buildCSV({
+    const csvCore = buildCSV({
       summaryByCat,
       purchasesInRange,
       fromISO: from,
       toISO: to,
     });
+
+    // BOM UTF-8 para o Excel reconhecer acentos corretamente
+    const csvText = "\uFEFF" + csvCore;
 
     const blob = new Blob([csvText], {
       type: "text/csv;charset=utf-8;",
@@ -661,6 +667,73 @@ export default function Reports() {
     a.download = `ygglist_${from}_a_${to}.csv`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  // Função interna reutilizada por texto e imagem
+  const processImportedText = (raw) => {
+    const lines = raw
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+
+    const items = parseItemsFromText(raw);
+    if (!items.length) {
+      throw new Error(
+        "Não consegui identificar itens na nota. Tente copiar a nota inteira (texto completo) ou tirar uma foto mais nítida."
+      );
+    }
+
+    const dateISO = detectDateISO(raw);
+    const store = detectStoreFromLines(lines);
+
+    const now = Date.now();
+    const list = {
+      id: `import-${now}`,
+      store,
+      date: dateISO,
+      items: items.map((it, idx) => {
+        const cat = findCatalogCategory(it.name);
+        return {
+          id: `import-${now}-${idx}`,
+          name: it.name,
+          qty: it.qty,
+          unit: it.unit,
+          price: it.price,
+          category: cat,
+          note: "",
+          store,
+          done: true,
+        };
+      }),
+    };
+
+    const key = "YGG_LISTS_IMPORT";
+    const prev = JSON.parse(localStorage.getItem(key) || "[]") || [];
+    const arr = Array.isArray(prev) ? prev : [];
+
+    const signature = `${store}__${dateISO}__${items.length}`;
+
+    const filtered = arr.filter((l) => {
+      const s = `${l.store}__${l.date}__${(l.items || []).length}`;
+      return s !== signature;
+    });
+
+    const merged = [...filtered, list];
+    localStorage.setItem(key, JSON.stringify(merged));
+
+    const totalValue = list.items.reduce(
+      (s, it) => s + (Number(it.qty || 1) * Number(it.price || 0)),
+      0
+    );
+
+    setImportSummary({
+      store,
+      dateISO,
+      totalItems: list.items.length,
+      totalValue,
+    });
+
+    setListsVersion((v) => v + 1);
   };
 
   /* === Importar nota via TEXTO colado === */
@@ -676,69 +749,7 @@ export default function Reports() {
 
     setIsImporting(true);
     try {
-      const lines = raw
-        .split(/\r?\n/)
-        .map((l) => l.trim())
-        .filter(Boolean);
-
-      const items = parseItemsFromText(raw);
-      if (!items.length) {
-        throw new Error(
-          "Não consegui identificar itens na nota. Tente copiar a nota inteira (texto completo)."
-        );
-      }
-
-      const dateISO = detectDateISO(raw);
-      const store = detectStoreFromLines(lines);
-
-      const now = Date.now();
-      const list = {
-        id: `import-${now}`,
-        store,
-        date: dateISO,
-        items: items.map((it, idx) => {
-          const cat = findCatalogCategory(it.name);
-          return {
-            id: `import-${now}-${idx}`,
-            name: it.name,
-            qty: it.qty,
-            unit: it.unit,
-            price: it.price,
-            category: cat,
-            note: "",
-            store,
-            done: true,
-          };
-        }),
-      };
-
-      const key = "YGG_LISTS_IMPORT";
-      const prev = JSON.parse(localStorage.getItem(key) || "[]") || [];
-      const arr = Array.isArray(prev) ? prev : [];
-
-      const signature = `${store}__${dateISO}__${items.length}`;
-
-      const filtered = arr.filter((l) => {
-        const s = `${l.store}__${l.date}__${(l.items || []).length}`;
-        return s !== signature;
-      });
-
-      const merged = [...filtered, list];
-      localStorage.setItem(key, JSON.stringify(merged));
-
-      const totalValue = list.items.reduce(
-        (s, it) => s + (Number(it.qty || 1) * Number(it.price || 0)),
-        0
-      );
-
-      setImportSummary({
-        store,
-        dateISO,
-        totalItems: list.items.length,
-        totalValue,
-      });
-
-      setListsVersion((v) => v + 1);
+      processImportedText(raw);
     } catch (err) {
       console.error(err);
       setImportError(
@@ -750,11 +761,59 @@ export default function Reports() {
     }
   };
 
+  /* === Importar nota via FOTO / IMAGEM (OCR) === */
+  const handleImageSelected = async (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    setImportError("");
+    setImportSummary(null);
+    setImageFileName(file.name || "");
+    setIsImporting(true);
+
+    try {
+      if (
+        typeof window === "undefined" ||
+        !window.Tesseract ||
+        !window.Tesseract.recognize
+      ) {
+        throw new Error(
+          "Para usar a leitura por foto é preciso carregar o Tesseract.js no index.html (por exemplo: <script src=\"https://unpkg.com/tesseract.js@5.0.0/dist/tesseract.min.js\"></script>)."
+        );
+      }
+
+      const { data } = await window.Tesseract.recognize(file, "por", {
+        logger: () => {},
+      });
+
+      const rawText = data?.text || "";
+      if (!rawText.trim()) {
+        throw new Error(
+          "Não consegui extrair texto da imagem. Tente tirar uma foto mais próxima e nítida da área dos itens."
+        );
+      }
+
+      processImportedText(rawText);
+    } catch (err) {
+      console.error(err);
+      setImportError(
+        err.message ||
+          "Erro ao interpretar a imagem da nota. Tente outra foto, mais nítida."
+      );
+    } finally {
+      setIsImporting(false);
+      // limpa input para permitir escolher a mesma foto novamente se quiser
+      event.target.value = "";
+    }
+  };
+
   const handleCloseModal = () => {
     setShowImportModal(false);
+    setImportMode("text");
     setNfText("");
     setImportError("");
     setImportSummary(null);
+    setImageFileName("");
   };
 
   const daysInPeriod =
@@ -837,7 +896,7 @@ export default function Reports() {
           </div>
         </div>
 
-        {/* 3ª linha: Exportações + Importar nota (texto) */}
+        {/* 3ª linha: Exportações + Importar nota (texto/foto) */}
         <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-emerald-100">
           <div className="flex flex-wrap gap-2">
             <button
@@ -859,7 +918,7 @@ export default function Reports() {
             onClick={() => setShowImportModal(true)}
             className="px-3 py-2 rounded-lg bg-emerald-700 text-white text-sm hover:bg-emerald-800 shadow-sm flex items-center gap-1"
           >
-            📄 <span>Importar nota (texto)</span>
+            📄 <span>Importar nota</span>
           </button>
         </div>
       </div>
@@ -1048,13 +1107,13 @@ export default function Reports() {
         )}
       </div>
 
-      {/* MODAL DE IMPORTAÇÃO (TEXTO) */}
+      {/* MODAL DE IMPORTAÇÃO (TEXTO / FOTO) */}
       {showImportModal && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-lg max-w-lg w-full p-4 space-y-3">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold">
-                Importar nota fiscal (texto)
+                Importar nota fiscal
               </h3>
               <button
                 type="button"
@@ -1065,67 +1124,170 @@ export default function Reports() {
               </button>
             </div>
 
-            <p className="text-sm text-slate-600">
-              Abra a nota fiscal (site da NFC-e, PDF em texto, etc),{" "}
-              <strong>selecione todo o texto</strong>, copie e cole aqui.
-              O YggList vai tentar identificar os itens e os valores
-              automaticamente.
-            </p>
-
-            <textarea
-              rows={6}
-              className="w-full border rounded-lg px-3 py-2 text-sm"
-              placeholder="Cole aqui o texto completo da nota..."
-              value={nfText}
-              onChange={(e) => setNfText(e.target.value)}
-            />
-
-            {importError && (
-              <p className="text-sm text-red-600">{importError}</p>
-            )}
-
-            {importSummary && (
-              <div className="text-sm bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
-                <div>
-                  <strong>Loja:</strong> {importSummary.store}
-                </div>
-                <div>
-                  <strong>Data:</strong> {importSummary.dateISO}
-                </div>
-                <div>
-                  <strong>Itens:</strong> {importSummary.totalItems}
-                </div>
-                <div>
-                  <strong>Total importado:</strong>{" "}
-                  {importSummary.totalValue.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
-                </div>
-                <div className="mt-1 text-emerald-700">
-                  Nota importada com sucesso. Esses dados já entram nos
-                  relatórios do período selecionado.
-                </div>
-              </div>
-            )}
-
-            <div className="flex justify-end gap-2">
+            {/* Tabs texto / foto */}
+            <div className="flex border-b border-slate-200 text-sm">
               <button
                 type="button"
-                onClick={handleCloseModal}
-                className="px-3 py-2 rounded-lg border text-sm"
+                onClick={() => setImportMode("text")}
+                className={`flex-1 px-3 py-2 text-center ${
+                  importMode === "text"
+                    ? "border-b-2 border-emerald-600 font-medium text-emerald-700"
+                    : "text-slate-500 hover:bg-slate-50"
+                }`}
               >
-                Fechar
+                Texto
               </button>
               <button
                 type="button"
-                onClick={handleImportFromText}
-                disabled={isImporting}
-                className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm disabled:opacity-60"
+                onClick={() => setImportMode("image")}
+                className={`flex-1 px-3 py-2 text-center ${
+                  importMode === "image"
+                    ? "border-b-2 border-emerald-600 font-medium text-emerald-700"
+                    : "text-slate-500 hover:bg-slate-50"
+                }`}
               >
-                {isImporting ? "Interpretando…" : "Importar e salvar"}
+                Foto (imagem)
               </button>
             </div>
+
+            {importMode === "text" ? (
+              <>
+                <p className="text-sm text-slate-600 mt-1">
+                  Abra a nota fiscal (site da NFC-e, PDF em texto, etc),{" "}
+                  <strong>selecione todo o texto</strong>, copie e cole
+                  aqui. O YggList vai tentar identificar os itens e os
+                  valores automaticamente.
+                </p>
+
+                <textarea
+                  rows={6}
+                  className="w-full border rounded-lg px-3 py-2 text-sm"
+                  placeholder="Cole aqui o texto completo da nota..."
+                  value={nfText}
+                  onChange={(e) => setNfText(e.target.value)}
+                />
+
+                {importError && (
+                  <p className="text-sm text-red-600">{importError}</p>
+                )}
+
+                {importSummary && (
+                  <div className="text-sm bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                    <div>
+                      <strong>Loja:</strong> {importSummary.store}
+                    </div>
+                    <div>
+                      <strong>Data:</strong> {importSummary.dateISO}
+                    </div>
+                    <div>
+                      <strong>Itens:</strong> {importSummary.totalItems}
+                    </div>
+                    <div>
+                      <strong>Total importado:</strong>{" "}
+                      {importSummary.totalValue.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </div>
+                    <div className="mt-1 text-emerald-700">
+                      Nota importada com sucesso. Esses dados já entram
+                      nos relatórios do período selecionado.
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className="px-3 py-2 rounded-lg border text-sm"
+                  >
+                    Fechar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleImportFromText}
+                    disabled={isImporting}
+                    className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm disabled:opacity-60"
+                  >
+                    {isImporting ? "Interpretando texto…" : "Importar e salvar"}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-sm text-slate-600 mt-1">
+                  Tire uma foto nítida da parte da nota que contém{" "}
+                  <strong>os itens e valores</strong>, ou selecione uma
+                  imagem já salva. O YggList usa OCR para extrair o texto
+                  e aplicar o mesmo processamento da importação por texto.
+                </p>
+
+                <div className="border rounded-lg px-3 py-3 bg-slate-50 flex flex-col gap-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageSelected}
+                    className="text-sm"
+                  />
+                  {imageFileName && (
+                    <span className="text-xs text-slate-600">
+                      Imagem selecionada: {imageFileName}
+                    </span>
+                  )}
+                  <span className="text-[11px] text-slate-500">
+                    Dica: foque na área da lista de produtos, evitando
+                    muito fundo em branco.
+                  </span>
+                </div>
+
+                {importError && (
+                  <p className="text-sm text-red-600">{importError}</p>
+                )}
+
+                {importSummary && (
+                  <div className="text-sm bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                    <div>
+                      <strong>Loja:</strong> {importSummary.store}
+                    </div>
+                    <div>
+                      <strong>Data:</strong> {importSummary.dateISO}
+                    </div>
+                    <div>
+                      <strong>Itens:</strong> {importSummary.totalItems}
+                    </div>
+                    <div>
+                      <strong>Total importado:</strong>{" "}
+                      {importSummary.totalValue.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </div>
+                    <div className="mt-1 text-emerald-700">
+                      Nota importada com sucesso a partir da imagem. Os
+                      itens já entram nos relatórios.
+                    </div>
+                  </div>
+                )}
+
+                {isImporting && (
+                  <p className="text-xs text-slate-500">
+                    Lendo imagem e extraindo texto (OCR)… isso pode levar
+                    alguns segundos.
+                  </p>
+                )}
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className="px-3 py-2 rounded-lg border text-sm"
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
