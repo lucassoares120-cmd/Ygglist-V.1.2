@@ -141,9 +141,9 @@ const isoToReadable = (iso) => {
     const year = Number(m[1]);
     const month = Number(m[2]) - 1; // Date usa 0–11
     const day = Number(m[3]);
-    d = new Date(year, month, day); // <- local, sem UTC
+    d = new Date(year, month, day); // local, sem UTC
   } else {
-    // fallback pra String qualquer (caso você use outro formato em algum lugar)
+    // fallback pra String qualquer
     d = new Date(s);
   }
 
@@ -151,9 +151,18 @@ const isoToReadable = (iso) => {
   return d.toLocaleDateString("pt-BR");
 };
 
-
 const getMonthKey = (iso) => {
-  const d = new Date(iso);
+  if (!iso) return null;
+  const s = String(iso);
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  let d;
+
+  if (m) {
+    d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  } else {
+    d = new Date(s);
+  }
+
   if (Number.isNaN(d.getTime())) return null;
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 };
@@ -174,8 +183,10 @@ export default function Home({ onNewList }) {
   const [placeQuery, setPlaceQuery] = useState("");
   const [isSearchingWeather, setIsSearchingWeather] = useState(false);
   const [weatherError, setWeatherError] = useState("");
+  const [lastCoords, setLastCoords] = useState(null);
 
   const [holidays, setHolidays] = useState([]);
+  const [holidaysError, setHolidaysError] = useState("");
   const [date, setDate] = useState(() => getTodayLocalISO());
 
   const [completedLists, setCompletedLists] = useState([]);
@@ -184,7 +195,7 @@ export default function Home({ onNewList }) {
   const [selectedTips, setSelectedTips] = useState([]);
 
   // "today" também baseado na data local
-const today = getTodayLocalISO();
+  const today = getTodayLocalISO();
 
   /* ===== GREETING / TIPS ===== */
 
@@ -207,6 +218,15 @@ const today = getTodayLocalISO();
     setWeather(current || null);
     setForecast(daily || null);
     if (label) setWeatherLabel(label);
+
+    if (extra && extra.lat != null && extra.lon != null) {
+      setLastCoords({
+        lat: extra.lat,
+        lon: extra.lon,
+        label
+      });
+    }
+
     if (extra?.save) {
       try {
         localStorage.setItem(
@@ -279,7 +299,36 @@ const today = getTodayLocalISO();
       });
   }
 
-  /* ===== GEO (AUTO) + FERIADOS ===== */
+  function handleRefreshWeather() {
+    // Reaproveita a última coordenada conhecida; se não tiver, tenta geolocalização
+    if (lastCoords) {
+      fetchWeatherByCoords(
+        lastCoords.lat,
+        lastCoords.lon,
+        lastCoords.label || weatherLabel
+      );
+      return;
+    }
+
+    if (navigator.geolocation) {
+      setIsSearchingWeather(true);
+      setWeatherError("");
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          fetchWeatherByCoords(latitude, longitude, "Perto de você");
+        },
+        () => {
+          setIsSearchingWeather(false);
+          setWeatherError(
+            "Não foi possível obter sua localização. Digite sua cidade abaixo."
+          );
+        }
+      );
+    }
+  }
+
+  /* ===== GEO (AUTO) ===== */
 
   useEffect(() => {
     // 1) tenta carregar última cidade salva
@@ -307,14 +356,35 @@ const today = getTodayLocalISO();
         }
       );
     }
-
-    const year = new Date().getFullYear();
-    fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/BR`)
-      .then((r) => r.json())
-      .then((j) => setHolidays(j))
-      .catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /* ===== FERIADOS (por ano da data selecionada) ===== */
+
+  const selectedYear = useMemo(() => {
+    const d = new Date(date);
+    if (Number.isNaN(d.getTime())) return new Date().getFullYear();
+    return d.getFullYear();
+  }, [date]);
+
+  useEffect(() => {
+    setHolidays([]);
+    setHolidaysError("");
+
+    fetch(`https://date.nager.at/api/v3/PublicHolidays/${selectedYear}/BR`)
+      .then((r) => r.json())
+      .then((j) => {
+        if (!Array.isArray(j)) {
+          setHolidays([]);
+          setHolidaysError("Formato de feriados inesperado.");
+          return;
+        }
+        setHolidays(j);
+      })
+      .catch(() => {
+        setHolidaysError("Não foi possível carregar os feriados.");
+      });
+  }, [selectedYear]);
 
   /* ===== CARREGAR DADOS LOCAIS (listas & rascunho & favoritos) ===== */
 
@@ -530,8 +600,17 @@ const today = getTodayLocalISO();
           <div className="flex flex-col items-end gap-2 text-sm">
             {/* Widget de clima com busca de cidade */}
             <div className="bg-white/70 rounded-xl px-3 py-2 border text-right min-w-[210px]">
-              <div className="text-[11px] uppercase tracking-wide text-slate-500">
-                Clima — {weatherLabel}
+              <div className="flex items-center justify-between gap-1 text-[11px] uppercase tracking-wide text-slate-500">
+                <span>Clima — {weatherLabel}</span>
+                <button
+                  type="button"
+                  onClick={handleRefreshWeather}
+                  disabled={isSearchingWeather}
+                  className="border rounded-full px-2 py-[1px] text-[10px] bg-white hover:bg-emerald-50 disabled:opacity-50"
+                  aria-label="Atualizar clima"
+                >
+                  ↻
+                </button>
               </div>
 
               {weather ? (
@@ -615,6 +694,7 @@ const today = getTodayLocalISO();
                   onClick={() => fetchWeatherForCity(placeQuery)}
                   disabled={isSearchingWeather}
                   className="px-2 py-1 rounded-lg bg-ygg-700 text-white text-[11px] hover:bg-ygg-800 disabled:opacity-60"
+                  aria-label="Buscar clima para a cidade digitada"
                 >
                   OK
                 </button>
@@ -712,6 +792,12 @@ const today = getTodayLocalISO();
           </button>
         </div>
 
+        {holidaysError && (
+          <div className="text-xs text-red-500 mt-1">
+            {holidaysError}
+          </div>
+        )}
+
         <div className="mt-3 grid md:grid-cols-2 gap-2 max-h-48 overflow-auto pr-2">
           {holidays?.map((h) => (
             <div
@@ -804,19 +890,29 @@ const today = getTodayLocalISO();
                 <span className="text-slate-700 font-semibold">
                   {formatBRL(listTotal(l))}
                 </span>
-                <button
-                  type="button"
+                <span
+                  role="button"
+                  tabIndex={0}
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleFavoriteList(l.id);
                   }}
-                  className="ml-1 text-[11px]"
-                  title={
-                    isFav ? "Remover dos favoritos" : "Fixar como favorita"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleFavoriteList(l.id);
+                    }
+                  }}
+                  className="ml-1 text-[11px] cursor-pointer"
+                  aria-label={
+                    isFav
+                      ? "Remover dos favoritos"
+                      : "Fixar como favorita"
                   }
                 >
                   {isFav ? "⭐" : "☆"}
-                </button>
+                </span>
               </button>
             );
           })}
