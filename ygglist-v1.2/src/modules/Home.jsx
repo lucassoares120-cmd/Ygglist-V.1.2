@@ -6,6 +6,7 @@ import { todayISO } from "../lib.js";
 const LISTS_KEY = "YGG_LISTS_IMPORT";
 const DRAFT_KEY = "YGG_LIST_DRAFT";
 const FAVORITES_KEY = "YGG_FAVORITE_LISTS";
+const WEATHER_CITY_KEY = "YGG_WEATHER_CITY";
 
 /* Frutas / legumes da estação (simples, estático) */
 const SEASONAL_BY_MONTH = {
@@ -143,9 +144,13 @@ const daysBetween = (isoA, isoB) => {
 
 export default function Home({ onNewList }) {
   const [greeting, setGreeting] = useState("Bem-vindo!");
-  const [loc, setLoc] = useState(null);
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null); // previsão 3 dias
+  const [weatherLabel, setWeatherLabel] = useState("Perto de você");
+  const [placeQuery, setPlaceQuery] = useState("");
+  const [isSearchingWeather, setIsSearchingWeather] = useState(false);
+  const [weatherError, setWeatherError] = useState("");
+
   const [holidays, setHolidays] = useState([]);
   const [date, setDate] = useState(todayISO());
 
@@ -167,36 +172,113 @@ export default function Home({ onNewList }) {
     ];
     setGreeting(frases[Math.floor(Math.random() * frases.length)]);
 
-    // escolhe 2–3 dicas aleatórias
     const shuffled = [...TIPS].sort(() => Math.random() - 0.5);
     setSelectedTips(shuffled.slice(0, 3));
   }, []);
 
-  /* ===== GEO / CLIMA / FERIADOS ===== */
+  /* ===== FUNÇÕES DE CLIMA (coords / cidade) ===== */
+
+  function applyWeatherResult(label, current, daily, extra) {
+    setWeather(current || null);
+    setForecast(daily || null);
+    if (label) setWeatherLabel(label);
+    if (extra?.save) {
+      try {
+        localStorage.setItem(
+          WEATHER_CITY_KEY,
+          JSON.stringify({
+            label,
+            lat: extra.lat,
+            lon: extra.lon
+          })
+        );
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  function fetchWeatherByCoords(lat, lon, label = "Perto de você", opts = {}) {
+    if (lat == null || lon == null) return;
+    setIsSearchingWeather(true);
+    setWeatherError("");
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3`;
+
+    fetch(url)
+      .then((r) => r.json())
+      .then((j) => {
+        applyWeatherResult(label, j.current, j.daily, {
+          save: opts.save,
+          lat,
+          lon
+        });
+      })
+      .catch(() => {
+        setWeather(null);
+        setForecast(null);
+        setWeatherError("Não foi possível carregar o clima.");
+      })
+      .finally(() => setIsSearchingWeather(false));
+  }
+
+  function fetchWeatherForCity(name) {
+    const city = name.trim();
+    if (!city) return;
+    setIsSearchingWeather(true);
+    setWeatherError("");
+
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+      city
+    )}&count=1&language=pt&format=json`;
+
+    fetch(geoUrl)
+      .then((r) => r.json())
+      .then((geo) => {
+        const res = geo?.results?.[0];
+        if (!res) {
+          setWeatherError("Cidade não encontrada. Tente ser mais específico.");
+          setIsSearchingWeather(false);
+          return;
+        }
+        const label = `${res.name}${
+          res.country_code ? `, ${res.country_code}` : ""
+        }`;
+        fetchWeatherByCoords(res.latitude, res.longitude, label, {
+          save: true
+        });
+      })
+      .catch(() => {
+        setWeatherError("Erro ao buscar cidade.");
+        setIsSearchingWeather(false);
+      });
+  }
+
+  /* ===== GEO (AUTO) + FERIADOS ===== */
 
   useEffect(() => {
+    // 1) tenta carregar última cidade salva
+    const savedCity = safeParseJSON(
+      localStorage.getItem(WEATHER_CITY_KEY),
+      null
+    );
+    if (savedCity && savedCity.lat && savedCity.lon) {
+      fetchWeatherByCoords(
+        savedCity.lat,
+        savedCity.lon,
+        savedCity.label || "Sua cidade"
+      );
+    }
+
+    // 2) tenta geolocalização para "perto de você"
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude } = pos.coords;
-          setLoc({ lat: latitude, lon: longitude });
-
-          const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3`;
-
-          fetch(url)
-            .then((r) => r.json())
-            .then((j) => {
-              setWeather(j.current || null);
-              setForecast(j.daily || null);
-            })
-            .catch(() => {
-              setWeather(null);
-              setForecast(null);
-            });
+          fetchWeatherByCoords(latitude, longitude, "Perto de você");
         },
         () => {
-          // usuário negou localização
-          setLoc(null);
+          // usuário negou; tudo bem, o campo de cidade resolve
         }
       );
     }
@@ -206,6 +288,7 @@ export default function Home({ onNewList }) {
       .then((r) => r.json())
       .then((j) => setHolidays(j))
       .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* ===== CARREGAR DADOS LOCAIS (listas & rascunho & favoritos) ===== */
@@ -303,7 +386,7 @@ export default function Home({ onNewList }) {
     if (!list?.date) return;
     setDate((prev) => (prev === list.date ? prev : list.date.slice(0, 10)));
     if (typeof onNewList === "function") {
-      onNewList(); // mantém API atual
+      onNewList();
     }
   };
 
@@ -420,15 +503,14 @@ export default function Home({ onNewList }) {
           </div>
 
           <div className="flex flex-col items-end gap-2 text-sm">
-            {/* Widget de clima */}
+            {/* Widget de clima com busca de cidade */}
             <div className="bg-white/70 rounded-xl px-3 py-2 border text-right min-w-[210px]">
+              <div className="text-[11px] uppercase tracking-wide text-slate-500">
+                Clima — {weatherLabel}
+              </div>
+
               {weather ? (
                 <>
-                  <div className="flex items-center gap-2 justify-end">
-                    <span className="text-[11px] uppercase tracking-wide text-slate-500">
-                      Temperatura perto de você
-                    </span>
-                  </div>
                   <div className="mt-1 flex items-baseline gap-1 justify-end">
                     {(() => {
                       const info =
@@ -450,7 +532,6 @@ export default function Home({ onNewList }) {
                     })()}
                   </div>
 
-                  {/* Mini previsão: hoje + 2 dias */}
                   {forecast && forecast.time && (
                     <div className="mt-2 flex flex-col items-end gap-0.5 text-[11px] text-slate-500">
                       {[0, 1, 2].map((idx) => {
@@ -486,13 +567,37 @@ export default function Home({ onNewList }) {
                 </>
               ) : (
                 <>
-                  <div className="text-sm">Temperatura indisponível</div>
+                  <div className="mt-1 text-sm">Temperatura indisponível</div>
                   <div className="text-xs text-slate-500">
-                    {loc === null
-                      ? "Localização não definida"
-                      : "Aguardando dados de clima."}
+                    {isSearchingWeather
+                      ? "Buscando dados de clima..."
+                      : "Ative a localização do navegador ou digite sua cidade abaixo."}
                   </div>
                 </>
+              )}
+
+              {/* Busca de cidade */}
+              <div className="mt-2 flex items-center gap-1 justify-end">
+                <input
+                  type="text"
+                  value={placeQuery}
+                  onChange={(e) => setPlaceQuery(e.target.value)}
+                  placeholder="Cidade (ex.: Contagem)"
+                  className="border rounded-lg px-2 py-1 text-[11px] w-32 bg-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => fetchWeatherForCity(placeQuery)}
+                  disabled={isSearchingWeather}
+                  className="px-2 py-1 rounded-lg bg-ygg-700 text-white text-[11px] hover:bg-ygg-800 disabled:opacity-60"
+                >
+                  OK
+                </button>
+              </div>
+              {weatherError && (
+                <div className="mt-1 text-[10px] text-red-500">
+                  {weatherError}
+                </div>
               )}
             </div>
 
@@ -604,7 +709,7 @@ export default function Home({ onNewList }) {
             <span>📊</span>
             <h3 className="font-semibold">Visão financeira do mês</h3>
           </div>
-        <span className="text-[11px] text-slate-500">
+          <span className="text-[11px] text-slate-500">
             Referência: {monthKey}
           </span>
         </div>
