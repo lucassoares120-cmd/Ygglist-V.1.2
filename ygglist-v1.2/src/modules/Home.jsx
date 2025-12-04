@@ -1,5 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { todayISO } from "../lib.js";
+
+// Data "YYYY-MM-DD" usando horário LOCAL (sem UTC)
+const getTodayLocalISO = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 /* ===== CONSTANTES / CHAVES DE STORAGE ===== */
 
@@ -152,14 +160,15 @@ export default function Home({ onNewList }) {
   const [weatherError, setWeatherError] = useState("");
 
   const [holidays, setHolidays] = useState([]);
-  const [date, setDate] = useState(todayISO());
+  const [date, setDate] = useState(() => getTodayLocalISO());
 
   const [completedLists, setCompletedLists] = useState([]);
   const [draft, setDraft] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [selectedTips, setSelectedTips] = useState([]);
 
-  const today = todayISO();
+  // "today" também baseado na data local
+const today = getTodayLocalISO();
 
   /* ===== GREETING / TIPS ===== */
 
