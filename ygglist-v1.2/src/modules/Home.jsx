@@ -175,6 +175,25 @@ const daysBetween = (isoA, isoB) => {
   return Math.round(diff / (1000 * 60 * 60 * 24));
 };
 
+// Distância aproximada em km entre dois pontos (lat/lon)
+const distanceKm = (lat1, lon1, lat2, lon2) => {
+  const R = 6371; // raio da Terra em km
+  const toRad = (deg) => (deg * Math.PI) / 180;
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
 export default function Home({ onNewList }) {
   const [greeting, setGreeting] = useState("Bem-vindo!");
   const [weather, setWeather] = useState(null);
@@ -193,6 +212,11 @@ export default function Home({ onNewList }) {
   const [draft, setDraft] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [selectedTips, setSelectedTips] = useState([]);
+
+  // SUPERMERCADOS PRÓXIMOS
+  const [markets, setMarkets] = useState([]);
+  const [marketsLoading, setMarketsLoading] = useState(false);
+  const [marketsError, setMarketsError] = useState("");
 
   // "today" também baseado na data local
   const today = getTodayLocalISO();
@@ -327,6 +351,76 @@ export default function Home({ onNewList }) {
       );
     }
   }
+
+  /* ===== SUPERMERCADOS PRÓXIMOS (Overpass / OSM) ===== */
+
+  function fetchNearbyMarkets(lat, lon) {
+    if (lat == null || lon == null) return;
+
+    setMarkets([]);
+    setMarketsError("");
+    setMarketsLoading(true);
+
+    // raio de 3 km ao redor da localização
+    const radius = 3000;
+    const query = `
+      [out:json][timeout:25];
+      (
+        node["shop"="supermarket"](around:${radius},${lat},${lon});
+        node["amenity"="supermarket"](around:${radius},${lat},${lon});
+      );
+      out body;
+    `;
+
+    fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: `data=${encodeURIComponent(query)}`
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        const elements = data?.elements || [];
+        if (!elements.length) {
+          setMarkets([]);
+          setMarketsError("Não encontramos supermercados próximos.");
+          return;
+        }
+
+        const list = elements
+          .map((el) => {
+            const name =
+              el.tags?.name || el.tags?.brand || "Supermercado sem nome";
+            const mLat = el.lat;
+            const mLon = el.lon;
+            const distance = distanceKm(lat, lon, mLat, mLon);
+
+            return {
+              id: el.id,
+              name,
+              distance,
+              lat: mLat,
+              lon: mLon
+            };
+          })
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 5);
+
+        setMarkets(list);
+      })
+      .catch(() => {
+        setMarketsError("Erro ao buscar supermercados próximos.");
+      })
+      .finally(() => setMarketsLoading(false));
+  }
+
+  // sempre que tivermos novas coordenadas, busca mercados
+  useEffect(() => {
+    if (!lastCoords) return;
+    fetchNearbyMarkets(lastCoords.lat, lastCoords.lon);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastCoords]);
 
   /* ===== GEO (AUTO) ===== */
 
@@ -851,6 +945,78 @@ export default function Home({ onNewList }) {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* SUPERMERCADOS PRÓXIMOS */}
+      <div className="bg-white rounded-2xl border shadow-sm p-4">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            <span>🛒</span>
+            <h3 className="font-semibold">Supermercados perto de você</h3>
+          </div>
+          {lastCoords && (
+            <span className="text-[11px] text-slate-500">
+              Baseado na sua localização atual
+            </span>
+          )}
+        </div>
+
+        {marketsLoading && (
+          <p className="text-sm text-slate-500">
+            Buscando supermercados próximos...
+          </p>
+        )}
+
+        {!marketsLoading && marketsError && (
+          <p className="text-sm text-red-500">{marketsError}</p>
+        )}
+
+        {!marketsLoading && !marketsError && markets.length === 0 && (
+          <p className="text-sm text-slate-500">
+            Assim que o YggList identificar sua localização, vamos mostrar os
+            mercados mais próximos aqui.
+          </p>
+        )}
+
+        {!marketsLoading && markets.length > 0 && (
+          <ul className="space-y-2 text-sm text-slate-700">
+            {markets.map((m) => {
+              const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}`;
+              const wazeUrl = `https://waze.com/ul?ll=${m.lat},${m.lon}&navigate=yes`;
+              return (
+                <li
+                  key={m.id}
+                  className="flex items-center justify-between border rounded-xl px-3 py-2"
+                >
+                  <div className="flex flex-col">
+                    <span className="font-semibold">{m.name}</span>
+                    <span className="text-[11px] text-slate-500">
+                      aprox. {m.distance.toFixed(1).replace(".", ",")} km
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[11px]">
+                    <a
+                      href={mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2 py-1 rounded-full border bg-emerald-50 hover:bg-emerald-100"
+                    >
+                      Google Maps
+                    </a>
+                    <a
+                      href={wazeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2 py-1 rounded-full border bg-slate-50 hover:bg-slate-100"
+                    >
+                      Waze
+                    </a>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       {/* LISTAS RECENTES & FAVORITAS */}
