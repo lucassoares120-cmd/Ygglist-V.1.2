@@ -131,10 +131,26 @@ const formatBRL = (v) =>
 
 const isoToReadable = (iso) => {
   if (!iso) return "";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
+  const s = String(iso);
+
+  // Se vier no formato YYYY-MM-DD, interpretamos como data LOCAL
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  let d;
+
+  if (m) {
+    const year = Number(m[1]);
+    const month = Number(m[2]) - 1; // Date usa 0–11
+    const day = Number(m[3]);
+    d = new Date(year, month, day); // <- local, sem UTC
+  } else {
+    // fallback pra String qualquer (caso você use outro formato em algum lugar)
+    d = new Date(s);
+  }
+
+  if (Number.isNaN(d.getTime())) return s;
   return d.toLocaleDateString("pt-BR");
 };
+
 
 const getMonthKey = (iso) => {
   const d = new Date(iso);
