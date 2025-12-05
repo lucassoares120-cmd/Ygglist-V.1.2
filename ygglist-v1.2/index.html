@@ -1,12 +1,18 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@400;600;700&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@400;600;700&family=Nunito+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YggList — Raiz que conecta</title>
-    <meta name="description" content="YggList — pequenas escolhas, grande economia 🌿">
-    <meta name="theme-color" content="#146C43">
+    <meta
+      name="description"
+      content="YggList — pequenas escolhas, grande economia 🌿"
+    />
+    <meta name="theme-color" content="#146C43" />
 
     <!-- ICONS & MANIFEST :: START -->
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -34,6 +40,11 @@
 
   <body class="bg-ygg-50 text-slate-900">
     <div id="root"></div>
+
+    <!-- OCR para notas fiscais (foto) -->
+    <script src="https://unpkg.com/tesseract.js@5.0.0/dist/tesseract.min.js"></script>
+
+    <!-- App principal -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
