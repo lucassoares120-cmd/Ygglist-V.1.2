@@ -163,6 +163,25 @@ function buildCSV({ summaryByCat, purchasesInRange, fromISO, toISO }) {
   return lines.join("\n");
 }
 
+/* ====== Gera Blob UTF-16LE com BOM (Excel-friendly) ====== */
+function makeUtf16LeCsvBlob(csvString) {
+  // BOM UTF-16LE
+  const bom = new Uint8Array([0xff, 0xfe]);
+  const buf = new Uint8Array(bom.length + csvString.length * 2);
+
+  buf.set(bom, 0);
+  for (let i = 0; i < csvString.length; i++) {
+    const code = csvString.charCodeAt(i);
+    // little-endian: low byte depois high byte
+    buf[bom.length + i * 2] = code & 0xff;
+    buf[bom.length + i * 2 + 1] = code >> 8;
+  }
+
+  return new Blob([buf], {
+    type: "text/csv;charset=utf-16le;",
+  });
+}
+
 /* ====== helpers para ler "listas" locais (pra gráficos) ====== */
 function parseListDate(list) {
   const raw = list?.date || list?.createdAt || list?.dia;
@@ -512,10 +531,7 @@ export default function Reports() {
   const [to, setTo] = useState(endOfMonth(today));
   const [monthSel, setMonthSel] = useState(
     months[0] ||
-      `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}`
+      `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`
   );
   const [comparePrevMonth, setComparePrevMonth] = useState(true);
 
@@ -599,7 +615,7 @@ export default function Reports() {
   const handleExportPNG = () =>
     downloadSvgAsPng(svgRef.current, `YggList_${from}_a_${to}.png`, 3);
 
-  // CSV baseado nas listas usadas nos gráficos (allLists) + BOM UTF-8
+  // CSV baseado nas listas usadas nos gráficos (allLists), em UTF-16LE
   const handleExportCSV = () => {
     const listsInRange = allLists.filter((l) => listInRange(l, from, to));
 
@@ -655,12 +671,7 @@ export default function Reports() {
       toISO: to,
     });
 
-    // BOM UTF-8 para o Excel reconhecer acentos corretamente
-    const csvText = "\uFEFF" + csvCore;
-
-    const blob = new Blob([csvText], {
-      type: "text/csv;charset=utf-8;",
-    });
+    const blob = makeUtf16LeCsvBlob(csvCore);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -778,7 +789,7 @@ export default function Reports() {
         !window.Tesseract.recognize
       ) {
         throw new Error(
-          "Para usar a leitura por foto é preciso carregar o Tesseract.js no index.html (por exemplo: <script src=\"https://unpkg.com/tesseract.js@5.0.0/dist/tesseract.min.js\"></script>)."
+          'Para usar a leitura por foto é preciso carregar o Tesseract.js no index.html (por exemplo: <script src="https://unpkg.com/tesseract.js@5.0.0/dist/tesseract.min.js"></script>).'
         );
       }
 
@@ -802,7 +813,6 @@ export default function Reports() {
       );
     } finally {
       setIsImporting(false);
-      // limpa input para permitir escolher a mesma foto novamente se quiser
       event.target.value = "";
     }
   };
@@ -846,9 +856,7 @@ export default function Reports() {
         {/* 2ª linha: mês, de, até */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <div>
-            <label className="text-xs font-medium text-slate-600">
-              Mês
-            </label>
+            <label className="text-xs font-medium text-slate-600">Mês</label>
             <select
               value={monthSel}
               onChange={(e) => {
@@ -866,9 +874,7 @@ export default function Reports() {
           </div>
 
           <div>
-            <label className="text-xs font-medium text-slate-600">
-              De
-            </label>
+            <label className="text-xs font-medium text-slate-600">De</label>
             <input
               type="date"
               value={from}
@@ -881,9 +887,7 @@ export default function Reports() {
           </div>
 
           <div>
-            <label className="text-xs font-medium text-slate-600">
-              Até
-            </label>
+            <label className="text-xs font-medium text-slate-600">Até</label>
             <input
               type="date"
               value={to}
@@ -934,8 +938,7 @@ export default function Reports() {
               <div>
                 <h3 className="text-lg font-semibold">Resumo</h3>
                 <p className="text-xs text-slate-500">
-                  Período{" "}
-                  <span className="font-medium">{from}</span> a{" "}
+                  Período <span className="font-medium">{from}</span> a{" "}
                   <span className="font-medium">{to}</span>
                 </p>
               </div>
@@ -1023,9 +1026,7 @@ export default function Reports() {
           </div>
         </div>
         {catRows.length === 0 ? (
-          <p className="text-slate-600">
-            Sem compras concluídas no período.
-          </p>
+          <p className="text-slate-600">Sem compras concluídas no período.</p>
         ) : (
           <div className="space-y-2">
             {catRows.map((r) => (
@@ -1071,9 +1072,7 @@ export default function Reports() {
           )}
         </div>
         {storeRows.length === 0 ? (
-          <p className="text-slate-600">
-            Sem dados de loja para o período.
-          </p>
+          <p className="text-slate-600">Sem dados de loja para o período.</p>
         ) : (
           <div className="space-y-2">
             {storeRows.map((r) => (
@@ -1112,9 +1111,7 @@ export default function Reports() {
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-lg max-w-lg w-full p-4 space-y-3">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">
-                Importar nota fiscal
-              </h3>
+              <h3 className="text-lg font-semibold">Importar nota fiscal</h3>
               <button
                 type="button"
                 onClick={handleCloseModal}
@@ -1154,9 +1151,9 @@ export default function Reports() {
               <>
                 <p className="text-sm text-slate-600 mt-1">
                   Abra a nota fiscal (site da NFC-e, PDF em texto, etc),{" "}
-                  <strong>selecione todo o texto</strong>, copie e cole
-                  aqui. O YggList vai tentar identificar os itens e os
-                  valores automaticamente.
+                  <strong>selecione todo o texto</strong>, copie e cole aqui. O
+                  YggList vai tentar identificar os itens e os valores
+                  automaticamente.
                 </p>
 
                 <textarea
@@ -1190,8 +1187,8 @@ export default function Reports() {
                       })}
                     </div>
                     <div className="mt-1 text-emerald-700">
-                      Nota importada com sucesso. Esses dados já entram
-                      nos relatórios do período selecionado.
+                      Nota importada com sucesso. Esses dados já entram nos
+                      relatórios do período selecionado.
                     </div>
                   </div>
                 )}
@@ -1218,9 +1215,9 @@ export default function Reports() {
               <>
                 <p className="text-sm text-slate-600 mt-1">
                   Tire uma foto nítida da parte da nota que contém{" "}
-                  <strong>os itens e valores</strong>, ou selecione uma
-                  imagem já salva. O YggList usa OCR para extrair o texto
-                  e aplicar o mesmo processamento da importação por texto.
+                  <strong>os itens e valores</strong>, ou selecione uma imagem
+                  já salva. O YggList usa OCR para extrair o texto e aplicar o
+                  mesmo processamento da importação por texto.
                 </p>
 
                 <div className="border rounded-lg px-3 py-3 bg-slate-50 flex flex-col gap-2">
@@ -1236,8 +1233,8 @@ export default function Reports() {
                     </span>
                   )}
                   <span className="text-[11px] text-slate-500">
-                    Dica: foque na área da lista de produtos, evitando
-                    muito fundo em branco.
+                    Dica: foque na área da lista de produtos, evitando muito
+                    fundo em branco.
                   </span>
                 </div>
 
@@ -1264,16 +1261,16 @@ export default function Reports() {
                       })}
                     </div>
                     <div className="mt-1 text-emerald-700">
-                      Nota importada com sucesso a partir da imagem. Os
-                      itens já entram nos relatórios.
+                      Nota importada com sucesso a partir da imagem. Os itens já
+                      entram nos relatórios.
                     </div>
                   </div>
                 )}
 
                 {isImporting && (
                   <p className="text-xs text-slate-500">
-                    Lendo imagem e extraindo texto (OCR)… isso pode levar
-                    alguns segundos.
+                    Lendo imagem e extraindo texto (OCR)… isso pode levar alguns
+                    segundos.
                   </p>
                 )}
 
