@@ -542,7 +542,7 @@ export default function Reports() {
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState("");
   const [importSummary, setImportSummary] = useState(null);
-  const [imageFileName, setImageFileName] = useState("");
+  const [imageFileNames, setImageFileNames] = useState([]);
 
   // presets
   const setLast7 = () => setPreset("7d");
@@ -774,12 +774,12 @@ export default function Reports() {
 
   /* === Importar nota via FOTO / IMAGEM (OCR) === */
   const handleImageSelected = async (event) => {
-    const file = event.target.files && event.target.files[0];
-    if (!file) return;
+    const files = event.target.files ? Array.from(event.target.files) : [];
+    if (!files.length) return;
 
     setImportError("");
     setImportSummary(null);
-    setImageFileName(file.name || "");
+    setImageFileNames(files.map((f) => f.name));
     setIsImporting(true);
 
     try {
@@ -793,23 +793,32 @@ export default function Reports() {
         );
       }
 
-      const { data } = await window.Tesseract.recognize(file, "por", {
-        logger: () => {},
-      });
+      let combinedText = "";
 
-      const rawText = data?.text || "";
-      if (!rawText.trim()) {
+      for (const file of files) {
+        const { data } = await window.Tesseract.recognize(file, "por", {
+          logger: () => {},
+        });
+
+        const rawText = data?.text || "";
+        if (rawText.trim()) {
+          combinedText += "\n" + rawText;
+        }
+      }
+
+      if (!combinedText.trim()) {
         throw new Error(
-          "Não consegui extrair texto da imagem. Tente tirar uma foto mais próxima e nítida da área dos itens."
+          "Não consegui extrair texto das imagens. Tente tirar fotos mais próximas e nítidas da área dos itens."
         );
       }
 
-      processImportedText(rawText);
+      // Usa o mesmo fluxo de texto colado
+      processImportedText(combinedText);
     } catch (err) {
       console.error(err);
       setImportError(
         err.message ||
-          "Erro ao interpretar a imagem da nota. Tente outra foto, mais nítida."
+          "Erro ao interpretar as imagens da nota. Tente outras fotos, mais nítidas."
       );
     } finally {
       setIsImporting(false);
@@ -823,7 +832,7 @@ export default function Reports() {
     setNfText("");
     setImportError("");
     setImportSummary(null);
-    setImageFileName("");
+    setImageFileNames([]);
   };
 
   const daysInPeriod =
@@ -1215,26 +1224,30 @@ export default function Reports() {
               <>
                 <p className="text-sm text-slate-600 mt-1">
                   Tire uma foto nítida da parte da nota que contém{" "}
-                  <strong>os itens e valores</strong>, ou selecione uma imagem
-                  já salva. O YggList usa OCR para extrair o texto e aplicar o
-                  mesmo processamento da importação por texto.
+                  <strong>os itens e valores</strong>, ou selecione{" "}
+                  <strong>uma ou mais imagens</strong> já salvas. O YggList usa
+                  OCR para extrair o texto e aplicar o mesmo processamento da
+                  importação por texto.
                 </p>
 
                 <div className="border rounded-lg px-3 py-3 bg-slate-50 flex flex-col gap-2">
                   <input
                     type="file"
                     accept="image/*"
+                    multiple
+                    capture="environment"
                     onChange={handleImageSelected}
                     className="text-sm"
                   />
-                  {imageFileName && (
+                  {imageFileNames.length > 0 && (
                     <span className="text-xs text-slate-600">
-                      Imagem selecionada: {imageFileName}
+                      Imagens selecionadas: {imageFileNames.join(", ")}
                     </span>
                   )}
                   <span className="text-[11px] text-slate-500">
-                    Dica: foque na área da lista de produtos, evitando muito
-                    fundo em branco.
+                    Você pode tirar foto na hora ou escolher várias imagens da
+                    galeria. Dica: foque na área da lista de produtos, evitando
+                    muito fundo em branco.
                   </span>
                 </div>
 
@@ -1261,16 +1274,16 @@ export default function Reports() {
                       })}
                     </div>
                     <div className="mt-1 text-emerald-700">
-                      Nota importada com sucesso a partir da imagem. Os itens já
-                      entram nos relatórios.
+                      Nota importada com sucesso a partir das imagem(ns). Os
+                      itens já entram nos relatórios.
                     </div>
                   </div>
                 )}
 
                 {isImporting && (
                   <p className="text-xs text-slate-500">
-                    Lendo imagem e extraindo texto (OCR)… isso pode levar alguns
-                    segundos.
+                    Lendo imagem(ns) e extraindo texto (OCR)… isso pode levar
+                    alguns segundos.
                   </p>
                 )}
 
